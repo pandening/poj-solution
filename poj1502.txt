@@ -1,0 +1,137 @@
+///*
+// @poj 1501
+// 题意：给出一个矩阵，求从（0，0）到其他所有点的最
+// 短路径的最大值，就是一个求图的最短路径的题目
+//*/
+//#include<iostream>
+//#include<algorithm>
+//#include<string>
+//#include<cmath>
+//#define inf 0x7fffff
+//using namespace std;
+//struct edge
+//{
+//	int from, to, cost;
+//};
+//edge es[110];
+//int d[110];
+//int N,E;
+//int toint(string x)
+//{
+//	int ans = 0;
+//	int k = 0;
+//	for (int i = x.length() - 1; i >= 0; i--)
+//	{
+//		ans += (int)(x[i] - '0')*pow(10.0, k++);
+//	}
+//	return ans;
+//}
+//void bellman_ford(int s)
+//{
+//	//从顶点s出发的最短路径
+//	for (int i = 0; i < N; i++) d[i] = inf;
+//	d[s] = 0;
+//	for (;;)
+//	{
+//		bool update = false;
+//		for (int i = 0; i < E; i++)
+//		{
+//			edge e = es[i];
+//			if (d[e.from] != inf&&d[e.to]>d[e.from] + e.cost)
+//			{
+//				d[e.to] = d[e.from] +e.cost;
+//				update = true;
+//			}
+//		}
+//		if (!update) break;
+//	}
+//}
+//int main()
+//{
+//	while (cin >> N){
+//		//在输入的时候就要确定边数啊
+//		E = 0;
+//		string in;
+//		for (int i = 0; i < N; i++)
+//		{
+//			es[E].from = i;
+//			es[E].to = i;
+//			es[E].cost = 0; E++;
+//		}
+//		for (int i = 1; i < N; i++)
+//		{
+//			for (int j = 0; j < i; j++)
+//			{
+//				cin >> in;
+//				if (in == "x"){
+//					es[E].from = i;
+//					es[E].to = j;
+//					es[E].cost = inf;
+//					E++;
+//					es[E].from = j;
+//					es[E].to = i;
+//					es[E].cost = inf;
+//					E++;
+//				}
+//				else{
+//					es[E].from = i;
+//					es[E].to = j;
+//					es[E].cost = toint(in);
+//					E++;
+//					es[E].from = j;
+//					es[E].to = i;
+//					es[E].cost = toint(in);
+//					E++;
+//				}
+//			}
+//		}
+//		bellman_ford(0);
+//		int ans = -1;
+//		for (int i = 0; i < N; i++)
+//		{
+//			ans = max(ans, d[i]);
+//		}
+//		cout << ans << endl;
+//	}
+//	return 0;
+//}
+
+#include<iostream>
+using namespace std;
+int n;
+const int inf = 0x7ffff;
+int visit[101];
+int mat[101][101];
+void floyd()
+{
+	for (int k = 1; k <= n; k++)
+	for (int i = 1; i <= n; i++)
+	for (int j = 1; j <= n; j++)
+	{
+		if (mat[i][j]>mat[i][k] + mat[k][j])
+			mat[i][j] = mat[i][k] + mat[k][j];
+	}
+	int ans = 0;
+	for (int i = 2; i <= n; i++)
+	{
+		if (mat[1][i]>ans)
+			ans = mat[1][i];
+	}
+	printf("%d\n", ans);
+}
+int main()
+{
+	scanf("%d", &n);
+	for (int i = 2; i <= n; i++)
+	for (int j = 1; j <= i - 1; j++)
+	{
+		char str[10];
+		scanf("%s", &str);
+		if (str[0] == 'x')
+			mat[i][j] = inf, mat[j][i] = mat[i][j];
+		else
+			mat[i][j] = mat[j][i] = atoi(str);
+	}
+	floyd();
+	return 0;
+}

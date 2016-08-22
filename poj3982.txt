@@ -1,0 +1,48 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+string dp[101];
+//首先写一个大数加法
+string add(string a, string b)
+{
+	string ans = "";
+	int la = a.length();
+	int lb = b.length();
+	int pk = abs(la - lb);
+	string z(pk, '0');
+	if (la < lb) a= z+a;
+	else{
+		b= z+b;
+	}
+	int sum=0, carry=0;
+	for (int i = a.length() - 1; i >= 0; i--)
+	{
+		sum = (int)(a[i] - '0') + (int)(b[i] - '0')+ carry;
+		ans = char(sum % 10 + '0') + ans;
+		carry = sum / 10;
+	}
+	if (carry)
+	{
+		ans = char('0' + carry)+ans;
+	}
+	return ans;
+}
+int main()
+{
+	string a0, a1, a2;
+	while (cin >> a0 >> a1 >> a2)
+	{
+		dp[0] = a0;
+		dp[1] = a1;
+		dp[2] = a2;
+		for (int i = 3; i <= 100; i++)
+		{
+			dp[i] = add(dp[i - 1], dp[i - 2]);
+			dp[i] = add(dp[i], dp[i - 3]);
+		}
+		cout << dp[99] << endl;
+	}
+	return 0;
+}

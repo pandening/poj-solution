@@ -1,0 +1,45 @@
+/*
+   题意：
+  将一些花编号，和一些花瓶也编号，要求将花插进
+  花瓶里面，可是有一个要求，就是编号小的花插进去的
+  那个花瓶的编号要小于编号大的那个花插进去的那个
+  花瓶的编号。花插进去每一个花瓶都会有一个值，
+  现在要将所有花都插进去，而且要得到最大的值
+    思路：
+	DP[i][j]：表示将前i朵花放进前j个瓶子的值
+	cost[i][j]
+	则dp[i][j]=max(dp[i][j-1],dp[i-1][j-1]+cost[i][j])
+*/
+
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+int n, m;
+int dp[101][101], cost[101][101];
+int main()
+{
+	cin >> n >> m;
+	for (int i = 1; i <=n; i++)
+	{
+		for (int j = 1; j <=m; j++)
+		{
+			cin >> cost[i][j];
+		}
+	}
+	//init
+	for (int i =1; i < n; i++)
+	{
+		dp[i][i] = dp[i - 1][i - 1] + cost[i][i];
+	}
+
+	for (int i = 1; i <=n; i++)
+	{
+		for (int j = i+1; j<=m; j++)
+		{
+			dp[i][j] = max(dp[i][j - 1], dp[i - 1][j - 1] + cost[i][j]);
+		}
+	}
+	cout << dp[n ][m] << endl;
+	return 0;
+}

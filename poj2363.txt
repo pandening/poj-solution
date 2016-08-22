@@ -1,0 +1,35 @@
+/*
+ @poj 2363
+ 直接枚举三条边，然后求表面积就可以了
+*/
+#include<iostream>
+using namespace std;
+#define FOR(i,n) for(int i=1;i<n;i++)
+int main()
+{
+	int cas;
+	cin >> cas;
+	while (cas--)
+	{
+		//solve the per sutition
+		int v;
+		cin >> v;
+		//search the i,j,k
+		int mmin = 0x7fffffff;
+		int area = 0;
+		FOR(i, 1001){
+			for (int j = 1; i*j < 1001; j++){
+				if (v % (i*j) == 0)
+				{
+					int k = v / (i*j);
+					area = i*j + j*k + i*k;
+					if (area < mmin){
+						mmin = area;
+					}
+				}
+			}
+		}
+		cout << mmin * 2 << endl;
+	}
+	return 0;
+}

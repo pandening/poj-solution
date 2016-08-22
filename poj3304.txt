@@ -1,0 +1,82 @@
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+#define eps 1e-8 
+struct segments
+{
+	double x1, y1, x2, y2;
+};
+segments all[101];
+int n;
+double dis(double x1, double y1, double x2, double y2)
+{
+	return sqrt((x1 - x2)*(x1 - x2)+(y1-y2)*(y1-y2));
+}
+double cross(double x1, double y1, double x2, double y2
+	, double x, double y)
+{
+	//这个用来判断（x，y）是不是在直线(x1,y1)..(x2,y2)
+	return (x2 - x1)*(y - y1) - (y2 - y1)*(x - x1);
+}
+bool solve(double x1, double y1, double x2, double y2)
+{
+	//判断直线是否将点分在两边
+	//也就是判断直线是否相交啊
+	if (dis(x1, y1, x2, y2) <eps){
+		//是一个点啊
+		return false;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		if (cross(x1, y1, x2, y2, all[i].x1, all[i].y1)
+			*cross(x1, y1, x2, y2, all[i].x2, all[i].y2)>eps)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+int main()
+{
+	int t;  cin >> t;
+	while (t--)
+	{
+		 cin >> n;
+		for (int i = 0; i < n; i++)
+		{
+			scanf_s("%lf%lf%lf%lf", &all[i].x1, &all[i].y1,
+				&all[i].x2, &all[i].y2);
+		}
+		if (n == 1)
+		{
+			cout << "Yes!" << endl;
+			continue;
+		}
+		bool flag = false;
+		//枚举直线的两个端点
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = i + 1; j < n; j++)
+			{
+				if (solve(all[i].x1, all[i].y1, all[j].x1, all[j].y1) ||
+					solve(all[i].x1, all[i].y1, all[j].x2, all[j].y2) ||
+					solve(all[i].x2, all[i].y2, all[j].x1, all[j].y1) ||
+					solve(all[i].x2, all[i].y2, all[j].x2, all[j].y2))
+				{
+					flag = true;
+					goto res;
+				}
+			}
+		}
+		res:
+		if (flag)
+		{
+			cout << "Yes!" << endl;
+		}
+		else{
+			cout << "No!" << endl;
+		}
+	}
+	return 0;
+}

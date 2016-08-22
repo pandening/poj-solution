@@ -1,0 +1,54 @@
+/*
+  题意：给出n1，n2，n，就是说有n个数字的数列
+  去掉n1个最大的，去掉n2个最小的，然后求平均分
+  思路：因为n比较大，所以不适合从n下手，但是我们
+  发现n1和n2比较小，只有最大才10
+  那么，我们就可以先把输入的数字都加起来然后用
+  两个优先队列维护最大的n1个数和n2个最小的数
+  最后减去这两个优先队列里面的数字就好啦
+*/
+#include<iostream>
+#include<cstdio>
+#include<queue>
+#include<vector>
+#include<functional>
+#include<iomanip>
+using namespace std;
+typedef long long ll;
+int main()
+{
+	int n, n1, n2;
+	ll ans = 0;
+	while (scanf_s("%d%d%D", &n1, &n2, &n))
+	{
+		if (n + n1 + n2 == 0) break;
+		//s为从大到小的优先队列
+		priority_queue<int> s;
+		//b为从小到大的优先队列
+		priority_queue<int, vector<int>, greater<int> >b;
+		ans = 0;
+		int in;
+		for (int i = 0; i < n; i++)
+		{
+			scanf_s("%d", &in);
+			ans += in;
+			s.push(in);
+			b.push(in);
+			if (s.size()>n2) s.pop();
+			if (b.size()>n1) b.pop();
+		}
+		while (!s.empty())
+		{
+			ans -= s.top();
+			s.pop();
+		}
+		while (!b.empty())
+		{
+			ans -= b.top();
+			b.pop();
+		}
+		double res = (double)(ans) / (n - n1 - n2);
+		cout << fixed << setprecision(6) << res << endl;
+	}
+	return 0;
+}

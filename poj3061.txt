@@ -1,0 +1,44 @@
+/*
+ @poj 3061
+  知道一个序列a0....an-1和s，现在找到最短的连续的一段序列使得其和
+  不小于s。需要使用叫做尺取法的策略来做就很简单了
+*/
+#include<cstdio>
+#include<iostream>
+#include<algorithm>
+int cas, n, s;//cas 是测试组数，n是每组数据个数，s是所给的最小和值
+using namespace std;
+#define inf 0x7fffffff
+int main()
+{
+	//用来保存输入数据的数组
+	int x[100001];
+	cin >> cas;
+	while (cas--)
+	{
+		cin >> n >> s;
+		for (int i = 0; i < n; i++){
+			scanf_s("%d", &x[i]);
+		}
+		//input done
+		int sum = 0;
+		int st=0, en=0;
+		int ans = inf;
+		while (true)
+		{
+			while (en < n&&sum < s){
+				sum += x[en++];
+			}
+			if (sum < s) break;
+			ans = min(ans, en - st);
+			sum -= x[st++];
+		}
+		if (ans>n){
+			cout << 0 << endl;
+		}
+		else{
+			cout << ans << endl;
+		}
+	}
+	return 0;
+}

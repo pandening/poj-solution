@@ -1,0 +1,35 @@
+/*
+ @poj 3253 Fence Repair
+  就是有限队列的使用的一个例子
+*/
+#include<iostream>
+#include<queue>
+#include<functional>
+using namespace std;
+#define FOR(i,n) for(int i=0;i<n;i++)
+typedef long long ll;
+int n;
+int main()
+{
+	while (cin >> n){
+		ll ans = 0;
+		priority_queue<int, vector<int>, greater<int> > que;
+		//input
+		FOR(i, n){
+			int in;
+			cin >> in;
+			que.push(in);
+		}
+		while (que.size() > 1){
+			//当只有一个元素的时候，说明已经成为一根木头了
+			//有点像huffman树的感觉
+			int m1, m2;
+			m1 = que.top(), que.pop();
+			m2 = que.top(), que.pop();
+			ans += (m1 + m2);
+			que.push((m1 + m2));
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

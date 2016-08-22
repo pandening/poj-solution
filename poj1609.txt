@@ -1,0 +1,47 @@
+/*
+   题意：现在给出一些木块，左右L个凹，右有R个凹
+   需要将这些木块叠加起来，要求是当前的LR和下面的L'R'要
+   满足:
+    L<=L'&&R<R'
+	这样才能将当前木块放在下面的木块上面，问，最多可以叠加到几块
+	 
+   思路：其实就是在问最长的递减序列的长度
+   用dp[i][j]表示具有i和j个凹的木块放上去后的叠加数
+   则dp[i][j]=max(dp[i-1][j],dp[i][j-1])+count[i][j]
+   count[i][j]代表的是这样的木块的数量，都可以放上去的
+*/
+#include<iostream>
+#include<algorithm>
+#include<string.h>
+using namespace std;
+int dp[101][101];
+int cnt[101][101];
+int main()
+{
+	struct lr{ int l, r; };
+	int n;
+	while (cin >> n)
+	{
+		if (n == 0) break;
+		memset(dp, 0, sizeof(dp));
+		memset(cnt, 0, sizeof(cnt));
+		for (int i = 1; i <=n; i++)
+		{
+			lr in;
+			cin >> in.l >> in.r;
+			cnt[in.l][in.r]++;
+		}
+		//dp
+		for (int i =1; i <=100; i++)
+		{
+			for (int j =1; j <=100; j++)
+			{
+				dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+					+ cnt[i][j];
+			}
+		}
+		cout << dp[100][100] << endl;
+	}
+	cout << "*" << endl;
+	return 0;
+}

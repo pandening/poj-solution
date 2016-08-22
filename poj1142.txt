@@ -1,0 +1,74 @@
+/*
+    思路：本题关键地方就是将一个合树分解
+*/
+#include<iostream>
+using namespace std;
+//判断是不是素数的函数 
+bool Isprim(int x)
+{
+	if (x == 2) return true;
+	for (int i = 2; i*i <= x; i++)
+	{
+		if (x%i == 0)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+//一个可以将各位加起来的函数
+int sum(int n)
+{
+	int ans = 0;
+	while (n!=0)
+	{
+		ans += (n+10)% 10;
+		n /= 10;
+	}
+	return ans;
+}
+//一个分解合数的函数
+int factors(int n)
+{
+	int ans= 0;
+	int i = 2;
+	while (true)
+	{
+		if (n%i == 0)
+		{
+			ans += sum(i);
+			if (Isprim(n/=i))
+			{
+				break;
+			}
+		}
+		else{
+			i++;
+		}
+	}
+	ans += sum(n);
+	return ans;
+}
+int main()
+{
+	int n;
+	while (cin >> n)
+	{
+		if (n == 0) break;
+		int res;
+		for (int i = n + 1;; i++)
+		{
+			if (!Isprim(i))
+			{
+				if (sum(i) == factors(i))
+				{
+					res = i;
+					goto out;
+				}
+			}
+		}
+	out:
+		cout << res << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,57 @@
+/*
+ @poj 3302
+ 给两个字符串，问后面的那个字符串是不是前面那个字符串的
+ 子串，或者前面那个字符串反转过来的子串
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+//一个判断一个字符串是不是另一个字符串的字串的函数
+bool issub(string sou, string sub)
+{
+
+	//sou is the source str,sub is the sub str
+	for (int i = 0; i < sou.length(); i++)
+	{
+		if (sou[i] == sub[0])
+		{
+			int l = 0;
+			for (int j = i; j <sou.length()&&l<sub.length(); j++){
+				if (sub[l]== sou[j]){
+					l++;
+				}
+			}//end for
+			if (l== sub.length()){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+string Reverse(string str)
+{
+	string ans = "";
+	for (int i = 0; i<str.length(); i++)
+	{
+		ans = str[i] + ans;
+	}
+	return ans;
+}
+int main()
+{
+	int cas;
+	cin >> cas;
+	while (cas--)
+	{
+		string s1, s2;
+		cin >> s1 >> s2;
+		if (issub(s1, s2)||issub(s1,Reverse(s2)))
+		{
+			cout << "YES" << endl;
+		}
+		else{
+			cout << "NO" << endl;
+		}
+	}
+	return 0;
+}

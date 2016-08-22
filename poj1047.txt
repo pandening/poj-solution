@@ -1,0 +1,87 @@
+/*
+  题意：给一个数字，从1到这个数字的长度都乘上这个数字
+  如果结果中，只是对原来数字的元素的重新组合，那么这个
+  数字被称为“cyclic”,否则不是，判断
+  思路：大数乘，然后判断在原数字中出现的数字是否都出现
+*/
+#include<iostream>
+#include<string>
+#include<string.h>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+string mult(string dest, int k)
+{
+	//求dest这个大数诚意k的结果
+	string ans = "";
+	int sum = 0,carry=0;
+	for (int i = dest.length() - 1; i >= 0; i--)
+	{
+		sum = (int)(dest[i] - '0')*k+carry;
+		ans = (char)(sum % 10+'0') + ans;
+		carry = sum / 10;
+	}
+	if (carry >=100)
+	{
+		ans = (char)(carry % 10 + '0') + ans;
+		ans = (char)((carry / 10) % 10 + '0') + ans;
+		ans= (char)(carry / 100+'0')+ans;
+	}
+	else if (carry >=10)
+	{
+		ans = (char)(carry % 10 + '0') + ans;
+		ans = (char)(carry / 10 + '0') + ans;
+	}
+	else if(carry){
+		ans = (char)(carry + '0') + ans;
+	}
+	return ans;
+}
+bool cmp(int a[], int b[])
+{
+	for (int i = 0; i <10; i++)
+	{
+		if (a[i] != b[i])
+		{
+			return false;
+		}
+	}
+	return true;
+}
+int main()
+{
+	string str;
+	while (cin >> str)
+	{
+		int c[10];
+		memset(c, 0, sizeof(c));
+		for (int i = 0; i < str.length(); i++)
+		{
+			c[(size_t)(str[i] - '0')]++;
+		}
+		bool ok =true;
+		for (int i = 1; i <= str.length(); i++)
+		{
+			int ct[10];
+			memset(ct, 0, sizeof(ct));
+			string res = mult(str, i);
+			for (int j = 0; j < res.length(); j++)
+			{
+				ct[(size_t)(res[j] - '0')]++;
+			}
+			if (!cmp(c, ct))
+			{
+				ok = false;
+				break;
+			}
+		}
+		if (ok)
+		{
+			cout << str << " is cyclic" << endl;
+		}
+		else{
+			cout << str << " is not cyclic" << endl;
+		}
+	}
+	return 0;
+}

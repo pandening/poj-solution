@@ -1,0 +1,72 @@
+/*
+ 就是，将一个数列分为两段，求两段的最大连续字段和
+ 思路：我们很容易就可以写出一个求最大连续字段和的
+ 代码，那么，对于这道题，它要求分为两段，我们假定
+ 这个中间点位p，那么，前一段就在0...p，后一段就在
+ p+1.....n-1,那么我们可以先求出从左到右的最大连续
+ 字段和，然后再从右到左求一次，最后合并起来找答案
+*/
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+int x[50001];
+int lr[50001], rl[50001];
+int main()
+{
+	int cas;
+	scanf_s("%d", &cas);
+	while (cas--)
+	{
+		int n;
+		scanf_s("%d", &n);
+		for (int i = 0; i < n; i++)
+		{
+			scanf_s("%d", &x[i]);
+		}
+		lr[0] = x[0];
+		for (int i = 1; i < n; i++)
+		{
+			if (lr[i - 1]>0)
+			{
+				lr[i] = lr[i - 1] + x[i];
+			}
+			else{
+				lr[i] = x[i];
+			}
+		}
+		// to one
+		for (int i = 1; i < n; i++)
+		{
+			if (lr[i] < lr[i - 1])
+			{
+				lr[i] = lr[i - 1];
+			}
+		}
+		rl[n - 1] = x[n - 1];
+		for (int i = n - 2; i >= 0; i--)
+		{
+			if (rl[i + 1]>0)
+			{
+				rl[i] = rl[i + 1] + x[i];
+			}
+			else{
+				rl[i] = x[i];
+			}
+		}
+		//to one
+		for (int i = n - 2; i >= 0; i--)
+		{
+			if (rl[i] < rl[i + 1])
+			{
+				rl[i] = rl[i + 1];
+			}
+		}
+		int ans =-0x7fffffff;
+		for (int i = 0; i < n-1; i++)
+		{
+			ans = max(ans, lr[i] + rl[i + 1]);
+		}
+		printf_s("%d\n", ans);
+	}
+	return 0;
+}

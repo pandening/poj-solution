@@ -1,0 +1,40 @@
+/*
+     For polygon this is a sample example
+	 the polygon's area is =>
+     Area=1/2*abs((x0*y1-x1*y0)+(x1*y2-x2*y1)...+(xn*yn-1-xn-1*yn)+(xn*y0-x0*yn))
+*/
+#include<iostream>
+#include <cstdio> 
+#include <string.h> 
+#include <cmath> 
+using namespace std;
+int dx[10] = { 0, 1, 1, 1, 0, 0, 0, -1, -1, -1 };
+int dy[10] = { 0, -1, 0, 1, -1, 0, 1, -1, 0, 1 };
+char s[1000010];
+/*__int64*/ long long area, x, y, px, py;
+int main(){
+	int sum, t, tmp, i;
+	scanf_s("%d", &tmp);
+	while (tmp--)
+	{
+		cin >> s;
+		t = strlen(s);
+		if (t<3) { printf("0\n"); continue; }
+		area = 0;
+		x = y = 0;
+		//the last input is the return to O-idex data
+		for (i = 0; i<t - 1; i++){
+			px = x + dx[s[i] - '0'];
+			py = y + dy[s[i] - '0'];
+			area += (px*y - x*py);
+			x = px;
+			y = py;
+		}
+		if (area<0) area =(-area);
+		if (area % 2 == 0)
+			printf_s("%I64d\n", area / 2);
+		else 
+			printf_s("%I64d.5\n", area / 2);
+	}
+	return 0;
+}

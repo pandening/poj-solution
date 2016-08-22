@@ -1,0 +1,25 @@
+/*
+下面需要推导一下求VR的公式：
+V2=iR=CR d/dt (VS*cos(wt)-VR*cos(wt+q))=VRcos(wt+q)
+= CR w (sin(wt+q)-sin(wt))=VRcos(wt+q)
+下面用到高中数学当中的计算方法，分别令 t=0 和 wt+q=0 ，得到 CRw  tan b = 1 和 VR=CRw VS sin b ，
+然后利用三角函数中的万能公式，求得 ：VR = CRw VS / sqrt (1+ (CRw) ^ 2 ))
+*/
+#include "iostream"
+#include "cstdio"
+#include "math.h"
+using namespace std;
+
+int main()
+{
+	int n, i;
+	double vs, r, c, w, vr;
+	cin >> vs >> r >> c >> n;
+	for (i = 0; i < n; i++)
+	{
+		cin >> w;
+		vr = c * r * w * vs / sqrt(1 + (c*r*w*c*r*w));
+		printf("%.3lf\n", vr);
+	}
+	return 0;
+}

@@ -1,0 +1,31 @@
+/*
+  @poj 1939
+  题目的意思是说给定n个坐标，然后围城一个圈，现在要你做的事情就是
+  将这些坐标相邻的坐标的中间坐标求出来，这样的话。需要注意的是第一个
+  坐标是和最后一个坐标相邻的，所以在最后需要求出第一个坐标和最后一个
+  坐标的中间坐标。
+*/
+#include<iostream>
+#include<cstdio>
+using namespace std;
+struct pos{
+	double x, y;
+};
+pos input[501];
+int main()
+{
+	int n;
+	while (scanf_s("%d", &n) != EOF){
+		for (int i = 0; i < n; i++){
+			scanf_s("%lf%lf", &input[i].x,&input[i].y);
+		}
+		cout << n << " ";
+		//input done
+		for (int i = 0; i < n - 1; i++){
+			printf_s("%.6lf %.6lf ", (input[i].x + input[i + 1].x) / 2.0, (input[i].y + input[i + 1].y) / 2.0);
+		}
+		//print the last data
+		printf_s("%.6lf %.6lf\n", (input[0].x + input[n - 1].x) / 2.0, (input[0].y + input[n - 1].y) / 2.0);
+	}
+	return 0;
+}

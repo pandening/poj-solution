@@ -1,0 +1,22 @@
+/*
+ @poj 3632
+ 呵呵搭，不管车停在哪里都是一样的，距离都是（最大距离-最小距离）*2
+ */
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+int main()
+{
+	int p[21],cas,n;
+	scanf_s("%d", &cas);
+	while (cas--)
+	{
+		scanf_s("%d", &n);
+		for (int i = 0; i < n; i++){
+			scanf_s("%d", p + i);
+		}
+		sort(p, p + n);
+		printf_s("%d\n", (p[n - 1] - p[0]) * 2);
+	}
+	return 0;
+}

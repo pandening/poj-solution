@@ -1,0 +1,34 @@
+/*
+ @poj 3619
+ 简单推一下就可以出来了，最后要加1
+*/
+#include<cstdio>
+#include<math.h>
+using namespace std;
+int main()
+{
+	int n, k;
+	scanf_s("%d%d", &n, &k);
+	struct cow{ int s, t, r; };
+	for (int i = 0; i < k; i++)
+	{
+		cow s;
+		scanf_s("%d%d%d", &s.s, &s.t, &s.r);
+		int ans = 0, p = 0;
+		while (p<n)
+		{
+			if ((n - p)<=(s.s*s.t)){
+				//不够看一次了,也就是最后一次看了，就不要加上休息的时间了
+				ans += ceill((double)(n - p) / s.s);
+				break;
+			}
+			else{
+				//否则还是可以看一次的
+				ans += (s.t + s.r);
+				p += (s.s*s.t);
+			}
+		}
+		printf_s("%d\n", ans);
+	}
+	return 0;
+}

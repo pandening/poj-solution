@@ -1,0 +1,53 @@
+/*
+  题意：对于一个栈，按照1...n进栈，给出一个出栈
+  顺序，问，能不能成功出栈呢
+*/
+#include<iostream>
+#include<stack>
+using namespace std;
+int pop[1001];
+int main()
+{
+	int n;
+	while (cin >> n)
+	{
+		if (n == 0) break;
+		while (cin >> pop[0])
+		{
+			if (pop[0] == 0) break;
+			for (int i = 1; i < n; i++)
+			{
+				cin >> pop[i];
+			}
+			bool flag = true;
+			stack<int> st;
+			int in = 1;
+			//现在开始模拟每一次出栈
+			for (int i = 0; i < n; i++)
+			{
+				//进栈，知道栈顶到达要输出的那个
+				while (in <= pop[i])
+				{
+					st.push(in++);
+				}
+				//如果不成功，那么就不能拉
+				int top = st.top();
+				st.pop();
+				if (top != pop[i])
+				{
+					flag = false;
+					break;
+				}
+			}
+			if (flag)
+			{
+				cout << "Yes" << endl;
+			}
+			else{
+				cout << "No" << endl;
+			}
+		}
+		cout << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,50 @@
+/*
+  @poj 1046
+  计算十六个RGB颜色中颜色最相近的颜色
+  就是不断的遍历就可以了
+*/
+
+#include<iostream>
+#include<cstdio>
+#include<cmath>
+using namespace std;
+struct __RGB{
+	int r, g, b;
+};
+__RGB Rgb[1000];
+
+double cal(__RGB rgb1, __RGB rgb2)
+{
+	return sqrt(double((rgb1.r - rgb2.r)*(rgb1.r - rgb2.r) +
+		(rgb1.g - rgb2.g)*(rgb1.g - rgb2.g) +
+		(rgb1.b - rgb2.b)*(rgb1.b - rgb2.b)));
+}
+int main()
+{
+	int num = 0;
+	//input
+	while (true)
+	{
+		scanf_s("%d%d%d", &Rgb[num].r, &Rgb[num].g, &Rgb[num].b);
+		if (Rgb[num].r == -1 &&Rgb[num].g == -1 &&Rgb[num].b == -1){
+			//input done
+			break;
+		}
+		num++;
+	}
+	//input done
+	for (int i = 16; i < num; i++){
+		//每种maped颜色都要计算d
+		__RGB ansRGB;
+		double mind = 0x7fffffff;
+		for (int j = 15; j >= 0; j--){
+			if (cal(Rgb[j], Rgb[i])<mind){
+				ansRGB = Rgb[j];
+				mind = cal(Rgb[j], Rgb[i]);
+			}
+		}
+		cout << "(" << Rgb[i].r << "," << Rgb[i].g << "," << Rgb[i].b << ") maps to (" <<
+			ansRGB.r << "," << ansRGB.g << "," << ansRGB.b << ")" << endl;
+	}
+	return 0;
+}

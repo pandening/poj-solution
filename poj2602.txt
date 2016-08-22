@@ -1,0 +1,72 @@
+///*
+//  大数加法啊
+//*/
+//#include<iostream>
+//#include<cstdio>
+//#include<string.h>
+//#include<string>
+//#include<algorithm>
+//using namespace std;
+//int main()
+//{
+//	int n;
+//	string a, b;
+//	while (scanf_s("%d", &n) != EOF)
+//	{
+//		getchar();
+//		a = "", b = "";
+//		struct in{ int a, b; };
+//		in c;
+//		for (int i = 0; i < n; i++)
+//		{
+//			a += getchar();
+//			getchar();
+//			b += getchar();
+//			getchar();
+//			//scanf_s("%d%d", &c.a, &c.b);
+//			//a += (char)(c.a + '0');
+//			//b += (char)(c.b + '0');
+//		}
+//		string ans = "";
+//		int sum = 0, carry = 0;
+//		for (int i = a.length() - 1; i >= 0; i--)
+//		{
+//			sum = (int)(a[i] - '0' + b[i] - '0') + carry;
+//			ans = (char)(sum % 10 + '0') + ans;
+//			carry = sum / 10;
+//		}
+//		if (carry)
+//		{
+//			ans = (char)('0' + carry) + ans;
+//		}
+//		printf_s("%s\n",ans.c_str());
+//	}
+//	return 0;
+//}
+
+#include <iostream>
+using namespace std;
+char a[1000001], b[1000001], ans[1000001];
+int main()
+{
+	int n, i, temp, w;
+	struct in{ int a, b; };
+	while (scanf("%d", &n) != EOF)
+	{
+		in c;
+		for (i = n - 1; i >= 0; i--)
+		{
+			scanf("%d%d", &c.a, &c.b);
+			a[i] = (char)(c.a + '0');
+			b[i] = (char)(c.b + '0');
+		}
+		for (i = 0, w = 0; i<n; i++)
+		{
+			temp = a[i] + b[i] - '0' - '0' + w;
+			ans[n - i - 1] = temp % 10 + '0';
+			w = temp / 10;
+		}
+		puts(ans);
+	}
+	return 0;
+}

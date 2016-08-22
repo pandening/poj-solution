@@ -1,0 +1,23 @@
+/*
+ @poj 3386
+ 共有3种情况是正确的
+ 1、a>=B&&A<=P
+ 2、b>=A&&B<=P
+ 3、A+B<=P
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int A, a, B, b, p;
+	while (cin >> A >> a >> B >> b >> p)
+	{
+		if ((A + B) <= p || (a >= B&&A <= p) || (b >= A&&B <= p)){
+			cout << "Yes" << endl;
+		}
+		else{
+			cout << "No" << endl;
+		}
+	}
+	return 0;
+}

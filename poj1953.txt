@@ -1,0 +1,29 @@
+/*
+ 由‘1’和‘0’组成的长度为n的字符串，共有多少种，字符串中1不相邻
+ 用dp[i]表示长度为i的结果
+ 则考虑当长度为i-1时，结果为dp[i-1]，那么
+ 结尾可以加0或者1，加0的话还是只有dp[i-1]
+ 那么要是加1，必须要求i-1时结尾为0，而当长度为i-1
+ 时结尾为0时的数量为长度为i-2时的数量
+ 所以：dp[i]=dp[i-1]+dp[i-2]
+ */
+#include<iostream>
+using namespace std;
+int dp[46] = {0,2,3};
+int main()
+{
+	for (int i = 3; i <= 45; i++)
+	{
+		dp[i] = dp[i - 1] + dp[i - 2];
+	}
+	int cas, n;
+	cin >> cas;
+	int p = 1;
+	while (cas--)
+	{
+		cin >> n;
+		cout << "Scenario #" << p++ << ":" << endl;
+		cout << dp[n] << endl << endl;
+	}
+	return 0;
+}

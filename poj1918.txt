@@ -1,0 +1,117 @@
+/*
+ 模拟acm排名
+ 对于一道题，如果当前时间做对了，那么这道题的时间为当前时间加上尝试错误次数*20
+ 最后排名就可以 
+ */
+#include<iostream>
+#include<string>
+#include<map>
+#include<string.h>
+#include<vector>
+#include<algorithm>
+#include<iomanip>
+using namespace std;
+int n;
+struct team
+{
+	string name;
+	map<int, bool> solved;
+	int time;
+	map<int, int> submit;
+	int s;
+	team()
+	{
+		solved.clear();
+		time = 0;
+		s = 0;
+		submit.clear();
+	}
+};
+bool cmp_sco(team a, team b)
+{
+	if (a.s== b.s){
+		if (a.time == b.time){
+			return a.name < b.name;
+		}
+		else
+			return a.time<b.time;
+	}
+	return a.s>b.s;
+}
+int main()
+{
+	int cas;
+	cin >> cas;
+	while (cas--)
+	{
+		cin >> n;
+		team *all;
+		all = new team[n];
+		for (int i = 0; i < n; i++)
+		{
+			cin >> all[i].name;
+		}
+		int p, t;
+		cin >> p >> t;
+		struct info
+		{
+			int id, time;
+			string ans, name;
+		};
+		for (int i = 0; i < t; i++)
+		{
+			info in;
+			cin >> in.id >> in.time >> in.ans >> in.name;
+			//首先找到这个队在all中的下标
+			int idex = 0;
+			for (int idd = 0; idd < n; idd++)
+			{
+				if (all[idd].name == in.name)
+				{
+					idex = idd;
+					break;
+				}
+			}
+			if (all[idex].solved[in.id] == true){
+				continue;
+			}
+			else{
+				if (in.ans[0] == 'Y')
+				{
+					//成功了
+					all[idex].solved[in.id] = true;
+					all[idex].time+= in.time + (20)* all[idex].submit[in.id];
+					all[idex].s++;
+				}
+				else{
+					//又wrong了，那么就要进行记录
+					all[idex].submit[in.id]++;
+				}
+			}
+		}
+		//输出排名，那么先排序
+		sort(all, all + n, cmp_sco);
+		int ppp = 1;
+		int pn =2;
+		cout << right << setw(2) <<1<< ". " << left << setw(8) << all[0].name << " "
+			 <<setw(1)<< all[0].s << " "<< setw(4)<<right<<
+			all[0].time << endl;
+		for (int i =1; i<n; i++)
+		{
+			if ((all[i].s == all[i - 1].s)&&(all[i].time == all[i - 1].time))
+			{
+				ppp = ppp;
+				pn++;
+			}
+			else{
+				ppp = pn;
+				pn++;
+			}
+			cout << right << setw(2) << ppp << ". " << left << setw(8) << all[i].name << " "
+				<< setw(1) << all[i].s <<" "<< setw(4)<<right<<
+				all[i].time << endl;
+		}
+		cout << endl;
+	}
+	return 0;
+}

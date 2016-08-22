@@ -1,0 +1,24 @@
+#include<stdio.h>
+#include<string.h>
+#include<iostream>
+using namespace std;
+int main()
+{
+	char s[27] = { "VWXYZABCDEFGHIJKLMNOPQRSTU" }, word[100];
+	int i;
+	while (true)
+	{
+		i = 0;
+		gets(word);
+		if (strcmp(word, "START") == 0) continue;
+		if (strcmp(word, "END") == 0) continue;
+		if (strcmp(word, "ENDOFINPUT") == 0) break;
+		for (i = 0; word[i] != '\0'; i++)
+		{
+			if (!(word[i] >= 'A'&&word[i] <= 'Z')) continue;
+			word[i] = s[word[i] - 65];
+		}
+		puts(word);
+	}
+	return 0;
+}

@@ -1,0 +1,28 @@
+/*
+* @poj 1401
+* 就是要求N！的结果的末尾0的个数
+* 因为0是由10贡献的，所以需要产生
+* 10，又10=2*5 而对于25=5*5=>5*2*5*2=100
+* 所以25能有2个0
+* 125=5^3 2^3*5^3=1000 
+* 125能产生3个0
+* ..........
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int cas, n;
+	cin >> cas;
+	while (cas--)
+	{
+		cin >> n;
+		int ans = 0;
+		while (n != 0){
+			ans += n / 5;
+			n /= 5;
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

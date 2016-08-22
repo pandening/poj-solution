@@ -1,0 +1,63 @@
+/*
+ @poj 2973
+ 给出一个字典，然后给出一个字符串，问这个
+ 字符串可以变形为多少个词典中的词，每个
+ 字符最多只能用一次，下划线可以替换任何
+ 一个你想要的词
+*/
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<vector>
+using namespace std;
+vector<string> V;
+vector<string>::iterator vit;
+int main()
+{
+	int n;
+	while (cin >> n)
+	{
+		if (n == 0) break;
+		V.clear();
+		string str;
+		for (int i = 0; i < n; i++)
+		{
+			cin >> str;
+			V.push_back(str);
+		}
+		//input done
+		cin >> str;
+		int ans = 0;
+		for (vit = V.begin(); vit != V.end(); vit++)
+		{
+				int num_ = 0;
+				string pstr = "";
+				for (int i = 0; i < str.length(); i++){
+					if (str[i] == '_'){
+						num_ ++;
+					}
+					else{
+						pstr += str[i];
+					}
+				}
+				int coun = 0;
+				for (int i = 0; i < vit->length(); i++)
+				{
+					for (int j = 0; j < pstr.length(); j++)
+					{
+						if (vit->at(i) == pstr[j])
+						{
+							pstr[j] = '.';
+							coun++;
+							break;
+						}
+					}
+			   }
+			 	if (vit->length() - coun <= num_){
+					ans++;
+				}
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

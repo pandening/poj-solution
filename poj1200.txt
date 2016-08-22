@@ -1,0 +1,59 @@
+/*
+   this is a problem about hash
+   ex:
+        nc:4  n:3
+        aph:daababac
+		so=>let every character tobe interge
+		so->the aph cov to:01121213
+		.....
+		just need use hash table 
+*/
+#include<iostream>
+#include<string>
+#include<string.h>
+using namespace std;
+#define max_num 16000010
+//this is huge memory
+int aph_num[300];
+bool Hash[max_num];
+int main()
+{
+	string str;
+	int n, nc;
+	cin >> n>>nc>>str;
+	int table_num = 1;
+	memset(aph_num, 0, sizeof(aph_num));
+	memset(Hash, 0, sizeof(Hash));
+	aph_num[str[0]]=0;
+	for (int i = 1; i < str.length(); i++)
+	{
+		if (aph_num[str[i]] == 0)
+		{
+			aph_num[str[i]] = table_num++;
+		}
+	}
+	int ans = 0;
+	int hash_num = 0;
+	for (int i = 0; i <=(str.length() - n);i++)
+	{
+		hash_num = 0;
+		for (int j = 0; j < n; j++)
+		{
+			hash_num = hash_num*table_num + aph_num[str[i + j]];
+		}
+		if (Hash[hash_num] == false)
+		{
+			ans++;
+			Hash[hash_num] = true;
+		}
+	}
+	cout << ans << endl;
+	return 0;
+}
+
+
+/*
+   ex:
+   3  4
+   daababac
+*/

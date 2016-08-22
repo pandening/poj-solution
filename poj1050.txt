@@ -1,0 +1,39 @@
+/*
+ @poj 1050
+ 求矩阵的最大子矩阵，这个最大子矩阵有最大和
+ 思路：将多行压缩为一行，然后借助一维求最大
+ 连续子和的思路，求解。
+*/
+#include<iostream>
+using namespace std;
+int dp[101][101];
+#define FOR(i,n) for(int i=0;i<n;i++)
+int main()
+{
+	int n;
+	while (cin >> n)
+	{
+		int m = -0x7ffffff;
+		//input 
+		FOR(i, n)FOR(j, n) cin >> dp[i][j];
+		//dp,将矩阵压缩成为一行
+		FOR(i, n - 1)
+		{
+			for (int j = i + 1; j < n; j++)
+			{
+				int tm = 0;
+				for (int k = 0; k < n; k++)
+				{
+					dp[i][k] += dp[j][k];
+					if (tm>0) tm += dp[i][k];
+					else{
+						tm = dp[i][k];
+					}
+					if (tm>m) m = tm;
+				}
+			}
+		}
+		cout << m << endl;
+	}
+	return 0;
+}

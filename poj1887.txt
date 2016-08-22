@@ -1,0 +1,48 @@
+/*
+  就是求连续最长下降的子序列的长度
+  O(n*n)
+*/
+#include<cstdio>
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+#define inf 0x7ffffff
+using namespace std;
+int num[10001];
+int dp[10001];
+int main()
+{
+	int in;
+	int cas = 1;
+	while (scanf_s("%d",&in))
+	{
+		if (in == -1)break;
+		int n = 1;
+		int d;
+		while (scanf_s("%d",&d))
+		{
+			if (d== -1)break;
+			num[n++] =d;
+		}
+		//input done
+		memset(dp, 0, sizeof(dp));
+		//dp
+		int ans = 0;
+		num[0] = inf;
+		for (int i = 1; i <= n; i++)
+		{
+			for (int j = i - 1; j >= 0; j--)
+			{
+				if (num[i] <= num[j])
+				{
+					dp[i] = max(dp[i], dp[j] + 1);
+				}
+			}
+			ans = max(ans, dp[i]);
+		}
+		//out
+		if (n)
+		printf_s("Test #%d:\n  maximum possibleinterceptions: %d\n\n", cas++,ans);
+	}
+	return 0;
+}

@@ -1,0 +1,57 @@
+/*
+  题意：给出一个模式串和匹配串，问匹配串
+  在模式串种共出现了多少次
+  思路：对kmp算法的深入理解
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+int Next[100001];
+string s,p;
+void getnext(int len)
+{
+	int i = 0, j = -1;
+	Next[0] = -1;
+	while (i!=len)
+	{
+		if (j == -1 || s[i] == s[j])
+		{
+			i++, j++;
+			Next[i] = j;
+		}
+		else{
+			j = Next[j];
+		}
+	}
+}
+void kmp(int ls,int lp)
+{
+	int i = 0, j = 0, num = 0;
+	while (i < ls&&j < lp)
+	{
+		if (j == -1 || s[i] == p[j])
+		{
+			i++, j++;
+		}
+		else{
+			j = Next[j];
+		}
+		if (j == lp)
+		{
+			num++;
+			j = Next[j];
+		}
+	}
+	cout << num << endl;
+}
+int main()
+{
+	int cas;  cin >> cas;
+	while (cas--)
+	{
+		cin >> p >> s;
+		getnext(p.length());
+		kmp(s.length(),p.length());
+	}
+	return 0;
+}

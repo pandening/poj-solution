@@ -1,0 +1,44 @@
+/*
+* @poj 3648
+* dfs
+* 首先输入一个矩阵，然后输入一个（r，c），求从
+* 这个点开始八个方向都可以联通的‘x’的周长
+*  dfs搜索，只要每个点周围是‘.’就加1
+*/
+#include<iostream>
+#include<string.h>
+using namespace std;
+char maze[40][40];
+int dir[8][2] = { { 1, 0 }, { -1, 0 }, 
+{ 0, 1 }, { 0, -1 }, { 1, 1 }, { 1, -1 },
+{ -1, 1 }, { -1, -1 } };
+int dfs(int r, int c)
+{
+	if (maze[r][c] == '*' || maze[r][c] == '.') return 0;
+	maze[r][c] = '*';
+	int ans = 0;
+	//只加上下左右就可以了，斜的不要加
+	for (int i = 0; i < 4; i++){
+		ans += (maze[r + dir[i][0]][c + dir[i][1]] == '.');
+	}
+	//下面就是dfs了
+	for (int i = 0; i < 8; i++){
+		ans += dfs(r + dir[i][0], c + dir[i][1]);
+	}
+	return ans;
+}
+int main()
+{
+	int rr, cc, r, c;
+	while (cin >> rr >> cc >> r >> c)
+	{
+		if (rr == 0) break;
+		//记住，memset只能一个字节一个字节的初始化
+		memset(maze, '.', sizeof(maze));
+		for (int i = 1; i <= rr;i++)
+		for (int j = 1; j <= cc; j++)
+			cin >> maze[i][j];
+		cout << dfs(r,c) << endl;
+	}
+	return 0;
+}

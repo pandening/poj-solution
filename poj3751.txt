@@ -1,0 +1,72 @@
+/*
+ @poj 3751
+ 将24小时制的yyyy/mm/dd转化为12小时制的mm/dd/yyyy
+*/
+#include<iostream>
+#include<string>
+#include<cmath>
+using namespace std;
+int toint(string x)
+{
+	int ans = 0;
+	int k = 0;
+	for (int i = x.length() - 1; i >= 0; i--)
+	{
+		ans += (int)(x[i] - '0')*pow(10.0, k++);
+	}
+	return ans;
+}
+int main()
+{
+	int cas;
+	cin >> cas;
+	string s1, s2;
+	while (cas--)
+	{
+		s1 = "";
+		s2 = "";
+		cin >> s1;
+		//首先将年，月，日，和时间提取出来
+		string y, m, d, t;
+		y = "", m = "", d = "";
+		for (int i = 0; i < 4; i++) y += s1[i];
+		for (int i = 5; i < 7; i++) m+= s1[i];
+		for (int i = 8; i < 10; i++) d += s1[i];
+		s2 = m + "/" + d + "/" + y;
+		//现在将时间提取为数字
+		string ho, mi, se;
+		ho = "", mi = "", se = "";
+		ho =s1[11];
+		ho += s1[12];
+		mi = s1[14];
+		mi+=s1[15];
+		se = s1[17];
+		se+=s1[18];
+		string tid;
+		int hh = toint(ho);
+		if (hh>=12){
+			//pm
+			tid = "pm";
+			if (hh>12)
+			hh = hh - 12;
+		}
+		else{
+			//am
+			tid = "am";
+		}
+		//print is important
+		cout << s2 << "-";
+		if (hh == 0)
+			cout <<12;
+		else{
+			if (hh < 10){
+				cout << 0 << hh;
+			}
+			else{
+				cout << hh;
+			}
+		}
+		cout<< ":" << mi << ":" << se << tid << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,127 @@
+/*
+  @poj 1328 贪心算法
+*/
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+typedef pair<double, double> lr;
+lr LR[1001];
+bool cmpx(lr a, lr b)
+{
+	return a.first<b.first;
+}
+//就是首先求出每个岛屿的可以区间，然后最后求所有区间的最少相交数
+int main()
+{
+	//无解情况判断
+	bool no = false;
+	int cas, k,countt=0;
+	while (cin >> cas >> k&&cas&&k)
+	{
+		countt++;
+		if (k <= 0) no = true;
+		for (int i = 0; i < cas; i++){
+			int x, y;
+			cin >> x >> y;
+			if (abs(y) <= k){
+				//可以计算区间了
+				int dis = sqrt(double(k*k - y*y));
+				LR[i].first = x - dis;
+				LR[i].second = x + dis;
+			}
+			else{
+				no = true;
+			}
+		}//endfor
+			if (no){
+				cout << "Case " << countt << ": -1" << endl;
+				continue;
+			}
+			sort(LR, LR +cas,cmpx);
+			//寻找最少区间数量
+			int ls = LR[0].second;
+			int rd = 1;
+			for (int i = 1; i < cas; i++){
+				if (LR[i].first>ls){
+					rd++;
+					ls = LR[i].second;
+				}
+				else{
+					if (LR[i].second < ls){
+						ls = LR[i].second;
+					}
+				}
+			}//endfor
+			cout << "Case " << countt << ": " << rd << endl;
+	}//endwhile
+	return 0;
+}
+
+
+/*
+
+   #include<iostream>
+#include <algorithm>
+#include<cmath>
+#include<cstdlib>
+using namespace std;
+struct node
+{
+    double x;
+    double y;
+}a[1001];
+int cmp(const void *a, const void *b)
+{
+    return (*(node *)a).x > (*(node *)b).x ? 1 : -1;
+}
+int main()
+{
+    int i,m,n,k,t,count=0;
+    double dist,s;
+    bool flag;
+    while(cin>>n>>k && n!=0 &&k!=0)
+    {
+        count++;
+        flag=false;
+        if(k<=0) flag=true;
+        for(i=0;i<n;i++)
+        {
+            cin>>s>>t;
+            if(abs(t)<=k)
+            {
+                //计算区间
+                dist=sqrt(double(k*k-t*t));
+                a[i].y=s+dist;
+                a[i].x=s-dist;
+            }
+            else
+                flag=true;
+        }
+        if(flag)
+        {
+            cout<<"Case "<<count<<": -1"<<endl;
+            continue;
+        }
+        qsort(a,n,sizeof(a[0]),cmp);//注意排序，double型排序
+        s=a[0].y;m=1;//雷达个数初始化为1
+        //寻找最少区间个数
+        for(i=1;i<n;i++)
+        {
+            if(a[i].x>s)//s为公共区间的右端点，若下一个区间的左端点大于s则该区间与以上的公共区间没有公共部分
+            {
+                m++;//雷达个数加1
+                s=a[i].y;//更新公共区间右端点
+            }
+            else//与以上公共部分有公共部分
+            {
+                if(a[i].y<s)
+                s=a[i].y;//更新右端点
+            }
+        }
+        cout<<"Case "<<count<<": "<<m<<endl;
+    }
+    return 0;
+}
+
+*/

@@ -1,0 +1,33 @@
+/*
+ @poj 2583
+   最笨的方法，先推出公式，再计算
+*/
+#include<cmath>
+#include<iostream>
+using namespace std;
+struct abc{
+	double a, b, c;
+};
+abc getabc(int f0, int f1, int f2)
+{
+	abc ans;
+	ans.c = f0;
+	ans.a = (f2 - 2 * f1 + f0)*0.5;
+	ans.b = f1 - f0 - ans.a;
+	return ans;
+}
+int main()
+{
+	struct f{ double f0, f1, f2; };
+	f i;
+	while (cin >> i.f0 >> i.f1 >> i.f2)
+	{
+		abc ABC = getabc(i.f0, i.f1, i.f2);
+		double f3, f4, f5;
+		f3 = ABC.a*pow(3.0, 2) + ABC.b*3 + ABC.c;
+		f4 = ABC.a*pow(4.0, 2) + ABC.b*4 + ABC.c;
+		f5 = ABC.a*pow(5.0, 2) + ABC.b*5 + ABC.c;
+		cout << f3 << " " << f4 << " " << f5 << endl;
+	}
+	return 0;
+}

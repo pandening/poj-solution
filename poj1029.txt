@@ -1,0 +1,105 @@
+/*
+  题意：就是判断假币
+  思路：要是“=”，那么就设为重为1000
+        如果“<”,那么左边减去1，右边加上1
+		如果“>”,那么左边加上1，右边减去1
+		最后，找那个绝对值最大的就是假啦，如
+		果有多个最大，那么就是不能确定咯
+*/
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+
+int flag[1001];
+int main()
+{
+	int n, k;
+	cin >> n >> k;
+	int i, j, p;
+	int left[1001];
+	int right[1001];
+	char c[3];
+	for (i = 0; i<k; i++)
+	{
+		cin >> p;
+		for (j = 0; j<p; j++)
+		{
+			cin >> left[j];
+		}
+		for (j = 0; j<p; j++)
+		{
+			cin >> right[j];
+		}
+		cin >> c;
+		if (c[0] == '=')
+		{
+			for (j = 0; j<p; j++)
+			{
+				flag[left[j]] = 3000;
+			}
+			for (j = 0; j<p; j++)
+			{
+				flag[right[j]] = 3000;
+			}
+
+		}
+		if (c[0] == '>')
+		{
+			for (j = 0; j<p; j++)
+			{
+				if (flag[left[j]] != 3000)
+				{
+					flag[left[j]]++;
+				}
+			}
+			for (j = 0; j<p; j++)
+			{
+				if (flag[right[j]] != 3000)
+				{
+					flag[right[j]]--;
+				}
+			}
+		}
+		if (c[0] == '<')
+		{
+			for (j = 0; j<p; j++)
+			{
+				if (flag[left[j]] != 3000)
+				{
+					flag[left[j]]--;
+				}
+			}
+			for (j = 0; j<p; j++)
+			{
+				if (flag[right[j]] != 3000)
+				{
+					flag[right[j]]++;
+				}
+			}
+		}
+	}
+	int max = -1;
+	int ans;
+	int mount = 1;
+	for (i = 1; i <= n; i++)
+	{
+		if (flag[i] != 3000 && abs(flag[i]) >= max)
+		{
+			if (abs(flag[i])>max)
+			{
+				max = abs(flag[i]);
+				ans = i;
+				mount = 1;
+			}
+			else if (abs(flag[i]) == max)
+			{
+				mount++;
+			}
+		}
+	}
+	if (mount == 1) 
+		cout << ans << endl;
+	else
+		cout << 0 << endl;
+	return 0;
+}

@@ -1,0 +1,41 @@
+/*
+  @poj 3927
+  石头（R），剪刀（S），布（p）游戏
+  输入两个玩家的策略，输出两个玩家的win数
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	string s1, s2;
+	while (cin >> s1 >> s2)
+	{
+		if (s1 == "E"&&s2=="E") break;
+		int p1=0, p2=0;
+		int l = s1.length();
+		for (int i = 0; i < l; i++)
+		{
+			switch (s1[i])
+			{
+			case 'R':
+				if (s2[i] == 'P') p2++;
+				else if (s2[i] == 'S') p1++;
+				break;
+			case 'S':
+				if (s2[i] == 'R') p2++;
+				else if (s2[i] == 'P') p1++;
+				break;
+			case 'P':
+				if (s2[i] == 'S') p2++;
+				else if (s2[i] == 'R') p1++;
+				break;
+			default:
+				break;
+			}
+		}
+		cout << "P1: " << p1 << endl;
+		cout << "P2: " << p2 << endl;
+	}
+	return 0;
+}

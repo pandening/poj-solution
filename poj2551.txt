@@ -1,0 +1,24 @@
+/*
+ @poj 2551
+ 就是求，输入一个数字n，求由1组成的所有数字中可以被n整除的n的位数
+ hint：妈的long long型的数字取模真的是慢成狗了，所以将num控制在int
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int num;
+	int n, ans;
+	while (cin >> n)
+	{
+		num = 1;
+		ans = 1;
+		while (num%n != 0){
+			ans++;
+			num = num * 10 +1;
+			num %= n;
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

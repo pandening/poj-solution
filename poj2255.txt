@@ -1,0 +1,58 @@
+/*
+problem: Rebuilt BinTree
+Author:pandening
+Time:2015/5/3
+Algorithm:根据前序遍历和中序遍历的结果重建树
+记前序遍历结果和中序遍历结果记录在数组 Preorder[max_n]和Inorder[max_n]
+中，则，首先取出Preorder[0]应该为整棵树的根，这时，Find the idex i
+ST=>Preoder[0]==Inorder[i];
+Then
+Preorder[1]-Preorder[i] is the Preorder[0]'s L-Tree's Preorder
+Inorder[0]-Order[i-1] is the Preorder[0]'s L-Tree's Inorder
+And
+Preorder[i+1]-Preorder[max_n-1] is the Preorder[0]'s R-Tree's Preorder
+Inorder[i+1]-Inorder[max_n-1] is the Preorder[0]'s R-Tree's Inorder
+
+So,递归就可以重建这棵树了
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+struct NODE{
+	char Value;
+	NODE *Lchild, *Rchild;
+};
+NODE* RebuiltTree(string Preorder, string Inorder)
+{
+	NODE *root = NULL;
+	if (Preorder.size() == 0) return NULL;
+	else{
+		root = new NODE;
+		root->Value = Preorder[0];
+		root->Lchild = NULL;
+		root->Rchild = NULL;
+		int idex = Inorder.find(Preorder[0]);
+		root->Lchild = RebuiltTree(Preorder.substr(1, idex), Inorder.substr(0, idex));
+		root->Rchild = RebuiltTree(Preorder.substr(idex + 1, Preorder.size()), Inorder.substr(idex + 1, Inorder.size()));
+	}
+	return root;
+}
+void PostTraverse(NODE *root)
+{
+	if (root != NULL){
+		PostTraverse(root->Lchild);
+		PostTraverse(root->Rchild);
+		cout << root->Value;
+	}
+	return;
+}
+int main()
+{
+	string pre, in;
+	while (cin >> pre >> in){
+		NODE *root = RebuiltTree(pre, in);
+		PostTraverse(root);
+		cout << endl;
+	}
+	return 0;
+}

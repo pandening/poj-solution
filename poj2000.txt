@@ -1,0 +1,36 @@
+/*
+  就是一个计算总和的题目
+     1....1
+    2,3....2
+   4,5,6....3
+  7,8,9,10...4
+  ......
+  input=>4
+  out=>1+2+2+3=10
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int n;
+	while (cin >> n)
+	{
+		if (n == 0) break;
+		int ans = 0;
+		int t = 0;
+		int i;
+		//有i个i
+		for (i = 1; i + t <= n; i++)
+		{
+			ans += i*i;
+			t += i;
+		}
+		//最后不够i个i了，就只能这么办了
+		if (t != n)
+		{
+			ans += (n - t)*i;
+		}
+		cout << n << " " << ans << endl;
+	}
+	return 0;
+}

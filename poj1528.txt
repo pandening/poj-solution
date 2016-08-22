@@ -1,0 +1,56 @@
+/*
+  @poj 1528
+  就是拆分一个数，然后做简单的判断
+*/
+#include<cstdio>
+#include<iostream>
+using namespace std;
+//一个可以求得一个数的所有因子和的函数实现
+int _get_(int x)
+{
+	//求得x的因子和
+	int ans = 0;
+	for (int i = x-1; i >= 1; i--){
+		if (x%i == 0){
+			ans += i;
+		}
+	}
+	return ans;
+}
+int main()
+{
+	int x, pp = 0;
+	while (scanf_s("%d", &x))
+	{
+		if (x == 0) break;
+		if (!pp){
+			cout << "PERFECTION OUTPUT" << endl;
+		}
+		//前面的空格处理
+			if (x >= 0 && x < 10){
+				cout << "    ";
+			}
+			else if (x >= 10 && x <= 99){
+				cout << "   ";
+			}
+			else if (x >= 100 && x < 1000){
+				cout << "  ";
+			}
+			else if (x >= 1000 && x < 10000){
+				cout << " ";
+			}
+		if (x == _get_(x)){
+			cout << x << "  " << "PERFECT" << endl;
+		}
+		else if (x > _get_(x)){
+			cout << x << "  " << "DEFICIENT" << endl;
+		}
+		else{
+			cout << x << "  " << "ABUNDANT" << endl;
+
+		}
+		pp++;
+	}
+	cout << "END OF OUTPUT" << endl;
+	return 0;
+}

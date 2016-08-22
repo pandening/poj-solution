@@ -1,0 +1,32 @@
+/*
+ @poj 2578
+ 一连串数字，然后问是不是所有数字都小于168
+如果是的话输出“NO CRUSH”，否则输出最开始
+大于168的那个n “CRASH n”
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+
+	int h[3],cnt=0,p;
+	while (cin>>h[0]>>h[1]>>h[2])
+	{
+		for (int i = 0; i < 3; i++){
+			if (h[i] < 168){
+				p = h[i];
+				break;
+			}
+			else{
+				cnt++;
+			}
+		}
+		if (cnt == 3){
+			cout << "NO CRASH" << endl;
+		}
+		else{
+			cout << "CRASH " << p << endl;
+		}
+	}
+	return 0;
+}

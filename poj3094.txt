@@ -1,0 +1,31 @@
+/*
+@poj 3094 
+就是将字母转化为数字而已
+*/
+#include<cstdio>
+int main()
+{
+	char in;
+	int ans = 0, pos = 1;
+	while (true){
+		in = getchar();
+		if (in == '#') return 0;//endrun
+		else if (in == '\n'){
+			//end of one input
+			printf_s("%d\n", ans);
+			ans = 0;
+			pos = 1;
+		}
+		else{
+			if (in == ' '){
+				pos++;
+				continue;
+			}
+			else{
+				ans += pos*(in - 'A' + 1);
+				pos++;
+			}
+		}
+	}
+	return 0;
+}

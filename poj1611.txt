@@ -1,0 +1,60 @@
+/*
+  This is a problem about union_set
+  using data structer union_set
+  .....Wrong...
+*/
+#include<iostream>
+using namespace std;
+#define max_n 30001
+int par[max_n];
+int Ans[max_n];
+/* union_set */
+void start_union_set(int length)
+{
+	for (int i = 0; i <= length; i++)
+	{
+		par[i] = i;
+		Ans[i] = 1;
+	}
+}
+
+int find_root(int x)
+{
+	while (x != par[x]) x = par[x];
+	return x;
+}
+
+void union_set(int x, int y)
+{
+	int fx= find_root(x);
+	int fy= find_root(y);
+	if (fx != fy)
+	{
+		par[fx] = fy;
+		Ans[fy] += Ans[fx];
+	}
+}
+int msain()
+{
+	int n, m;
+	while (cin >> n >> m)
+	{
+		if (n + m == 0) break;
+		//start union set
+		start_union_set(n);
+		//input the groups
+		for (int i = 0; i < m; i++)
+		{
+			int num_of_this_group,start_person,person;
+			cin >> num_of_this_group >> start_person;
+			for (int j = 1; j < num_of_this_group; j++)
+			{
+				cin >> person;
+				union_set(start_person, person);
+				start_person = person;
+			}
+		}
+		cout << Ans[par[0]] << endl;
+	}
+	return 0;
+}

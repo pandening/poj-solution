@@ -1,0 +1,47 @@
+/*
+@poj 3356
+动态规划问题，分析看注释
+*/
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+string a, b;
+int la, lb;
+int main()
+{
+	while (cin >>la>>a>>lb>>b){
+		//opt数组要动态生成，不然内存会超一点
+		int **opt;
+		opt = new int*[la + 1];
+		for (int i = 0; i <= la; i++){
+			opt[i] = new int[lb + 1];
+		}
+		//opt数组的初始化，opt[0][0]代表两个字符串都为空，则距离当然为0 
+		opt[0][0] = 0;
+		//下面两句的初始化的意思是当其中一个字符串的长度为0时，那么距离就相当于如下所示
+		for (int i = 1; i <= la; i++) opt[i][0] = i;
+		for (int i = 1; i <= lb; i++) opt[0][i] = i;
+		//开始求opt数组，使用递推式
+		//共三种情况
+		/*
+		1、都是字符
+		2、a对应的是字符，b对应的是空格
+		3、a对应的是空格，b对应的是字符
+		最后求opt[i][j]时取上述三种情况中的最小的那种情况
+		*/
+		for (int i = 1; i <= la; i++){
+			for (int j = 1; j <= lb; j++){
+				opt[i][j] = min(min(opt[i - 1][j], opt[i][j - 1]) + 1, opt[i - 1][j - 1] + abs(a[i - 1] - b[j - 1]));
+			}
+		}
+		//opt[la][lb]就代表了字符串a和字符串b之间的扩展距离了
+		cout << opt[la][lb] << endl;
+		//动态内存销毁
+		for (int i = 0; i <= la; i++){
+			delete[]opt[i];
+		}
+		delete[]opt;
+	}
+	return 0;
+}

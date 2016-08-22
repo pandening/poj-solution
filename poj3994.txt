@@ -1,0 +1,10 @@
+#include<cstdio>
+#include<cstring>
+using namespace std;
+int main()
+{
+	int ca = 0, n;
+	while (scanf("%d", &n), n)
+		printf("%d. %s %d\n", ++ca, (n % 2 == 0) ? "even" : "odd", (3 * n + 1) / 2 / 3);
+	return 0;
+}

@@ -1,0 +1,50 @@
+/*
+ @poj 3505
+ 理解题意很重要
+*/
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+//the position of the car
+struct pos{
+	int x, y;
+};
+pos p[3000];
+int cas,h, l;
+int lasty[101];
+int main()
+{
+	cin >> cas;
+	while (cas--)
+	{
+		//for pre case
+		cin >> h >> l;
+		//input
+		int num = 0;
+		for (int i = 0; i < h;i++)
+		for (int j = 0; j < l; j++)
+		{
+			int in;
+			cin >> in;
+			if (in != -1){
+				p[in].x = i;
+				p[in].y = j;
+				num++;
+			}
+		}
+		//input done
+		memset(lasty, 0, sizeof(lasty));
+		int ans = 0;
+		for (int i = 1; i <=num; i++)
+		{
+			ans += p[i].x * 20;
+			int d = min(abs(p[i].y - lasty[p[i].x]),l - abs(p[i].y - lasty[p[i].x]));
+			ans += d * 5;
+			//每一层都有一个lasty
+			lasty[p[i].x] = p[i].y;
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

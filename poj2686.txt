@@ -1,0 +1,149 @@
+///*
+//  @poj 2686
+//  有一个人有n张车票，共m个城市，每张车票上有ti匹马，从一个城市到达例外一个城市
+//  的时间的计算方法为这两个城市之间的距离除以ti，那么现在的问题就是，给定一个图，
+//  计算从a到b的最少时间
+//  分析：需要要到的状态压缩dp，需要的知识点还有对二进制状态集合的操作
+//*/
+//#include<iostream>
+//#include<cstdio>
+//#include<algorithm>
+//#include<string.h>
+//#define INF 0x7fffffff
+//using namespace std;
+//int t[10];
+//int d[31][31];//表达图的距离矩阵
+//int n, m, a, b,p;
+//dp[S][v]:表示的是到达剩下的车票为S集合并且现在所在的城市在v的状态时所需要的最少时间
+//double dp[1 << 10][31];
+//int main()
+//{
+//
+//	input,p is the num of roads
+//	while (scanf_s("%d%d%d%d%d", &n, &m,&p,&a, &b) != EOF)
+//	{
+//		if (!n&&!m&&!p&&!a&&!b) break;
+//		for (int i = 0; i < 31; i++){
+//			for (int j = 0; j < 31; j++){
+//				d[i][j] = -1;
+//			}
+//		}
+//		input tickets
+//		for (int i = 0; i <n; i++){
+//			scanf_s("%d", t + i);
+//		}
+//		input roads
+//		for (int i = 0; i < p; i++){
+//			int vf, vt, v;
+//			scanf_s("%d%d%d", &vf, &vt,&v);
+//			d[vf][vt] = v;
+//			d[vt][vf] = v;
+//		}
+//		init dp array
+//		for (int i = 0; i < 1 << n; i++){
+//			fill(dp[i], dp[i] + m, INF);
+//		}
+//		a is the start of road
+//		dp[(1 << n) - 1][a-1] = 0;
+//		double ans = INF;
+//		for (int S = (1 << n) - 1; S >= 0; S--){
+//			for (int v = 0; v < m; v++){
+//				for (int i = 0; i < n; i++){
+//					if (S >> i & 1){
+//						for (int u = 0; u < m; u++){
+//							if (d[v][u] >= 0){
+//								dp[S&~(1 << i)][u] = min(dp[S&~(1 << i)][u], dp[S][v] + double(d[v][u] / t[i]));
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//		for (int i = 0; i < (1 << n); i++){
+//			ans = min(ans, dp[i][b - 1]);
+//		}
+//		if (ans== INF){
+//			cout << "Impossible" << endl;
+//		}
+//		else{
+//			printf_s("%.3f\n",ans);
+//		}
+//	}
+//	return 0;
+//}
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <climits>
+#include <cctype>
+#include <cmath>
+#include <string>
+#include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <iomanip>
+using namespace std;
+#include <queue>
+#include <stack>
+#include <vector>
+#include <deque>
+#include <set>
+#include <map>
+typedef long long LL;
+typedef long double LD;
+#define INFF 0x3f3f3f3f
+#define INF 2139062143
+#define pi acos(-1.0)
+#define lson l, m, rt<<1
+#define rson m+1, r, rt<<1|1
+typedef pair<int, int> PI;
+typedef pair<int, PI> PP;
+#ifdef _WIN32
+#define LLD "%I64d"
+#else
+#define LLD "%lld"
+#endif
+int t[15];
+int mp[35][35];
+double dp[1 << 10][35];  // 剩下的车票状态  现在在v的最小花费
+int main()
+{
+	int n, m, p, a, b;
+	while (~scanf_s("%d%d%d%d%d", &n, &m, &p, &a, &b) && (n || m || p || a || b))
+	{
+		for (int i = 0; i<n; i++)
+			scanf_s("%d", &t[i]);
+		memset(mp, -1, sizeof(mp));
+		while (p--)
+		{
+			int u, v, w;
+			scanf_s("%d%d%d", &u, &v, &w);
+			u--, v--;
+			if (mp[u][v]<0)
+				mp[u][v] = mp[v][u] = w;
+			else
+				mp[u][v] = mp[v][u] = min(mp[u][v], w);//这一句很重要，真的很重要，为什么别人可以想到呢？
+		}
+		memset(dp, 127, sizeof(dp));
+		dp[(1 << n) - 1][a - 1] = 0;
+		double ans = INF;
+		for (int s = (1 << n) - 1; s >= 0; s--)
+		{
+			for (int v = 0; v<m; v++)
+			for (int i = 0; i<n; i++)
+			if (s >> i & 1)
+			for (int u = 0; u<m; u++)
+			if (mp[v][u] >= 0)
+				dp[s & ~(1 << i)][u] = min(dp[s & ~(1 << i)][u], dp[s][v] + mp[v][u] * 1.0 / t[i]);
+			// 使用车票i , v->u
+		}
+		for (int i = 0; i < (1 << n); i++){
+			ans = min(ans, dp[i][b - 1]);
+		}
+		if (ans == INF)
+			printf_s("Impossible\n");
+		else
+			printf_s("%.3lf\n", ans);
+	}
+	return 0;
+}

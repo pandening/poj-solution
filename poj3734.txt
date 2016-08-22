@@ -1,0 +1,65 @@
+/*
+  @poj 3734
+ 题目的意思是说有四种颜色可以用来给那些格子上色，颜色分别为
+ RGBY，现在要求的是，RG颜色的格子数量都为偶数的方案数量
+ 分析：假设现在已经染色到第i个格子，设变量ai为RG颜色的数量都为偶数的方案数
+ bi为RG颜色的其中一种颜色的格子数量为偶数的方案数量，ci为RG颜色的格子数量的
+ 格子数量都为奇数的方案数，则当对第i+1个格子染色时，可以推导出：
+    a(i+1)=2*a(i)+b(i);
+	b(i+1)=2*(a(i)+b(i)+c(i));
+	c(i+1)=2*c(i)+b(i);
+	所以可以将三个推导式表示成矩阵的形式，那么最后所求的就是矩阵的冥了
+*/
+#include<iostream>
+#include<cstdio>
+#include<vector>
+using namespace std;
+#define M 10007
+typedef vector<vector<int>> mat;
+int N;
+mat A, B;//两个矩阵的表示
+//下面是两个矩阵相乘的函数实现
+mat mul(mat &A, mat &B)
+{
+	mat C(A.size(),vector<int>(B[0].size()));
+	//注意是A*B
+	for (int i = 0; i < A.size(); i++){
+		for (int k = 0; k < B.size(); k++){
+			for (int j = 0; j < B[0].size(); j++){
+				C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % M;
+			}
+		}
+	}
+	return C;
+}
+//矩阵的快速冥运算
+mat _pow(mat A, int n)
+{
+	//求A^n
+	mat B(A.size(),vector<int>(A.size()));
+	for (int i = 0; i <A.size(); i++){
+		B[i][i] = 1;
+	}
+	while (n>0){
+		if (n & 1) B = mul(A, B);
+		A = mul(A, A);
+		n >>= 1;
+	}
+	return B;
+}
+int main()
+{
+	int cas;
+	scanf_s("%d", &cas);
+	while (cas--)
+	{
+		scanf_s("%d", &N);
+		mat A(3,vector<int>(3));
+		A[0][0] = 2, A[0][1] = 1, A[0][2] = 0;
+		A[1][0] = 2, A[1][1] = 2, A[1][2] = 2;
+		A[2][0] = 0, A[2][1] = 1, A[2][2] = 2;
+		A = _pow(A, N);
+		printf_s("%d\n", A[0][0]);
+	}
+	return 0;
+}

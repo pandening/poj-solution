@@ -1,0 +1,85 @@
+///*
+//  题意：将一个长为n的数列分为两部分[1...i] [i+1...k]
+//  现在要求的就是这两部分的和的最大值，就是求最大字段
+//  和的一个衍生，也就是求正向和反向字段和，然后枚举中间
+//  的那个分割的，也就O（n）的复杂度
+//*/
+//#include<iostream>
+//#include<algorithm>
+//#define inf 0x7ffff
+//using namespace std;
+////dp is 1..n
+//int num[100001], dp[100001];
+//int main()
+//{
+//	int n;
+//	while (cin >> n)
+//	{
+//		if (n == 0) break;
+//		int sum = 0;
+//		int lr = -inf;
+//		//正向最大字段和
+//		for (int i = 1; i <= n; i++)
+//		{
+//			scanf_s("%d", &num[i]);
+//			sum += num[i];
+//			lr = max(lr, sum);
+//			if (sum < 0) sum = 0;
+//			dp[i] = lr;
+//		}
+//		dp[0] = -inf;
+//		int ans = -inf,rl = -inf;
+//		sum = 0;
+//		for (int i = n; i>0;i--)
+//		{
+//			sum += num[i];
+//			rl = max(rl, sum);
+//			if (sum < 0) sum = 0;
+//			ans = max(ans, rl + dp[i - 1]);
+//		}
+//		cout << ans << endl;
+//	}
+//	return 0; 
+//}
+
+
+#include <cstdio>
+#include <iostream>
+#include <cstring>
+using namespace std;
+int num[100001], dp[100001];
+int main()
+{
+	int n, max, sum, ans;
+	while (scanf("%d", &n), n)
+	{
+		sum = 0;
+		max = -0x3fffffff;
+		//正向求最大字段和
+		for (int i = 1; i <= n; ++i)
+		{
+			scanf("%d", &num[i]);
+			sum += num[i];
+			if (sum > max)
+				max = sum;
+			dp[i] = max;
+			if (sum < 0)
+				sum = 0;
+		}
+		//下面是逆向求最大字段和
+		dp[0] = ans = max = -0x3fffffff;
+		sum = 0;
+		for (int i = n; i > 0;i--)
+		{
+			sum += num[i];
+			if (sum > max)
+				max = sum;
+			if (ans < max + dp[i - 1])
+				ans = max + dp[i - 1];
+			if (sum < 0)
+				sum = 0;
+		}
+		printf("%d\n", ans);
+	}
+	return 0;
+}

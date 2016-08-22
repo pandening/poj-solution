@@ -1,0 +1,43 @@
+/*
+  题意：给出一个字符串，求这个字符串不重复的全排列
+  注意排序的时候，A<a<B<b<C<c.....
+*/
+#include<algorithm>
+#include<iostream>
+#include<string>
+using namespace std;
+bool cmp(char a, char b)
+{
+	if (a >= 'a'&&a <= 'z'&&b >= 'a'&&b <= 'z')
+	{
+		return a < b;
+	}
+	if (a >= 'A'&&a <= 'Z'&&b >= 'A'&&b <= 'Z')
+	{
+		return a < b;
+	}
+	if (a >= 'a'&&a <= 'z'&&b >= 'A'&&b <= 'Z')
+	{
+		return a<(b+32);
+	}
+	if (a >= 'A'&&a <= 'Z'&&b >= 'a'&&b <= 'z')
+	{
+		return (a+32)<=b;
+	}
+}
+int main()
+{
+	int cas;   cin >> cas;
+	while (cas--)
+	{
+		string s;
+		cin >> s;
+		sort(s.begin(), s.end(), cmp);
+		cout << s << endl;
+		while (next_permutation(s.begin(), s.end(), cmp))
+		{
+			cout << s << endl;
+		}
+	}
+	return 0;
+}

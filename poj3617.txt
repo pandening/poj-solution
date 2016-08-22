@@ -1,0 +1,86 @@
+/*
+ @poj 3617
+ 贪心算法
+*/
+#include<iostream>
+#include<cstdio>
+using namespace std;
+int n;
+char s[2001];
+int main()
+{
+	cin >> n;
+	for (int i = 0; i < n; i++) cin >> s[i];
+	int l = 0, r = n - 1;
+	while (l <= r){
+		bool ll = false;
+		/*
+		  检查选择左边还是右边时最后的字典序会比较小
+		  当首尾字母相同时，就要看首字母的下一个字母和
+		  尾字母的前一个字母，不断比较，选择可以使得最终的
+		  字典序最小的那一边的那个字符
+		*/
+		int i, countt = 0;
+		for (i = 0; l + i <= r; i++){
+			if (s[l + i] < s[r - i]){
+				ll = 1;
+				countt++;
+				break;//已经可以选择了，就要开始选择，推出比较
+			}
+			else if (s[l + i]>s[r - i]){
+				ll = 0;
+				countt++;
+				break;
+			}
+		}//endfor
+		if (ll){
+			//选择左边的字符
+			putchar(s[l++]);
+		}
+		else{
+			putchar(s[r--]);
+		}
+		if (countt % 80 == 0){
+			putchar('\n');
+		}
+	}
+	putchar('\n');
+	return 0;
+}
+
+/*
+  #include<iostream>
+#include<cstdio>
+#define max_n 2001
+using namespace std;
+int main()
+{
+	int N, i, countt = 0;
+	char s[max_n];
+	cin >> N;
+	for (i = 0; i < N; i++){
+		cin >> s[i];
+	}
+	int pre = 0, back = N - 1;
+	while (pre <= back){
+		bool l = false;
+		for (i = 0; pre + i <= back; i++){
+			if (s[pre + i] < s[back - i]){
+				l = true;
+				countt++;
+				break;
+			}
+			else if (s[pre + i]>s[back - i]){
+				l = false;
+				countt++;
+				break;
+			}
+		}
+		if (l){ putchar(s[pre++]); }
+		else { putchar(s[back--]); }
+		if (countt % 80 == 0){ putchar('\n'); }
+	}
+	putchar('\n');
+	return 0;
+}
+*/

@@ -1,0 +1,34 @@
+/*
+ @poj 2853
+ 题意：给一个数字n，问有没有连续的几个数字和为n
+ 如果有，共几组，要求是长度不能为1，必须大于1
+ --->
+ 可以枚举这几个个连续数字的长度
+ i from 2....i*(i+1)/2>=n
+ n=a1*i+i*(i+1)/2
+ a1*i=n-i*(i+1)/2
+ a1={n-i*(i+1)/2}/i
+ 所以，要是{n-i*(i+1)/2}%i==0
+ 那么就说明a1存在，也就是存在长度为i的连续序列和为n
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int cas, id,n;
+	cin >>cas;
+	while (cas--)
+	{
+		cin >> id >> n;
+		int ans = 0;
+		for (int i = 2; i*(i + 1) / 2 <= n; i++)
+		{
+			if ((n - i*(i + 1) / 2) %i== 0)
+			{
+				ans++;
+			}
+		}
+		cout <<id<<" "<<ans << endl;
+	}
+	return 0;
+}

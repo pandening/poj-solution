@@ -1,0 +1,41 @@
+/*
+ 给两个字符串s和t
+ 问：是不是可以从t中删除某些字符可以得到s
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+bool solve(string s, string t)
+{
+	//问是不是可以从t中删除某些字符串得到s
+	int is = 0;
+	int it = 0;
+	while (it < t.length())
+	{
+		if (s[is] == t[it])
+		{
+			is++;
+		}
+		it++;
+	}
+	if (is == s.length())
+	{
+		return true;
+	}
+	return false;
+}
+int main()
+{
+	string s, t;
+	while (cin >> s >> t)
+	{
+		if (solve(s, t))
+		{
+			cout << "Yes" << endl;
+		}
+		else{
+			cout << "No" << endl;
+		}
+	}
+	return 0;
+}

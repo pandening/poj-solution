@@ -1,0 +1,30 @@
+/*
+  题意：就是求给定序列的中位数
+*/
+#include<iostream>
+#include<algorithm>
+#include<cstdio>
+#include<iomanip>
+using namespace std;
+int x[250001];
+int main()
+{
+	int n;
+	while (scanf_s("%d", &n) != EOF)
+	{
+		for (int i = 0; i < n; i++)
+		{
+			scanf_s("%d", &x[i]);
+		}
+		sort(x, x + n);
+		cout << fixed << setprecision(1);
+		if (n & 1)
+		{
+			cout <<(double)x[n / 2] << endl;
+		}
+		else{
+			cout <<(double)x[n / 2 - 1]/2.0 + (double)x[n / 2]/2.0<< endl;
+		}
+	}
+	return 0;
+}

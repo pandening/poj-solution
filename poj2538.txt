@@ -1,0 +1,34 @@
+#include<stdio.h>
+char map[60] = "`1234567890-=QWERTYUIOP[]\\ASDFGHJKL;'ZXCVBNM,./";
+void f(char x);
+int main()
+{
+	char in[100];
+	int i;
+	while (gets(in))
+	{
+		for (i = 0; in[i]; i++)
+		{
+			f(in[i]);
+		}
+		printf("\n");
+	}
+	return 0;
+}
+void f(char x)
+{
+	int i;
+	if (x == ' ')
+	{
+		printf(" ");
+		return;
+	}
+	for (i = 0; i<60; i++)
+	{
+		if (x == map[i])
+		{
+			printf("%c", map[i - 1]);
+			break;
+		}
+	}
+}

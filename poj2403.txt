@@ -1,0 +1,39 @@
+/*
+ @poj 2403
+  就是给出一些字符串和他所具备的价值，然后给出一些人的
+  特性，然后去匹配，计算这个人具有多少价值
+*/
+#include<iostream>
+#include<string>
+#include<map>
+using namespace std;
+int main()
+{
+	map<string, int> table;
+	string input;
+	struct info{ string str; int v; };
+	info in;
+	int n, m;
+	//let's input
+	cin >> n >> m;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> in.str >> in.v;
+		table.insert(make_pair(in.str, in.v));
+	}
+	//input done
+	for (int i = 0; i < m; i++)
+	{
+		int ans = 0;
+		//for everyone
+		while (cin >> input)
+		{
+			if (input == ".") break;
+			else{
+				ans += table[input];
+			}
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

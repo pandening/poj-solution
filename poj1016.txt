@@ -1,0 +1,124 @@
+/*
+  题意：数据压缩n
+  1、如果一次压缩后与原来相等，则case1
+  2、如果压缩j次后与压缩j+1次相等，则case2
+  3、如果压缩j次和压缩i次相等，则case3
+  if(case1)
+     =>n is self-inventorying
+  else if(case2)
+     =>n is self-inventorying after j steps
+  else if(case3)
+     =>n enters an inventory loop of length (j-i)
+  else
+    =>n can not be classified after 15 iterations
+*/
+#include<iostream>
+#include<string>
+#include<cstring>
+using namespace std;
+//一个压缩数字的函数
+string zip(string num)
+{
+	string ans = "";
+	int c[10];
+	memset(c, 0, sizeof(c));
+	for (int i = 0; i < num.length(); i++)
+	{
+		c[(size_t)(num[i] - '0')]++;
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		if (c[i] != 0)
+		{
+			//有可能大于10，也有可能小于10
+			if (c[i] < 10)
+			{
+				ans += (char)('0' + c[i]);
+				ans += (char)('0' + i);
+			}
+			else{
+				//大于10的话，就有10位和个位之分啦
+				ans += (char)('0' + c[i] / 10) +
+					(char)('0' + c[i] % 10);
+				ans += (char)('0' + i);
+			}
+		}
+	}
+	return ans;
+}
+
+//defbug
+void print(string a[],int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << a[i] << endl;
+	}
+
+}
+
+
+int main()
+{
+	string in[20];
+	while (cin >> in[0])
+	{
+		if (in[0] == "-1") break;
+		bool case1=0, case2=0, case3=0;
+		int ansid = -1;
+		for (int i = 1; i < 16; i++)
+		{
+			in[i] = zip(in[i - 1]);
+		}
+
+		//print(in, 15);
+
+		//system("pause");
+
+		//压缩结束，现在开始判断是哪种情况啊
+		if (in[0] == in[1])
+		{
+			case1 = true;
+			goto out;
+		}
+		if (!case1)
+		{
+			//不是case1，那么就有可能是case2和case3
+			for (int j = 1; j < 15; j++)
+			{
+				if (in[j] == in[j + 1])
+				{
+					case2 = true;
+					ansid = j;
+					goto out;
+				}
+			}
+			if (!case2)
+			{
+				//判断是不是case3
+				for (int i = 2; i <= 15; i++)
+				{
+					for (int j = 0; j <= i - 2; j++)
+					{
+						if (in[i] == in[j])
+						{
+							case3 = true;
+							ansid = i - j;
+							goto out;
+						}
+					}
+				}
+			}
+		}
+    out:
+		if (case1)
+			cout <<in[0] << " is self-inventorying" << endl;
+		else if (case2)
+			cout << in[0] << " is self-inventorying after " <<ansid<< " steps" << endl;
+		else if (case3)
+			cout << in[0] << " enters an inventory loop of length " << ansid << endl;
+		else
+			cout << in[0] << " can not be classified after 15 iterations" << endl;
+	}
+	return 0;
+}

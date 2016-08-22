@@ -1,0 +1,35 @@
+/*
+ @poj 2459 
+ 现在有F1的草，要在第D天还剩下F2的草，要在哪一天
+ 开始放F1的草呢？有C头牛，每头都有一个吃草的时间
+ 区间[a....b]
+*/
+#include<iostream>
+#include<string.h>
+using namespace std;
+int feed[2001];
+struct cow{ int a, b; };
+int main()
+{
+	int f1, f2, d, c;
+	memset(feed, 0, sizeof(feed));
+	cin >> c >> f1 >> f2 >> d;
+	for (int i = 0; i < c; i++)
+	{
+		cow cc;
+		cin >> cc.a >> cc.b;
+		for (int j = cc.a;j<=cc.b; j++)
+		{
+			feed[j]++;
+		}
+	}
+	//input done
+	int u = f1 - f2;
+	int p = d;
+	while (u)
+	{
+		u-=feed[p--];
+	}
+	cout << p + 1 << endl;
+	return 0;
+}

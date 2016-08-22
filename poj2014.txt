@@ -1,0 +1,54 @@
+/*
+ 就是在一个规定最大宽度的窗口里面放一些矩形，问最后的高和宽
+*/
+#include<iostream>
+#include<algorithm>
+using namespace std;
+struct rec
+{
+	int width, height;
+};
+rec all[81];
+int main()
+{
+	int maxwidth;
+	while (cin >> maxwidth)
+	{
+		if (maxwidth == 0) break;
+		int n = 0;
+		while (cin >> all[n].width >> all[n].height)
+		{
+			if (all[n].width == -1) break;
+			n++;
+		}
+		//当前宽度
+		int NowWidth=0;
+		//当前高度
+		int NowHeight = 0;
+		//当前最大高度
+		int MaxHeight=0;
+		//当前最大宽度
+		int MaxWidth =0;
+		bool t = false;
+		for (int i = 0; i < n; i++)
+		{
+			if (NowWidth + all[i].width <= maxwidth)
+			{
+				NowWidth += all[i].width;
+				MaxWidth = max(MaxWidth, NowWidth);
+				//每一行的最高值
+				MaxHeight = max(MaxHeight, all[i].height);
+				t = true;
+			}
+			else{
+				NowWidth = all[i].width;
+				NowHeight += (MaxHeight);
+				MaxHeight = all[i].height;
+				t = false;
+			}
+		}
+		 NowHeight +=MaxHeight;
+		cout <<MaxWidth<< " x "<<NowHeight<<endl;
+	}
+	return 0;
+}

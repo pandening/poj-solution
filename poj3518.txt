@@ -1,0 +1,34 @@
+#include<iostream>
+#include<string.h>
+using namespace std;
+bool isprim[1299710];
+int prim[1299710];
+long long cnt = 0;
+int main()
+{
+	memset(isprim, 1, sizeof(isprim));
+	isprim[0] = isprim[1] = 0;
+	//下面的循环不能写成for(int i=2;i*i<1299710;i++)
+	for (long long i = 2; i<1299710; i++)
+	{
+		if (isprim[i])
+			prim[cnt++] = i;
+		for (long long j = i; i*j <1299710; j++){
+			isprim[i*j] = 0;
+		}
+	}
+	int n;
+	while (cin >> n)
+	{
+		if (n == 0) break;
+		if (isprim[n]) cout << 0 << endl;
+		else{
+			for (long long i = 0; i <cnt-1; i++){
+				if (prim[i]<n&&prim[i + 1]>n){
+					cout << prim[i + 1] - prim[i] << endl;
+				}
+			}
+		}
+	}
+	return 0;
+}

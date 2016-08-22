@@ -1,0 +1,61 @@
+#include <iostream>
+#include<string.h>
+using namespace std;
+int f[1010], x[1010], y[1010];
+int d, n, i, r, r1, k1, k2;
+bool v[1010];
+char ch;
+void init(int l)
+{
+	for (int i = 1; i <= l; i++)
+	{
+		f[i] = i;
+	}
+}
+int find(int x) {
+	if (x == f[x]) return x;
+	else{
+		return f[x] = find(f[x]);
+	}
+}
+void unite(int x, int y)
+{
+	x = find(x);
+	y = find(y);
+	if (x != y)
+	{
+		f[x] = y;
+	}
+}
+bool dis(int a, int b) {
+	int q = x[a] - x[b];
+	int w = y[a] - y[b];
+	if (q*q + w*w <= d*d) return true;
+	else return false;
+}
+int main() {
+	cin >> n >> d;
+	init(n);
+	memset(v, false, sizeof(v));
+	for (i = 1; i <= n; i++)
+		scanf("%d%d", &x[i], &y[i]);
+	while (cin >> ch) {
+		if (ch == 'O') {
+			scanf("%d", &r);
+			v[r] = true;
+			for (i = 1; i <= n; i++)
+			if (i != r && v[i] && dis(i, r)) {
+				unite(i, r);
+			}
+		}
+		if (ch == 'S') {
+			scanf("%d%d", &r, &r1);
+			k1 = find(r);
+			k2 = find(r1);
+			if (k1 == k2) cout << "SUCCESS" << endl;
+			else cout << "FAIL" << endl;
+		}
+	}
+	return 0;
+}
+

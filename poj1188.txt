@@ -1,0 +1,35 @@
+/*
+ @poj 1188
+ 题意：给n个正方体，求相交的体积
+  输入：用四个正整数来表示一个正方体
+  x，y，z，l
+  （x,y,x）表示正方体的顶点坐标，l表示边长
+
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int x0, y0, z0, tx, ty, tz, x, y, z, n, i, len;
+	while (cin>>n)
+	{
+		if (n == 0) break;
+		x0 = -0x7fffffff;y0 = -0x7fffffff;z0 = -0x7fffffff;
+		tx = 0x7fffffff;ty = 0x7fffffff;tz = 0x7fffffff;
+		for (i = 0; i <n; i++)
+		{
+			cin >> x >> y >> z >> len;
+				if (x >= x0)     x0 = x;
+				if (y >= y0)     y0 = y;
+				if (z >= z0)     z0 = z;
+				if (tx >= x + len) tx = x + len;
+ 			    if (ty >= y + len) ty = y + len;
+				if (tz >= z + len) tz = z + len;
+		}
+		if ((tx - x0)*(ty - y0)*(tz - z0) < 0)
+			cout << 0 << endl;
+		else
+			cout <<(tx - x0)*(ty - y0)*(tz - z0)<< endl;
+	}
+	return 0;
+}

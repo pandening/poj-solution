@@ -1,0 +1,50 @@
+/*
+  题意：作者要开一个生日party，他现在拥有n块
+  高度都为1的圆柱形奶酪，已知每块奶酪的底面
+  半径为r不等，作者邀请了f个朋友参加了他的party
+  ，他要把这些奶酪平均分给所有的朋友和他自己
+  （f+1人），每个人分得奶酪的体积必须相等
+  （这个值是确定的），形状就没有要求。现在要你求出
+  所有人都能够得到的最大块奶酪的体积是多少？
+  思路：二分
+*/
+#include<iostream>
+#include<iomanip>
+using namespace std;
+#define pi 3.1415926535897932
+int n, f, t;
+double pie[10001];
+int main()
+{
+	cin >> t;
+	while (t--)
+	{
+		cin >> n >> f; f++;
+		double all = 0;
+		for (int i = 0; i < n; i++)
+		{
+			int r;
+			cin >> r;
+			pie[i] = r*r;
+			all +=pie[i];
+		}
+		double l = 0, h = all, m;
+		for (int i = 0; i < 100; i++)
+		{
+			m = (l + h) / 2;
+			int c = 0;
+			for (int k = 0; k < n; k++)
+				c += (int)(pie[k] / m);
+			if (c >= f)
+			{
+				l = m;
+			}
+			else{
+				h = m;
+			}
+		}
+		cout << fixed << setprecision(4);
+		cout << pi*m<< endl;
+	}
+	return 0;
+}

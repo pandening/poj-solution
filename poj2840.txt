@@ -1,0 +1,25 @@
+/*
+ @poj 2840
+ 就是看时间，然后告诉会打击几次
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int cas, h, m;
+	char ch;
+	cin >> cas;
+	for (int i = 0; i < cas; i++){
+		cin >> h >>ch>> m;
+		if (m != 0){
+			cout << 0 << endl;
+		}
+		else if (h>12){
+			cout << h - 12 << endl;
+		}
+		else{
+			cout << h + 12 << endl;
+		}
+	}
+	return 0;
+}

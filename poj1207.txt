@@ -1,0 +1,37 @@
+/*
+ @poj 1207
+  根据所给的算法计算，然后得到结果
+*/
+#include<iostream>
+#include<algorithm>
+#include<cstdio>
+using namespace std;
+int cycleLength(int x){
+	int ans = 1;
+	while (x != 1){
+		if (x % 2){
+			//odd 是奇数的意思
+			x = 3 * x + 1;
+		}
+		else{
+			x/= 2;
+		}
+		ans++;
+	}
+	return ans;
+}
+int main()
+{
+	int l, r;
+	while (scanf_s("%d%d", &l, &r) != EOF){
+		int a = l, b = r;
+		if (a>b)  swap(a,b);
+		int ans= 0;
+		for (int i = a; i <=b; i++){
+			int t = cycleLength(i);
+			ans = max(ans, t);
+		}
+		cout << l << " " << r << " " << ans << endl;
+	}
+	return 0;
+}

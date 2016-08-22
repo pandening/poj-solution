@@ -1,0 +1,41 @@
+/*
+ @poj 2498
+ 给一个id，其中有一个数字是不知道的，现在要根据一个规则将这个数字求出来
+ 将id输出来，原则是这个数字的每一位分别按位乘上9，7，3，和的最后一位为0
+ 所以只需要枚举0...9就可以了
+*/
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+char num[10];
+int mul[3] = { 9, 3, 7 };
+int main(){
+	int ii, casenum;
+	int sum, pos, need;
+	int len, value;
+	int i, j;
+	scanf("%d", &casenum);
+	for (ii = 1; ii <= casenum; ii++){
+		scanf("%s", num);
+		len = strlen(num);
+		sum = 0;
+		for (i = len - 1, j = 0; i >= 0; i--, j++){
+			if (num[i] != '?'){
+				sum += mul[j % 3] * (num[i] - '0');
+			}
+			else{
+				pos = i;
+				need = mul[j % 3];
+			}
+		}
+		for (value = 0, i = 0; i <= 9; i++){
+			if ((i * need + sum) % 10 == 0){
+				value = i;
+				break;
+			}
+		}
+		num[pos] = value + '0';
+		printf("Scenario #%d:\n%s\n\n", ii, num);
+	}
+	return 0;
+}

@@ -1,0 +1,67 @@
+#include<iostream>
+#include<stack>
+#include<string>
+using namespace std;
+stack<string> fstack, bstack;
+string cur_url;
+void visit(), forword(), backword();
+int main()
+{
+	string cmd;
+	cur_url = "http://www.acm.org/";
+	while (cin >> cmd&&cmd[0] != 'Q')
+	{
+		if (cmd[0] == 'V')
+		{
+			visit();
+		}
+		else if (cmd[0] == 'F')
+		{
+			forword();
+		}
+		else if (cmd[0] == 'B')
+		{
+			backword();
+		}
+	}
+	return 0;
+}
+void visit()
+{
+	if (cur_url != "")
+	{
+		bstack.push(cur_url);
+	}
+	cin >> cur_url;
+	while (!fstack.empty())
+	{
+		fstack.pop();
+	}
+	cout << cur_url << endl;
+}
+void forword()
+{
+	if (fstack.empty())
+	{
+		cout << "Ignored" << endl;
+	}
+	else{
+		bstack.push(cur_url);
+		cur_url = fstack.top();
+		fstack.pop();
+		cout << cur_url << endl;
+	}
+}
+void backword()
+{
+	if (bstack.empty())
+	{
+		cout << "Ignored" << endl;
+	}
+	else{
+		fstack.push(cur_url);
+		cur_url = bstack.top();
+		bstack.pop();
+		cout << cur_url << endl;
+	}
+}

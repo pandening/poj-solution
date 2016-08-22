@@ -1,0 +1,35 @@
+/*
+ @poj 1218
+ 模拟监狱里面的人玩游戏，每次关灯，最后问还有几个灯亮
+*/
+#include<iostream>
+#include<string.h>
+using namespace std;
+int main()
+{
+	int cas;
+	bool xx[101];
+	cin >> cas;
+	while (cas--){
+		int n;
+		cin >> n;
+		memset(xx, 0, sizeof(xx));
+		for (int i = 1; i <=n; i++){
+			for (int j = 1; j <= n; j++){
+				if (j%i == 0){
+					xx[j] = !xx[j];
+				}
+			}
+		}
+		//count
+		int ans = 0;
+		for (int i = 1; i <= n; i++){
+			if (xx[i]){
+				ans++;
+			}
+		}
+		//output
+		cout << ans << endl;
+	}//endwhile
+	return 0;
+}

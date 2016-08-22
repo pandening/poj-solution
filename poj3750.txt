@@ -1,0 +1,49 @@
+#include<iostream>
+#include<string>
+using namespace std;
+struct info
+{
+	string name;
+	bool choose;
+};
+info p[65];
+int main()
+{
+	int n, w, s;
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> p[i].name;
+		p[i].choose = 0;
+	}
+	char ch;
+	cin >> w >> ch >> s;
+	int st = w - 1;
+	int num = 0;
+	while (num <n-1)
+	{
+		int l = s;
+		while (l--)
+		{
+		   if (p[st].choose){
+				l++;
+			}
+			st++;
+			if (st == n) st = 0;
+		}
+		num++;
+		st -= 1;
+		//loop loop loop  or=>Runtime Error
+		if (st == -1) st = n - 1;
+		p[st].choose = 1;
+		cout << p[st].name << endl;
+	}
+	//the last one
+	for (int i = 0; i < n; i++){
+		if (!p[i].choose){
+			cout << p[i].name << endl;
+			break;
+		}
+	}
+	return 0;
+}

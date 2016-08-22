@@ -1,0 +1,32 @@
+/*
+ 就是将一个由0和1组成的ip地址变为10进制，没8位代表以为ip地址
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+int table[8] = { 1, 2, 4, 8, 16, 32, 64, 128 };
+int corv(string str)
+{
+	int ans = 0;
+	int p = 0;
+	for (int i = str.length() - 1; i >= 0; i--)
+	{
+		ans += (int)(str[i] - '0')*table[p++];
+	}
+	return ans;
+}
+int main()
+{
+	string str;
+	int n;
+	cin >> n;
+	while (n--)
+	{
+		cin >> str;
+		cout << corv(str.substr(0, 8)) << "." <<
+			corv(str.substr(8, 8)) << "." <<
+			corv(str.substr(16, 8)) << "." <<
+			corv(str.substr(24, 8)) << endl;
+	}
+	return 0;
+}

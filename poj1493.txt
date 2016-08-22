@@ -1,0 +1,79 @@
+/*
+ @poj 1493
+ 计算出每一行中‘x’的数量，然后取出最大的那个值作为
+ 合并的标准长度，然后计算合并后整张图片还有多少个空格
+*/
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int main()
+{
+	int n,*x;
+	while (cin >>n){
+		if (n == 0) break;
+		x = new int[n];//x用来保存每一行中x的数量
+		int maxlen =0;
+		for (int i = 0; i < n; i++){
+			x[i] = 0;
+			for (int j = 0; j < 25; j++){
+				char ch = getchar();
+				if (ch == 'X'){
+					x[i]++;
+				}
+			}
+			maxlen = max(maxlen, x[i]);
+		}//input done
+		int ans = 0;
+		for (int i = 0; i < n; i++){
+			ans += maxlen - x[i];
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}
+
+/*
+
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+using namespace std;
+
+#define maxn 20
+
+int f[maxn];
+int n, ans;
+
+void input()
+{
+ans = 0;
+getchar();
+for (int i = 0; i < n; i++)
+{
+f[i] = 0;
+for (int j = 0; j < 25; j++)
+{
+char ch = getchar();
+if (ch == 'X')
+f[i]++;
+}
+ans = max(ans, f[i]);
+getchar();
+}
+}
+
+int main()
+{
+while (scanf("%d", &n), n)
+{
+input();
+int d = 0;
+for (int i = 0; i < n; i++)
+d += ans - f[i];
+printf("%d\n", d);
+}
+return 0;
+}
+
+*/

@@ -1,0 +1,57 @@
+/*
+ @poj 2562
+ 给一个小学算式，求需要进位的次数
+ 特别要注意的是输出时，
+ if(ans==1) "1 carry operation."
+ if(ans>1) "ans carry operations."
+ else "No carry operation."
+*/
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<string>
+using namespace std;
+int main()
+{
+	string a, b;
+	while (cin>>a>>b)
+	{
+		if (a=="0"&&b=="0") break;
+		int carry = 0, sum = 0;
+		int d =a.length()-b.length();
+		d = abs(d);
+		string z(d,'0');
+		if (a.length() < b.length()){
+			a=z+a;
+		}
+		else{
+			b=z+b;
+		}
+		//start to solve
+		int ans = 0;
+		
+		for (int i = a.length() - 1; i >= 0; i--)
+		{
+			sum = int(a[i]-'0'+ b[i]-'0')+ carry;
+
+			if (sum >= 10){
+				ans++;
+				carry = sum/10;
+			}
+			else{
+				carry = 0;
+			}
+		}
+		if (ans==1)
+		{
+			cout << ans << " carry operation." << endl;
+		}
+		else if(ans>1){
+			cout << ans << " carry operations." << endl;
+		}
+		else{
+			cout << "No carry operation." << endl;
+		}
+	}
+	return 0;
+}

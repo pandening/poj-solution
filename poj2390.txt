@@ -1,0 +1,12 @@
+#include<cmath>
+#include<iostream>
+using namespace std;
+int main()
+{
+	int r, m, y;
+	while (cin >> r >> m >> y)
+	{
+		cout <<(int)(m*pow(1 + (double)r / 100, y))<< endl;
+	}
+	return 0;
+}

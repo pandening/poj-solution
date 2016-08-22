@@ -1,0 +1,32 @@
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <cstdio>
+using namespace std;
+char st[20];
+int main()
+{
+	gets(st);
+	int ans = 0;
+	int pos = 0;
+	for (int i = 0; i < 10; i++)
+	if (st[i] == '?')
+		pos = 10 - i;
+	else if (st[i] == 'X')
+		ans += 10 * (10 - i);
+	else
+		ans += (st[i] - '0') * (10 - i);
+	for (int i = 0; i <= 9; i++)
+	if ((ans + i * pos) % 11 == 0)
+	{
+		printf("%d\n", i);
+		return 0;
+	}
+	if ((ans + 10 * pos) % 11 == 0 && pos == 1)
+	{
+		printf("X\n");
+		return 0;
+	}
+	printf("-1\n");
+	return 0;
+}

@@ -1,0 +1,38 @@
+#include<stdio.h>
+#include<iostream>
+#include<string.h>
+using namespace std;
+int n, k, vis[15], ans;
+char mat[15][15];
+void dfs(int cur, int num)
+{
+	if (num == k)
+	{
+		ans++;
+		return;
+	}
+	for (int i = cur; i<n; i++)
+	for (int j = 0; j<n; j++)
+	if (mat[i][j] == '#' && !vis[j])
+	{
+		vis[j] = 1;
+		dfs(i + 1, num + 1);
+		vis[j] = 0;
+	}
+}
+int main()
+{
+	while (cin>>n>>k)
+	{
+		if (n ==-1&&k==-1) break;
+		memset(vis, 0, sizeof(vis));
+		int i,j;
+		for (i = 0; i<n; i++)
+		for (j = 0; j < n; j++)
+			cin >> mat[i][j];
+		ans = 0;
+		dfs(0, 0);
+		printf_s("%d\n", ans);
+	}
+	return 0;
+}

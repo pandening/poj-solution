@@ -1,0 +1,37 @@
+/*
+ @poj 3790
+ 将一个数分割成递归和形式
+ ex：7
+ 7
+ 0 7 0
+ 1 5 1
+ 2 3 2
+ 3 1 3
+
+ 设=>dp[m]:m的分割回文数量
+ 则，ex->for 7
+ dp[7]=dp[0]+dp[1]+dp[2]+dp[3]
+*/
+#include<iostream>
+#include<string.h>
+using namespace std;
+int dp[1001];
+int main()
+{
+	int n, m;
+	memset(dp, 0, sizeof(dp));
+	dp[0] = dp[1] = 1;
+	for (int i = 2; i <= 1000; i++)
+	{
+		for (int k = 0; k <= i / 2; k++){
+			dp[i] += dp[k];
+		}
+	}
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> m;
+		cout << i << " " << dp[m] << endl;
+	}
+	return 0;
+}

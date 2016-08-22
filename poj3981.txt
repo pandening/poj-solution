@@ -1,0 +1,36 @@
+/*
+ @poj 3981
+ 将字符串中的所有you变为we
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+string vstr[1001];
+int main()
+{
+	string str;
+	while (cin>>str)
+	{
+		vstr[0] = str;
+		int k= 1;
+		while (cin >> str)
+		{
+			vstr[k++] = str;
+			char ch = getchar();
+			if (ch== '\n') break;
+		}
+		for (int i = 0; i < k; i++)
+		{
+			if (vstr[i] == "you")
+			{
+				vstr[i] = "we";
+			}
+		}
+		for (int i = 0; i < k-1; i++)
+		{
+			cout << vstr[i] << " ";
+		}
+		cout <<vstr[k-1]<<endl;
+	}
+	return 0;
+}

@@ -1,0 +1,47 @@
+#include<iostream>
+#include<string.h>
+using namespace std;
+bool f[100];
+int p[100];
+int w[100];
+int main()
+{
+	int t, n;
+	cin >> t;
+	while (t--)
+	{
+		//'(' =>0  ')'=>1
+		memset(f, 0, sizeof(f));
+		memset(p, 0, sizeof(p));
+		memset(w, 0, sizeof(w));
+		cin >> n;
+		for (int i = 0; i < n; i++){
+			cin >>p[i];
+			f[p[i]+ i] = 1;
+
+			for (int k = p[i] + i - 1, v = 1, flag = 0; k >= 0; k--)
+			{
+				if (f[k] == 0 && flag == 0)
+				{
+					w[i] = v;
+					break;
+				}
+				else if (f[k] == 1)
+				{
+					v++;
+					flag++;
+				}
+				else if (f[k] == 0)
+				{
+					flag--;
+				}
+			}
+		}
+		//output
+		for (int i = 0; i < n-1; i++){
+			cout << w[i] << " ";
+		}
+		cout << w[n - 1] << endl;
+	}
+	return 0;
+}

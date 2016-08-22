@@ -1,0 +1,49 @@
+/*
+ @poj 2456
+  最大化两条牛之间的距离，用二分法不断枚举中间，然后得到结果
+*/
+#include<cstdio>
+#include<iostream>
+#include<algorithm>
+using namespace std;
+#define inf 0x7fffffff
+int M, N;//M 是房间，N是牛
+int x[100001];
+bool C(int d)
+{
+	//判断两头牛之间最短间距为d能不能将所有牛都关在房间里面
+	int lastcow = 0;
+	int dilivehouse;
+	for (int i = 1; i < N; i++){
+		dilivehouse = lastcow + 1;
+		while (dilivehouse < M&&(x[dilivehouse] - x[lastcow] < d)){
+			dilivehouse++;
+		}
+		if (dilivehouse==M){
+			return false;
+		}
+		lastcow = dilivehouse;
+	}
+	return true;
+}
+int main()
+{
+	cin >> M >> N;
+	for (int i = 0; i <M; i++){
+		scanf_s("%d", &x[i]);
+	}
+	sort(x, x + M);//不要将排序忘记，不然都不知道错在哪
+	int lb = 0, ub = inf;
+	//for (int i = 0; i < 100;i++){
+	while (ub-lb>1){
+		int mid = (lb + ub) / 2;
+		if (C(mid)){
+			lb = mid;
+		}
+		else{
+			ub = mid;
+		}
+	}
+	cout <<lb<< endl;
+	return 0;
+}

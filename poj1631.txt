@@ -1,0 +1,43 @@
+/*
+   This problem is about LIS
+*/
+#include<iostream>
+#include<cstdio>
+using namespace std;
+int x[40001],cas,ans;
+int dc_idex(int v, int size)
+{
+	int l =1, r = size;
+	int mid = (l + r) / 2;
+	while (l<=r)
+	{
+		if (v > x[mid]) l = mid + 1;
+		else r = mid - 1;
+		mid = (l + r) / 2;
+	}
+	return l;
+}
+void work()
+{
+	ans = 1;
+	int p;   scanf_s("%d", &p);
+	scanf_s("%d", &x[1]);
+	for (int i = 2; i <=p; i++)
+	{
+		int in;  scanf_s("%d", &in);
+		int idex = dc_idex(in, ans);
+		if (idex>ans){
+			x[++ans] = in;
+		}
+		else{
+			x[idex] = in;
+		}
+	}
+	printf_s("%d\n", ans);
+}
+int main()
+{
+	scanf_s("%d", &cas);
+	while (cas--) work();
+	return 0;
+}

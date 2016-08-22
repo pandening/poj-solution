@@ -1,0 +1,70 @@
+/*
+ @poj 3276
+ 一群牛或者是背对着jk站着，或者是正面对着jk
+ 每次jk可以反转k头牛，共n头牛，问最好的k和
+ 所需要反转的最少次数m
+*/
+#include<cstdio>
+#include<iostream>
+#include<string.h>
+using namespace std;
+int n, k;
+//牛的方向，正面为0，背面为1
+bool dir[5001];
+//下面是维护需不需要反转的数组
+bool ff[5001];
+//不断的尝试不同的k，求对应的最小次数
+//如果无解那么返回-1
+int solve(int k)
+{
+	memset(ff, 0, sizeof(ff));
+	int ans = 0, sum = 0;
+	for (int i = 0; i + k <=n; i++){
+		//现在计算i...i+k-1
+		if ((sum + dir[i]) % 2!=0){
+			ans++;
+			ff[i] = 1;
+		}
+		sum += ff[i];
+		if (i - k + 1>=0){
+			sum -= ff[i - k + 1];
+		}
+	}//endfor
+	//下面开始检查剩下的n-k+1.....n-1是否不需要反转
+	//如果是，则否和要求，否则不符合要求
+	for (int j = n- k + 1; j < n; j++){
+		if ((dir[j] + sum) % 2!=0){
+			return -1;
+		}
+		//每次将可以影响到自己的那个去掉
+		if (j - k + 1 >= 0){
+			sum -= ff[j - k + 1];
+		}
+	}
+	return ans;
+}
+int main()
+{
+	cin >> n;
+	char c;
+	for (int i = 0; i < n; i++){
+		cin >> c;
+		if (c == 'B'){
+			dir[i] = 1;
+		}
+		else{
+			dir[i] = 0;
+		}
+	}//input
+	int K=1, num=n;
+	for (int k = 1; k <= n; k++)
+	{
+		int m = solve(k);
+		if (m >=0 && num > m){
+			K = k;
+			num = m;
+		}
+	}
+	printf_s("%d %d\n", K,num);
+	return 0;
+}

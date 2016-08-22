@@ -1,0 +1,31 @@
+/*
+ @poj 3916
+ 就是将连续的数字变为1个
+ STL ->list
+ */
+#include<iostream>
+#include<list>
+using namespace std;
+int main()
+{
+	list<int> l;
+	int n;
+	while (cin >> n)
+	{
+		if (n == 0) break;
+		l.clear();
+		int in;
+		for (int i = 0; i < n; i++){
+			cin >> in;
+			l.push_back(in);
+		}
+		l.unique();
+		for (list<int>::iterator lit = l.begin();
+			lit != l.end(); lit++)
+		{
+			cout << *lit << " ";
+		}
+		cout << "$" << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,70 @@
+/*
+  题意：给出一个四位数字，然后对各位排序
+  用最大的减去最小的，判断结果是不是0或者
+  6174，如果是则结束，否则继续
+*/
+#include<string>
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+bool cmp_1(char a, char b)
+{
+	return a>b;
+}
+string tostring(int x)
+{
+	string ans = "";
+	while (x)
+	{
+		ans= (char)('0' + x % 10)+ans;
+		x /= 10;
+	}
+	return ans;
+}
+int toint(string x)
+{
+	int ans = 0,i=0;
+	for (int k = x.length() - 1; k >= 0; k--)
+	{
+		ans += (int)(x[k] - '0')*pow(10.0, i++);
+	}
+	return ans;
+}
+int main()
+{
+	string in;
+	while (cin >> in)
+	{
+		if (in == "-1") break;
+		cout << "N=" << in << ":" << endl;
+		if ((in.length()!=4)||in[0] == in[1] && in[1] == in[2] && in[2] == in[3])
+		{
+			cout << "No!!" << endl;
+			continue;
+		}
+		sort(in.begin(), in.end(), cmp_1);
+		string re = in;
+		reverse(re.begin(), re.end());
+		int t = 0;
+		while (true)
+		{
+			t++;
+			int ans = toint(in) - toint(re);
+			cout << toint(in) << "-" << toint(re) << "="
+				<< ans << endl;
+			if (ans == 0 || ans == 6174)
+			{
+				break;
+			}
+			else{
+				in = tostring(ans);
+				sort(in.begin(), in.end(),cmp_1);
+				re = in;
+				reverse(re.begin(), re.end());
+			}
+		}
+		cout << "Ok!! " << t << " times" << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,22 @@
+#include<iostream>
+using namespace std;
+#define MAX 10003
+int main()
+{
+	int i, b, sum, a[MAX] = { 0 };
+	for (i = 1; i<MAX; i++)
+	{
+		b = sum = i;
+		while (b)
+		{
+			sum += b % 10;
+			b /= 10;
+		}
+		if (sum < MAX)
+			a[sum] = 1;
+	}
+	for (i = 1; i<MAX; i++)
+	if (a[i] == 0)
+		printf("%d\n", i);
+	return 0;
+}

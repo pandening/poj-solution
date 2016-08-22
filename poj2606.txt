@@ -1,0 +1,39 @@
+/*
+ @poj 2606
+ 就是确定给出的点最多有多少个点在一条直线上面，枚举斜率就可以了
+ O（N^3）--->O(200^3)=O(8000000).......1s
+*/
+#include<iostream>
+#include<cstdio>
+using namespace std;
+struct pos{ int x,y; };
+pos p[201];
+int main()
+{
+	int n;
+	cin >> n;
+	for (int i = 0; i < n; i++)
+	{
+		scanf_s("%d%d", &p[i].x, &p[i].y);
+	}
+	//开始枚举
+	int ans=0;
+	for (int i = 0; i < n - 2; i++)
+	{
+		for (int j = i + 1; j < n-1; j++)
+		{
+			//在这里进行枚举
+			int t= 2;
+			for (int k = j + 1; k < n; k++)
+			{
+				if ((p[i].x - p[j].x)*(p[j].y - p[k].y) == (p[i].y - p[j].y)*(p[j].x - p[k].x))
+				{
+					t++;
+				}
+			}
+			if (t>ans) ans = t;
+		}
+	}
+	cout << ans << endl;
+	return 0;
+}

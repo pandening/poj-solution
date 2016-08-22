@@ -1,0 +1,41 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	string input;
+	int countnum = 0, i;
+	while (cin >> input)
+	{
+		if (input == "<br>")
+		{
+			cout << endl;
+			countnum = 0;
+		}
+		else if (input == "<hr>")
+		{
+			if (countnum != 0)
+				cout << endl;
+			for (i = 0; i < 80; i++)
+				cout << "-";
+			cout << endl;
+			countnum = 0;
+		}
+		else
+		{
+			//要加个空格呀
+			if (countnum + input.size() + (countnum == 0 ? 0 : 1) > 80)
+			{
+				cout << endl << input;
+				countnum = input.size();
+			}
+			else
+			{
+				if (countnum != 0)
+					cout << " ";
+				cout << input;
+				countnum += input.size() + 1;
+			}
+		}
+	}
+}

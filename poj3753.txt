@@ -1,0 +1,73 @@
+/*
+ @poj 3753 
+ 原来不需要写一个函数
+ > 1、关键字为“NULL”时，输出“0 NULL”
+ > 2、找不到关键字，输出原字符串长度和原字符串
+ > 3、不需要写一个题目要求的函数，我就是一个main
+ > 4、样例没有问题
+ */
+#include<iostream>
+#include<string>
+using namespace std;
+
+int solve(string s, string d)
+{
+	//返回匹配长度
+	int ans = 0;
+	if (d == "NULL") return 0;
+	if (d.length() == 1)
+	{
+		if (s.find(d[0]) != string::npos){
+			for (int i = 0; i < s.length(); i++)
+			{
+				if (d[0] == s[i]){
+					return i;
+				}
+			}
+		}
+	}
+	for (int i = 0; i < s.length(); i++)
+	{
+		int l = 1;
+		if (s[i] == d[0])
+		{
+			int k = i + 1;
+			for (int j = 1; j < d.length(); j++)
+			{
+				if (s[k++] != d[j]){
+					break;
+				}
+				else{
+					l++;
+				}
+			}
+		}
+		if (l == d.length())
+		{
+			return i;
+		}
+	}
+	return s.length();
+}
+int main()
+{
+	string sstr, dstr;
+	while (cin >> sstr)
+	{
+		while (cin >> dstr)
+		{
+			if (dstr == "END") break;
+			int ans = solve(sstr, dstr);
+			cout << ans << " ";
+			if (ans == 0){
+				cout << "NULL";
+			}
+			else{
+				for (int i = 0; i < ans; i++)
+					cout << sstr[i];
+			}
+			cout << endl;
+		}
+	}
+	return 0;
+}

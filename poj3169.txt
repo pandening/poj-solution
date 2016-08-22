@@ -1,0 +1,51 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int AL[10001], BL[10001], DL[10001];
+int AD[10001], BD[10001], DD[10001];
+int ML, MD, N;
+int d[1001];
+#define FOR(i,n) for(int i=0;i<n;i++)
+int main()
+{
+	cin >> N >> ML >> MD;
+	FOR(i, ML) cin >> AL[i] >> BL[i] >> DL[i];
+	FOR(j, MD) cin >> AD[j] >> BD[j] >> DD[j];
+	for (int i = 0; i < N; i++)
+	{
+		d[i] = 0x7fffffff;
+	}
+	d[0] = 0;
+	//input done,start Bellman-ford algorithm
+	FOR(k, N)
+	{
+		//(i)...(i+1)
+		for (int i = 0; i + 1 < N; i++){
+			if (d[i + 1] < 0x7fffffff){
+				d[i] = min(d[i], d[i + 1]);
+			}
+		}
+		//AL....BL....DL
+		for (int i = 0; i < ML; i++){
+			if (d[AL[i] - 1] < 0x7fffffff){
+				d[BL[i] - 1] = min(d[BL[i] - 1], d[AL[i] - 1] + DL[i]);
+			}
+		}
+		//AD....BD....DD
+		for (int i = 0; i < MD; i++){
+			if (d[BD[i] - 1] < 0x7fffffff){
+				d[AD[i] - 1] = min(d[AD[i] - 1], d[BD[i] - 1]-DD[i]);
+			}
+		}
+	}
+	int ans = d[N - 1];
+	if (d[0] < 0){
+		//negative loop
+		ans = -1;
+	}
+	else if(ans==0x7fffffff){
+		ans = -2;
+	}
+	cout << ans << endl;
+	return 0;
+}

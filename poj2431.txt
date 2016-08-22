@@ -1,0 +1,117 @@
+/*
+ @poj 2431 Expedition
+  一个使用优先队列解决的问题
+  就是将遇到的加油站里面的油保存在有限队列里面
+  当油不够的时候，就将队列里面的最大元素来加油
+  如果此刻队列为空的话，就说明没有可以加的油了，那么就不可能到达了
+
+  教训，需要用结构体，不然死也不对，后面第二段代码是对的，第一段是错的
+
+*/
+#include<iostream>
+#include<queue>
+#include<algorithm>
+using namespace std;
+int n, l, p, d[10001], t[10001],pt[10001];
+int main()
+{
+	cin >> n;
+	for (int i = 0; i < n; i++){
+		cin >> d[i] >> t[i];
+	}
+	cin >> l >> p;
+	for (int i = 0; i < n; i++){
+		d[i] = l - d[i];
+	}
+	sort(d, d + n);
+	int ppp = 0;
+	for (int i = n - 1; i >= 0; i--){
+		pt[ppp++] = t[i];
+	}
+	for (int i = 0; i < n; i++){
+		t[i] = pt[i];
+	}
+	d[n] = l, t[n] = 0,n++;
+	priority_queue<int> que;
+	int ans = 0, pos = 0, tank = p;
+	//ans为加油的次数，pos为现在所在的位置，tank为汽油量
+	for (int i = 0; i < n; i++){
+		//没遇到一个加油站，将这个加油站的油保存在队列里面
+		int dis= d[i] - pos;//表示将要走的距离
+		while (tank - dis < 0){
+			if (que.empty()){
+				cout << "-1" << endl;
+				return 0;
+			}
+			else{
+				tank += que.top();
+				que.pop();
+				ans++;
+			}
+		}
+		//走完后要减去油
+		tank -= dis;
+		pos = d[i];
+		que.push(t[i]);
+	}
+	cout << ans << endl;
+	return 0;
+}
+
+/*
+#include<stdio.h>
+#include<queue>
+#include<algorithm>
+using namespace std;
+struct stop
+{
+int x;
+int v;
+}s[10010];
+bool comp(stop s1, stop s2)
+{
+return s1.x < s2.x;
+}
+int main()
+{
+int n, i, L, P;
+while(~scanf("%d",&n))
+{
+for(i = 0; i < n; i++)
+scanf("%d%d",&s[i].x, &s[i].v);
+scanf("%d%d",&L,&P);
+for(i = 0; i < n; i++)
+s[i].x = L - s[i].x; //转化为加油站到起点的距离
+s[n].x = L;
+s[n++].v = 0; //把终点也认为是加油站
+sort(s, s+n, comp);
+priority_queue<int, vector<int>, less<int> > Q; //值大的优先
+int rest = P; //剩余油量
+int ans = 0; //加油次数
+int pos = 0; //卡车所在的上一个位置
+for(i = 0; i < n; i++)
+{
+int dis = s[i].x - pos; //从上个加油站到此位置要行驶的距离
+while(rest - dis < 0) //剩余油量不能到达此位置
+{
+if(Q.empty()) //没有油可加
+{
+ans = -1;
+break;
+}
+rest += Q.top();
+Q.pop();
+ans++;
+}
+if(ans == -1)
+break;
+rest = rest - dis;
+pos = s[i].x;
+Q.push(s[i].v);
+}
+printf("%d\n",ans);
+}
+return 0;
+}
+  
+*/

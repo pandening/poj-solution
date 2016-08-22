@@ -1,0 +1,47 @@
+/*
+ @poj 1005
+ 就是求出以输入坐标（x，y）到（0，0）的距离为半径的
+ 半圆的面积，然后求出需要多少年就可以了
+*/
+#include<cstdio>
+#include<iostream>
+using namespace std;
+#define pi 3.1415926
+int main()
+{
+	int cas;
+	scanf_s("%d", &cas);
+	struct pos{ double x, y; };
+	for (int i = 1; i <=cas; i++){
+		pos in;
+		cin >> in.x >> in.y;
+		double area = pi*(in.x*in.x + in.y + in.y)*0.5;
+		int year = area / 50 + 1;
+		cout << "Property " << i 
+			<< ": This property will begin eroding in year " << year << '.' << endl;
+	}
+	cout << "END OF OUTPUT." << endl;
+	return 0;
+}
+
+/*
+  //首先计算出给出坐标到（0，0）的距离，然后当作R
+//然后算出面积，然后每年50，计算年数
+#include<iostream>
+using namespace std;
+#define pi 3.1415926
+int main()
+{
+	int n,i;
+	cin >> n;
+	for (i = 0; i < n; i++){
+		double x, y;
+		cin >> x >> y;
+		double area = pi*(x*x + y*y)*0.5;
+		int years = area / 50 + 1;
+		cout << "Property " <<i+1<< ": This property will begin eroding in year " <<years<< '.' << endl;
+	}
+	cout << "END OF OUTPUT." << endl;
+	return 0;
+}
+*/

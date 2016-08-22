@@ -1,0 +1,103 @@
+/*
+ @poj 3723 
+ 最小生成树算法的应用
+*/
+#include<iostream>
+#include<cstdio>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+/*************************************
+@并查集部分代码
+/*************************************/
+
+int par[50001 * 3], Rank[50001 * 3];
+//初始并查集
+void init(int n){
+	for (int i = 0; i < n; i++){
+		par[i] = i;
+		Rank[i] = 0;
+	}
+	return;
+}
+//查找结点x的根
+int root(int x){
+	if (par[x] == x) return x;
+	else{
+		return par[x] = root(par[x]);
+	}
+}
+//合并x和y所代表的两棵树
+void unite(int x, int y)
+{
+	x = root(x);
+	y = root(y);
+	if (x == y) return;
+	else if (Rank[x] < Rank[y]){
+		par[x] = y;
+	}
+	else {
+		par[y] = x;
+		if (Rank[x] == Rank[y]){
+			Rank[x]++;
+		}
+	}
+}
+//判断x和y是不是属于同一个集合
+bool same(int x, int y){
+	return root(x) == root(y);
+}
+
+/*****************************************
+ @最小生成树算法实现，kruskal算法 
+*****************************************/
+struct edge{
+	int u, v, c;
+	edge(){};
+	edge(int uu, int vv, int cc){
+		u = uu, v = vv, c = cc;
+	}
+};
+
+bool cmp_cost(edge a, edge b){
+	return a.c < b.c;
+}
+edge es[50001];
+int V, E,N,M,R;//V 是顶点，E是边
+int kruskal()
+{
+	sort(es, es + E, cmp_cost);
+	init(V);
+	int ans = 0;
+	for (int i = 0; i < E; i++){
+		edge e = es[i];
+		if (!same(e.u, e.v)){
+			unite(e.u, e.v);
+			ans += e.c;
+		}
+	}
+	return ans;
+}
+int main()
+{
+	int cas;
+	cin >> cas;
+	while (cas--){
+		//处理每一组测试数据
+		scanf_s("%d%d%d", &N, &M, &R);
+		for (int i = 0; i < R; i++){
+			edge in(0,0,0);
+			scanf_s("%d%d%d", &in.u, &in.v, &in.c);
+			//特别注意下面这句话，这是在初始化es数组
+			es[i] = edge(in.u+M,in.v, -in.c);
+			/* 
+			or->es[i] = edge(in.u,in.v+N, -in.c);
+			*/
+		}
+		V = N + M;
+		E = R;
+		cout<<10000*(V)+kruskal()<<endl;
+	}
+	return 0;
+}

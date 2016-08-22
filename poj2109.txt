@@ -1,0 +1,16 @@
+/*
+ @poj 2109 就是K^N=P
+ 已经知道N和P，求K
+ K=P(1/N)
+*/
+#include<iostream>
+#include<cmath>
+using namespace std;
+int main()
+{
+	double N, P, K;
+	while (cin >> N >> P){
+		cout << pow(P, 1.0/ N) << endl;
+	}
+	return 0;
+}

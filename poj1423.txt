@@ -1,0 +1,25 @@
+/*
+   This problem is about factorial
+   ask:give a integer n,output the 
+   string(n!).length()
+   (int)log10(num)+1
+   ps:This is C code
+*/
+#include<stdio.h>
+#include<math.h>  
+int num[10000001];
+main()
+{
+	int n, i, t;
+	double d;
+	for (i = 1, d = 0; i<10000001; i++)
+	{
+		d += log10((double)i);
+		num[i] = (int)d + 1;
+	}
+	for (scanf("%d", &t); t>0; t--)
+	{
+		scanf("%d", &n);
+		printf("%d\n", num[n]);
+	}
+}

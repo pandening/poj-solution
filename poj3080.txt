@@ -1,0 +1,69 @@
+/*
+  题意：就是给出n个字符串，求他们的最大公共最大字串，当
+  存在多个最大字串时，输出字典序小的那个最大公共字串
+  思路：直接枚举这个公共字串吧，因为是求最大，所以
+  可以从长度为长度最小的那个开始枚举
+  如果长度小于3则不算啊
+*/
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<string>
+#include<algorithm>
+using namespace std;
+string str[11];
+int main()
+{
+	int t; cin >> t;
+	while (t--)
+	{
+		int n; cin >> n;
+		string minstr;
+		int minlen = 100;
+		for (int i = 0; i < n; i++)
+		{
+			cin >> str[i];
+			if (str[i].length() < minlen)
+			{
+				minstr = str[i];
+			}
+		}
+		string ans = "";
+		bool out = false;
+		for (int L = minstr.length(); L >= 3; L--)
+		{
+			//枚举最长公共字串的长度
+			for (int i = 0; i + L-1< minstr.length(); i++)
+			{
+				string cmp = minstr.substr(i, L);
+				bool f = true;
+				for (int k = 0; k < n; k++)
+				{
+					if (str[k].find(cmp) == string::npos)
+					{
+						f = false;
+						break;
+					}
+				}
+				if (f == true)
+				{
+					if (ans == "" || ans>cmp)
+					{
+						ans = cmp;
+					}
+				}
+			}
+			if (ans != "")
+			{
+				cout << ans << endl;
+				out = true;
+				break;
+			}
+		}
+		if (!out)
+		{
+			cout << "no significant commonalities" << endl;
+		}
+	}
+	return 0;
+}

@@ -1,0 +1,54 @@
+/*
+  @poj 1088
+  就是求一个图中的最长递减序列
+*/
+#include<iostream>
+#include<string.h>
+using namespace std;
+int grap[100][100];
+//dp[i][j]:代表以从（i，j）开始的最长下降序列的长度
+int dp[100][100];
+//保存中间结果
+int temp[100][100];
+int dx[4] = { -1, 0, 1, 0 };
+int dy[4] = { 0, 1, 0, -1 };
+int r, c;
+int opt(int i, int j)
+{
+	//求dp[i][j]
+	if (temp[i][j] >0) return temp[i][j];
+	int m = -1;
+	for (int k = 0; k < 4; k++)
+	{
+		int nx = i + dx[k];
+		int ny = j + dy[k];
+		if (nx >= 0 && nx < r&&ny >= 0 && ny < c&&grap[nx][ny] < grap[i][j])
+		{
+			int t = opt(nx, ny);
+			if (t>m) m = t;
+		}
+	}
+	 temp[i][j] = m+1;
+	 return m+1;
+}
+int main()
+{
+	while (cin >> r >> c)
+	{
+		memset(temp,0, sizeof(temp));
+		int m = -1;
+		for (int i = 0; i < r;i++)
+		for (int j = 0; j < c; j++)
+			cin >> grap[i][j];
+		for (int i = 0; i < r;i++)
+		for (int j = 0; j < c; j++)
+		{
+			temp[i][j] = opt(i, j);
+			if (temp[i][j]>m){
+				m = temp[i][j];
+			}
+		}
+		cout << m+1<< endl;
+	}
+	return 0;
+}

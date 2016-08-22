@@ -1,0 +1,32 @@
+/*
+* @poj 1163 数字三角形
+* 简单dp问题，就是说从root开始，每次可以向左下角或者右下角走
+*最终走到leaf为止就是最终的结果路线，求这条路线的最大和
+* sum[i][j]=max(sum[i-1][j],sum[i-1][j-1])+a[i][j]
+*最终的结果就是max(sum[i][j]).
+*/
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+int sum[101][101], a[101][101];
+int main()
+{
+	int n;
+	cin >> n;
+	for (int i = 1; i <= n; i++){
+		for (int j = 1; j <= i; j++){
+			cin >> a[i][j];
+		}
+	}
+	memset(sum, 0, sizeof(sum));
+	int ans = -1;
+	for (int i = 1; i <= n; i++){
+		for (int j = 1; j <= n; j++){
+			sum[i][j] = max(sum[i - 1][j], sum[i - 1][j - 1]) + a[i][j];
+			ans = max(ans, sum[i][j]);
+		}
+	}
+	cout << ans << endl;
+	return 0;
+}

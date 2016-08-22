@@ -1,0 +1,32 @@
+/*
+ @poj 2350
+ 就是求一些人中高于平均水平的百分比
+*/
+#include<iostream>
+#include<iomanip>
+using namespace std;
+int cas, n;
+double s[1001];
+int main()
+{
+	cin >> cas;
+	while (cas--)
+	{
+		cin >> n;
+		double sum = 0.0;
+		for (int i = 0; i < n; i++){
+			cin >> s[i];
+			sum += s[i];
+		}
+		double ave = (double)sum / n;
+		int ren = 0;
+		for (int i = 0; i < n; i++){
+			if (s[i]>ave){
+				ren++;
+			}
+		}
+		cout << fixed << setprecision(3);
+		cout <<(double)100*(ren) / n <<"%"<<endl;
+	}
+	return 0;
+}

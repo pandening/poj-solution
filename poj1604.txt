@@ -1,0 +1,34 @@
+/*
+ @poj 1604
+ 就是求一个数字阶乘的结果的最后一个非0数字
+*/
+#include<iostream>
+#include<cstdio>
+using namespace std;
+int fac[10001];
+void f()
+{
+	//先求，然后直接查
+	fac[0] = 1;
+	fac[1] = 1;
+	int sum = 1;
+	for (int i = 2; i <= 10000; i++)
+	{
+		sum *= i;
+		while (sum % 10 == 0) sum /= 10;
+		sum %=100000;
+		fac[i] = sum % 10;
+	}
+}
+
+int main()
+{
+	f();
+	int x;
+	while (cin >> x)
+	{
+		//cout <<x<<" -> "<<fac[x] << endl;
+		printf_s("%5d -> %d\n", x, fac[x]);
+	}
+	return 0;
+}

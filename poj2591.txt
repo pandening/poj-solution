@@ -1,0 +1,20 @@
+/*
+ @poj 2591 暴力打表
+*/
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int ans[10000010] = { 0, 1 };
+int main(){
+	int p2 = 1, p3 = 1;
+	for (int i = 2; i <= 10000000; i++){
+		ans[i] = min(ans[p2] * 2 + 1, ans[p3] * 3 + 1);
+		//为了得到一个上升的而且不重复的序列，可以这样做
+		//不同的乘数指向他们下一个要乘的数的下标
+		if (ans[i] == 2 * ans[p2] + 1)p2++;
+		if (ans[i] == 3 * ans[p3] + 1)p3++;
+	}
+	int n;
+	while (cin >> n)cout << ans[n] << endl;
+	return 0;
+}

@@ -1,0 +1,116 @@
+/*
+ @poj 3979
+ 就是分数加减法
+*/
+#include<iostream>
+#include<string>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+struct fenshu{
+	string fz, fm;
+	int z, m;
+};
+int toint(string x)
+{
+	int ans = 0;
+	int k = 0;
+	for (int i = x.length() - 1; i >= 0; i--)
+	{
+		ans += (int)(x[i] - '0')*pow(10.0, k++);
+	}
+	return ans;
+}
+
+int gcd(int a, int b)
+{
+	//a>b
+	if (a<b) swap(a, b);
+	if (b == 0) return a;
+	return gcd(b, a%b);
+}
+
+int main()
+{
+	string input;
+	while (cin >> input)
+	{
+		//首先将运算符提出来
+		char ch;
+		int zz;
+		for (int i = 0; i < input.length(); i++)
+		{
+			if (input[i] == '+' || input[i] == '-'){
+				ch = input[i];
+				zz = i;
+				break;
+			}
+		}
+		fenshu fs1, fs2;
+		int ii, jj;
+		for (ii = 0;input[ii]!='/'; ii++)
+		{
+			fs1.fz += input[ii];
+		}
+		for (int j = ii + 1; input[j] != ch; j++)
+		{
+			fs1.fm += input[j];
+		}
+		for (jj = zz + 1; input[jj] != '/'; jj++)
+		{
+			fs2.fz += input[jj];
+		}
+		for (int j = jj + 1; j < input.length(); j++)
+		{
+			fs2.fm += input[j];
+		}
+		//debug
+		//cout << "-->" << fs1.fz << "/" << fs1.fm << endl;
+		//cout << "-->" << fs2.fz << "/" << fs2.fm << endl;
+		fs1.z = toint(fs1.fz);
+		fs1.m = toint(fs1.fm);
+		fs2.z = toint(fs2.fz);
+		fs2.m = toint(fs2.fm);
+		//统一分母，最小公倍数...
+		int minnum = (fs1.m*fs2.m )/gcd(fs1.m, fs2.m);
+		fs1.z*= (minnum/fs1.m);
+		fs2.z*= (minnum/fs2.m);
+		fenshu ans;
+		ans.m = minnum;
+		bool cg = false;
+		if (fs1.z < fs2.z){
+			swap(fs1.z, fs2.z);
+			cg = true;
+		}
+
+		switch (ch)
+		{
+		case '+':
+			ans.z = fs1.z + fs2.z;
+			break;
+		case '-':
+			ans.z = fs1.z - fs2.z;
+			break;
+		default:
+			break;
+		}
+		//约分
+		int pk = gcd(ans.m, ans.z);
+		ans.m = ans.m / pk;
+		ans.z = ans.z / pk;
+		if (ans.z == 0){
+			cout << 0 << endl;
+		}
+		else{
+			if (cg&&ch=='-') cout << "-";
+			//如果分母为1 的话，就不需要输出分母了
+			if (ans.m == 1){
+				cout << ans.z << endl;
+			}
+			else{
+				cout << ans.z << "/" << ans.m << endl;
+			}
+		}
+	}
+	return 0;
+}

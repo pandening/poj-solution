@@ -1,0 +1,49 @@
+/*
+    参考poj 2406 那到题目是要求一个字符串的循环节的
+	长度，那么现在这道题目要求的是到达某个下标时是不是
+	有循环节，只是多了一个判断末位的循环，对于每一个
+	枚举出来的末尾，求出这个长度的字串的循环节就ok啦
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+int Next[1000001];
+string str;
+void getNext()
+{
+	int i = 0, j = -1;
+	Next[0] = -1;
+	while (i < str.length())
+	{
+		if (j == -1 || str[i] == str[j])
+		{
+			++i, ++j;
+			Next[i] = j;
+		}
+		else{
+			j = Next[j];
+		}
+	}
+}
+int main()
+{
+	int cas = 1;
+	int n;
+	while (cin >> n)
+	{
+		if (n == 0) break;
+		cin >> str;
+		getNext();
+		cout << "Test case #" << cas++ << endl;
+		for (int i = 1; i <= str.length(); i++)
+		{
+			int l = i - Next[i];
+			if (i != l&&i%l == 0)
+			{
+				cout << i << " " << i / l << endl;
+			}
+		}
+		cout << endl;
+	}
+	return 0;
+}

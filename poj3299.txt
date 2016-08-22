@@ -1,0 +1,39 @@
+/*
+ @ poj 3299
+   humidex = temperature + h
+   h = (0.5555)× (e - 10.0)
+   e = 6.11 × exp [5417.7530 × ((1/273.16) - (1/(dewpoint+273.16)))]
+   就是根据输入的值，然后再根据表达式将没有输入的那份输出来就可以拉
+*/
+#include<iostream>
+#include<iomanip>
+#include<cmath>
+using namespace std;
+int main()
+{
+	char in;
+	double t, d, h;
+	while (true){
+		t = d = h = 0x7fffffff;
+		//input 
+		for (int i = 0; i < 2; i++){
+			cin >> in;
+			switch (in)
+			{
+			case 'E': return 0;
+			case 'T': {cin >> t; break; }
+			case 'D': {cin >> d; break; }
+			case 'H': {cin >> h; break; }
+			}
+		}//endfor
+		if (h ==0x7fffffff)
+			h = t + 0.5555*(6.11*exp(5417.7530*(1 / 273.16 - 1 / (d + 273.16))) - 10);
+		else if (t ==0x7fffffff)
+			t = h - 0.5555*(6.11*exp(5417.7530*(1 / 273.16 - 1 / (d + 273.16))) - 10);
+		else if (d ==0x7fffffff)
+			d = 1 / ((1 / 273.16) - ((log((((h - t) / 0.5555) + 10.0) / 6.11)) / 5417.7530)) - 273.16;
+		//output
+		cout << setprecision(1) << fixed << "T " << t << " D " << d << " H " << h << endl;
+	}
+	return 0;
+}

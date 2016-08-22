@@ -1,0 +1,26 @@
+/*
+ @poj 2871
+ 就是输出两个相邻数字的差，然后要注意的是
+ 输出的数要为两位小数点，没有前导零
+*/
+#include<iostream>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	double t,p;
+	int cnt = 0;
+	while (cin >> t)
+	{
+		if (t == 999) break;
+		if (cnt++== 0){
+			p = t;
+			continue;
+		}
+		cout<< fixed << setprecision(2);
+			cout << t - p << endl;
+		p = t;
+	}
+	cout<< "End of Output" << endl;
+	return 0;
+}

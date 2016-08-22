@@ -1,0 +1,25 @@
+/*
+ *@poj 1607 
+ * 第一张纸片的重心放在桌面的边缘，第二张的重心放在
+ * 第一张的边缘，然后将两张纸片的重心放在桌子的边缘
+ * ......
+ *所以，伸出边缘的长度为：1/2+1/4+1/6+.....+1/2*n
+*/
+#include<iostream>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	double ans;
+	int n;
+	cout << "Cards  Overhang" << endl;
+	cout << fixed << setprecision(3);
+	while (cin >> n)
+	{
+		ans = 0.0;
+		for (int i = 1; i <= n; i++)
+			ans += 1.0/ (2 * i);
+		cout << setw(5) << n << setw(10) << ans << endl;
+	}
+	return 0;
+}

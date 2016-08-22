@@ -1,0 +1,41 @@
+/*
+  题意：
+ 输入两个字符串a和b，求这两个字符串的最常公共子序列的长度
+  思路：
+  lcs=>
+  dp[i][j]：表示a串的0...i和b串的0...j的最长序列
+  则：
+  if(a[i]==b[j])
+     dp[i][j]=dp[i-1][j-1]+1
+  else
+    dp[i][j]=max(dp[i-1][j],dp[i][j-1])
+ */
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+int dp[1001][1001];
+string a, b;
+int main()
+{
+	while (cin >> a >> b)
+	{
+		a = (char)'0' + a;
+		b = (char)'0' + b;
+		for (int i = 1; i <=a.length(); i++)
+		{
+			for (int j = 1; j <=b.length(); j++)
+			{
+				if (a[i] == b[j])
+				{
+					dp[i][j] = dp[i - 1][j - 1] + 1;
+				}
+				else{
+					dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+				}
+			}
+		}
+		cout << dp[a.length()-1][b.length()-1] << endl;
+	}
+	return 0;
+}

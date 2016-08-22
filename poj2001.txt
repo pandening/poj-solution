@@ -1,0 +1,93 @@
+/*
+  题意：就是给出一堆字符串，然后求这些字符串的最短前缀
+  就是取每个字符串的可以表示为和别的字符串不一样的单词
+  方法：用键树（字典树）就可以解决
+*/
+#include<iostream>
+#include<string.h>
+#include<string>
+using namespace std;
+string str[1001], res[1001];
+struct node
+{
+	struct node *nex[26];
+	int num;
+	node()
+	{
+		for (int i = 0; i < 26; i++)
+		{
+			nex[i] = NULL;
+		}
+		num = 0;
+	}
+};
+//the root of the key tree
+node *root;
+void insert(string str)
+{
+	node *p, *q;
+	p = root;
+	for (int i = 0; i < str.length(); i++)
+	{
+		int idex = (int)(str[i] - 'a');
+		if (p->nex[idex] != NULL)
+		{
+			//it is existed
+			p = p->nex[idex];
+			p->num++;
+		}
+		else{
+			//this node is null
+			//then cteate it
+			q = new node;
+			p->nex[idex] = q;
+			p = q;
+			p->num = 1;
+		}
+	}
+}
+void query(string str,int k)
+{
+	//this is the key step
+	node *p = new node;
+	p=root;
+	string dst="";
+	for (int i = 0; i < str.length(); i++)
+	{
+		int idex = (int)(str[i] - 'a');
+		p = p->nex[idex];
+		dst+=str[i];
+		if (p->num == 1)
+		{
+			//just one ,so break
+			res[k] = dst;
+			return;
+		}
+	}
+}
+int main()
+{
+	root = new node;
+	int i = 0;
+	string in;
+	while (cin >> in)
+	{
+		str[i] = in;
+		insert(in);
+		i++;
+	}
+	for (int k = 0; k < i; k++)
+	{
+		query(str[k],k);
+		if (res[k] == "")
+		{
+			res[k]= str[k];
+		}
+	}
+	//output
+	for (int k = 0; k < i; k++)
+	{
+		cout << str[k] << " " << res[k] << endl;
+	}
+	return 0;
+}

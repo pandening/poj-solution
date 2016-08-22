@@ -1,0 +1,46 @@
+/*
+  @poj 3320
+  共有p个数字，求连续的几个数字，这几个数字包含所有输入中出现过的数字
+  求这样的数字序列的最小值，用尺取法去做。
+*/
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<map>
+#include<set>
+using namespace std;
+int main()
+{
+	int *x;
+	int p;
+	set<int> xp;
+	cin >> p;
+	x = new int[p];
+	for (int i = 0; i < p; i++){
+		scanf_s("%d", &x[i]);
+		xp.insert(x[i]);
+	}
+	//allnum 是所有出现的数字的总数
+	int allnum = xp.size();
+	//x_num是数字和出现的数字的次数
+	map<int, int> x_num;
+	int st=0, en=0,num=0,ans=0x7fffffff;
+	for (;;)
+	{
+		while (en < p&&num < allnum){
+			if (x_num[x[en++]]++== 0){
+				//说明是新出现的数字
+				num++;
+			}
+		}
+		if (num < allnum){
+			break;
+		}
+		ans = min(ans, en - st);
+		if (--x_num[x[st++]] == 0){
+			num--;
+		}
+	}
+	cout << ans << endl;
+	return 0;
+}

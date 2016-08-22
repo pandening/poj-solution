@@ -1,0 +1,26 @@
+/*
+ @poj 1338
+ 就是构造一个数列US，然后这个数列是2，3，5构造出来的
+ 也就是说
+ if(x is of set US)
+   Then x*2,x*3,x*5 all of set US
+ */
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int num[1501] = {0,1}, n;
+int main()
+{
+	int n2 = 1, n3 = 1, n5 = 1;
+	for (int i = 2; i <=1501; i++){
+		num[i] = min(num[n2] * 2, min(num[n3] * 3, num[n5] * 5));
+		if (num[i] == num[n2] * 2) n2++;
+		if (num[i] == num[n3] * 3) n3++;
+		if (num[i] == num[n5] * 5) n5++;
+	}
+	while (cin >> n){
+		if (n == 0) break;
+		cout << num[n] << endl;
+	}
+	return 0;
+}

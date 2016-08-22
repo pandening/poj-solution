@@ -1,0 +1,76 @@
+///*
+// @poj 2575
+// 说一个数列的前后之间的差的绝对值是不是包含了1...n-1
+//*/
+//#include<string.h>
+//#include<iostream>
+//using namespace std;
+//int a, b;
+//bool e[3001];
+//int main()
+//{
+//	int n,in;
+//	while (cin >> n){
+//		memset(e,0,sizeof(e));
+//		if (n == 1){
+//			cin >> in;
+//			cout << "Jolly" << endl;
+//			continue;
+//		}
+//		cin >> a;
+//		for (int i = 2; i <=n; i++){
+//			cin >> b;
+//			e[abs(b - a)]=1;
+//			a=b;
+//		}
+//		bool flag = true;
+//		for (int i = 1; i < n; i++){
+//			if (e[i] == 0){
+//				flag = false;
+//				break;
+//			}
+//		}
+//		if (flag){
+//			cout << "Jolly" << endl;
+//		}
+//		else{
+//			cout << "No jolly" << endl;
+//		}
+//	}
+//	return 0;
+//}
+
+
+#include<cstdio>
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+#include<string>
+#include<cstring>
+using namespace std;
+int flag[3001], num[3001];
+int main() {
+	int n;
+	while (cin >> n)
+	{
+		memset(flag, 0, sizeof(flag));
+		memset(num, 0, sizeof(num));
+		int i, j, k, f, res = 0;
+		for (i = 1; i <= n; i++)
+			cin >> num[i];
+		for (k = 2; k <= n; k++){
+			f = abs(num[k] - num[k - 1]);
+				flag[f]++;
+		}
+		for (j = 1; j<n; j++)
+		if (flag[j]==0){
+			res = 1;
+			break;
+		}
+		if (res)
+			cout << "Not jolly" << endl;
+		else
+			cout << "Jolly" << endl;
+	}
+	return 0;
+}

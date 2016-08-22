@@ -1,0 +1,45 @@
+/*
+ 输入为三项
+ name day startweight
+ ans=startweight-day
+*/
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+struct info
+{
+	string name;
+	int day;
+	int startweight;
+	int endweight;
+};
+info all[201];
+bool cmp_endweight(info a, info b)
+{
+	return a.endweight > b.endweight;
+}
+int main()
+{
+	string s;
+	while (cin>>s)
+	{
+		int i = 0;
+		while (true)
+		{
+			info in;
+			cin >> in.name;
+			if (in.name== "END") break;
+			cin >> in.day >> in.startweight;
+			in.endweight = in.startweight - in.day;
+			all[i++] = in;
+		}
+		sort(all, all + i, cmp_endweight);
+		for (int j = 0; j < i; j++)
+		{
+			cout << all[j].name << endl;
+		}
+		cout << endl;
+	}
+	return 0;
+}

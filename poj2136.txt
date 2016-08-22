@@ -1,0 +1,71 @@
+/*
+  统计出现的字母与出现的次数，然后用‘*’表示每个字母
+  出现的次数，输出为统计图的样式，用矩阵输出
+*/
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include<string.h>
+using namespace std;
+char maze[330][26];
+int num[26];
+int main()
+{
+	string in[4];
+	memset(num, 0, sizeof(num));
+	for (int i = 0; i < 4; i++)
+	{
+		getline(cin, in[i]);
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < in[i].length(); j++)
+		{
+			num[(size_t)(in[i][j] - 'A')]++;
+		}
+	}
+	int h = 0;
+	for (int i = 0; i < 26; i++)
+	{
+		h = max(h, num[i]);
+	}
+	for (int i = 0; i < h; i++)
+	{
+		for (int j = 0; j < 26; j++)
+		{
+			maze[i][j] = '0';
+		}
+	}
+	for (int i = 0; i < 26; i++)
+	{
+		//处理每一列
+		int hh = h - num[i];
+		for (int j = 0; j < hh; j++)
+		{
+			maze[j][i] = ' ';
+		}
+		for (int j = hh; j < h; j++)
+		{
+			maze[j][i] = '*';
+		}
+	}
+
+	for (int i = 0; i < h; i++)
+	{
+		for (int j = 0; j < 26; j++)
+		{
+			cout << maze[i][j] << " ";
+		}
+		cout << endl;
+	}
+
+
+
+
+	for (int i = 0; i <25; i++)
+	{
+		cout << (char)('A' + i) << " ";
+	}
+	cout << "Z" << endl;
+	return 0;
+}

@@ -1,0 +1,40 @@
+/*
+ @poj 2470
+ 就是将原来的数字变成下标，如果这个新的数字串
+ 和原来的数字串不相同就是Ambiguous,否则不是
+*/
+#include<cstdio>
+#include<iostream>
+using namespace std;
+int xa[100001], xb[100001];
+bool issame(int a[], int b[],int n)
+{
+	for (int i = 1; i <= n; i++){
+		if (a[i] != b[i]){
+			return false;
+		}
+	}
+	return true;
+}
+int main()
+{
+	int n;
+	while (cin >> n, n != 0)
+	{
+		for (int i = 1; i <=n; i++){
+			scanf_s("%d", xa + i);
+		}
+		//input done
+		for (int i = 1; i <=n; i++){
+			xb[xa[i]] = i;
+		}
+		//solve done
+		if (issame(xa, xb,n)){
+			cout << "ambiguous" << endl;
+		}
+		else{
+			cout << "not ambiguous" << endl;
+		}
+	}
+	return 0;
+}

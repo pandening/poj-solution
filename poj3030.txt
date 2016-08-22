@@ -1,0 +1,28 @@
+/*
+ @poj 3030
+ 就是有三个输入 r,e,c
+ 问要不要为产品做广告
+ r是不做广告的收益
+ e是做广告的收益
+ c是广告的费用
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int cas,r, e, c;
+	cin >> cas;
+	while (cas--){
+		cin >> r >> e >> c;
+		if (e - r > c){
+			cout << "advertise" << endl;
+		}
+		else if (e - r == c){
+			cout << "does not matter" << endl;
+		}
+		else{
+			cout << "do not advertise" << endl;
+		}
+	}
+	return 0;
+}

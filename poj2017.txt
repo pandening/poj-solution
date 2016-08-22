@@ -1,0 +1,32 @@
+/*
+ 简单的里程计算
+ 给出一个速度和时间表，求总的走过的里程
+*/
+#include<iostream>
+using namespace std;
+struct info
+{
+	int speed;
+	int hour;
+};
+info all[21];
+int main()
+{
+	int n;
+	while (cin >> n)
+	{
+		if (n == -1) break;
+		cin >> all[0].speed >> all[0].hour;
+		for (int i = 1; i < n; i++)
+		{
+			cin >> all[i].speed >> all[i].hour;
+		}
+		int ans = all[0].hour*all[0].speed;
+		for (int i = 1; i < n; i++)
+		{
+			ans += (all[i].hour-all[i-1].hour)*all[i].speed;
+		}
+		cout << ans <<" miles"<<endl;
+	}
+	return 0;
+}

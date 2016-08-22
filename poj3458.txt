@@ -1,0 +1,32 @@
+/*
+ @poj 3458
+ 题意是说：给出一个字符串s，然后再给出两个字符串s1和s2，问现在s是不是可以
+ 在s1或者s2中全部找到，如果可以的话就是"win"否则就是"lose"
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	int cas;
+	cin >> cas;
+	while (cas--){
+		string s, s1, s2;
+		cin >> s >> s1 >> s2;
+		int ansl = 0;
+		for (int i = 0; i < s1.length() && ansl < s.length(); i++)
+		{
+			if (s[ansl] == s1[i] || s[ansl] == s2[i] || s1[i] == '*' || s2[i] == '*')
+			{
+				ansl++;
+			}
+		}
+		if (ansl == s.length()){
+			cout << "win" << endl;
+		}
+		else{
+			cout << "lose" << endl;
+		}
+	}
+	return 0;
+}

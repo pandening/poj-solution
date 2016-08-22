@@ -1,0 +1,41 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <cmath>
+using namespace std;
+char s[201];
+int main()
+{
+	string st,e;
+	while (cin >> st)
+	{
+		if (st[0]=='E')
+			break;
+		memset(s, '\0', sizeof(s));
+		getchar(); 
+		// 注意 ： 刚才的cin 并没有吃掉会回车，这里要用getchar()把
+		//刚才的回车吃掉,否则接下来输入字符串s 的长度会为0，
+		//因为gets（）遇到回车会停止！！
+		//用gets()输入，可以包含空格
+		gets(s); 
+		cin >> e;
+		int l = strlen(s);
+		int i;
+		for (i = 0; i<l; i++)
+		{
+			if (s[i] >= 'F'&&s[i] <= 'Z')
+			{
+				s[i] = s[i] - 5;
+			}
+			else if (s[i] >= 'A'&&s[i] <= 'E')
+			{
+				s[i] = s[i] + 21;
+			}
+			printf("%c", s[i]);
+		}
+		printf("\n");
+	}
+	return 0;
+}

@@ -1,0 +1,38 @@
+/*
+  题意：给出一个数字n，求出它的二进制形式
+  然后求比他大的最小的一个数字，这个数字
+  的二进制的数量和n一样多
+  思路：因为要比n大，所以只可能在n后面，所以
+  先将n换位二进制，然后枚举n后面的数字就可以啦
+*/
+#include<iostream>
+using namespace std;
+int c(int x)
+{
+	//求x中1的数量
+	int ans = 0;
+	while (x)
+	{
+		if (x % 2 == 1) ans++;
+		x /= 2;
+	}
+	return ans;
+}
+int main()
+{
+	int n;
+	while (cin >> n)
+	{
+		if (n == 0) break;
+		int num = c(n);
+		for (int i = n + 1;; i++)
+		{
+			if (c(i) == num)
+			{
+				cout << i << endl;
+				break;
+			}
+		}
+	}
+	return 0;
+}

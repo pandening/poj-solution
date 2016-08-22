@@ -1,0 +1,35 @@
+/*
+ @poj 3438
+ 就是一个简单的读数字的游戏
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	string input;
+	int cas;
+	cin >> cas;
+	while (cas--)
+	{
+		cin >> input;
+		int i, j;
+		for (i = 0; i < input.length(); i++)
+		{
+			int c = 0;
+			for (j =i; j <input.length(); j++){
+				if (input[i] != input[j]){
+					break;
+				}
+				else{
+					c++;
+				}
+			}//endfor
+			cout << c << input[i];
+			//多加了1要减去
+			i = j-1;
+		}
+		cout << endl;
+	}
+	return 0;
+}

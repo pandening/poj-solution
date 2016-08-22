@@ -1,0 +1,75 @@
+/*
+ @poj 1051
+ 关于摩尔电码，去将一段字符串变为摩尔码，加上摩尔码的长度
+ 然后将数字反转，然后再破解出来
+*/
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include<map>
+using namespace std;
+string morse[26] = {
+	".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..",
+	".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.",
+	"...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."
+};
+map<string,char>s;
+
+char getcode(string m)
+{
+	for (int i = 0; i < 26; i++)
+	{
+		if (morse[i] == m)
+		{
+			return char('A' + i);
+		}
+	}
+	//if not find
+	return s[m];
+}
+string getmorsecode(char c)
+{
+	for (map<string, char>::iterator mit = s.begin(); mit != s.end(); mit++)
+	{
+		if (mit->second == c)
+		{
+			return mit->first;
+		}
+	}
+	return morse[(int)(c - 'A')];
+}
+
+int main()
+{
+	s["..--"] = '_';
+	s["---."] = '.';
+	s[".-.-"] = ',';
+	s["----"] = '?';
+	int n;
+	cin >> n;
+	for (int i = 1; i <=n;i++)
+	{
+		string in;
+		cin >> in;
+		string morsecode="";
+		string number="";
+		int p = 0;
+		for (int i = 0; i < in.length(); i++)
+		{
+			morsecode+=getmorsecode(in[i]);
+			number =(char)(getmorsecode(in[i]).length()+'0')+number;
+		}
+		cout << i << ": ";
+		//ok ,work
+		int k = 0;
+		for (int i = 0; i < number.length(); i++)
+		{
+			int l = (int)(number[i] - '0');
+			string mc = morsecode.substr(k, l);
+			cout << getcode(mc);
+			k = k + l;
+		}
+		cout << endl;
+	}
+	return 0;
+}

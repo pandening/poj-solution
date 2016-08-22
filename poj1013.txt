@@ -1,0 +1,85 @@
+/*
+  题意：12枚硬币，有一枚是假的，有可能重于真的，也
+  有可能轻于真的，现在给出机组测试，左边一堆硬币，
+  右边也是一堆硬币，有一个判断左边重还是右边重的次
+  "even"=> 两边一样重
+  "up" =>左边重
+  "down"=>右边重
+  思路：
+     1、如果两边一样重，那么两边都是真的，设真币重100
+	 2、如果左边重，那么，对于那些还没有判断是不是真
+	    的，就左边的盘里面的加1，右边的盘里减去1
+     3、如果右边重，则就是同样的处理办法
+	 4、最后结果就是那个绝对值最大的那个
+*/
+#include<string>
+#include<cstdio>
+#include<iostream>
+#include<cmath>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+string sl, sr,judge;
+int weight[13];
+int main()
+{
+	int cas; cin >> cas;
+	while (cas--)
+	{
+		memset(weight, 0, sizeof(weight));
+		for (int i = 0; i < 3; i++)
+		{
+			cin >> sl >> sr >> judge;
+			if (judge == "even")
+			{
+				for (int k = 0; k < sl.length();k++)
+				{
+					weight[(size_t)(sl[k] - 'A')] =100;
+					weight[(size_t)(sr[k] - 'A')] =100;
+				}
+			}
+			else if (judge == "up")
+			{
+				//左边重啊
+				for (int k = 0; k < sl.length(); k++)
+				{
+					if (weight[(size_t)(sl[k]-'A')]!=100)
+					weight[(size_t)(sl[k] - 'A')]++;
+					if (weight[(size_t)(sr[k]-'A')]!=100)
+					weight[(size_t)(sr[k] - 'A')]--;
+				}
+			}
+			else
+			{
+				//右边重啊
+				for (int k = 0; k < sl.length(); k++)
+				{
+					if (weight[(size_t)(sl[k] - 'A')]!=100)
+						weight[(size_t)(sl[k] - 'A')]--;
+					if (weight[(size_t)(sr[k] - 'A')]!=100)
+						weight[(size_t)(sr[k] - 'A')]++;
+				}
+			}
+		}
+		//找到绝对值最大的那个
+		int m=0, id=0;
+		for (int i = 0; i < 12; i++)
+		{
+			if (weight[i] ==100) continue;
+			if (m <= abs(weight[i]))
+			{
+				m = abs(weight[i]);
+				id = i;
+			}
+		}
+		if (weight[id]>0)
+		{
+			cout << (char)('A' + id) << " is the counterfeit coin and it is heavy." << endl;
+		}
+		else{
+			cout << (char)('A' + id) << " is the counterfeit coin and it is light." << endl;
+		}
+	}
+	return 0;
+}
+

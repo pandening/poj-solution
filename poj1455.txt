@@ -1,0 +1,26 @@
+/*
+* @poj 1455
+* 一个排成圈的数列，一个时间单位内可以进行相邻
+* 数字交换，现在需要将所有数字变为一个和原来相
+* 反的圈，要交换几次呢
+* 可以将n个数字拆为2部分，一部分有k个，另外一部分
+* 有n-k个，则需要交换的次数为=>
+* f(k)=k(k-1)/2+(n-k)(n-k-1)/2
+* 现在就求min(f(k)) =>k=n/2
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int t, n;
+	cin >> t;
+	while (t--){
+		cin >> n;
+		int ans = (n / 2)*(n / 2 - 1);
+		if (n % 2){
+			ans += n / 2;
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

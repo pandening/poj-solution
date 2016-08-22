@@ -1,0 +1,29 @@
+/*
+  @poj 2785
+  可以用折半枚举来解决问题，先计算出C+D的值，然后
+  排序，再枚举A和B的取值，和C+D的结果进行比较，最后
+  确定答案
+*/
+#include<cstdio>
+#include<algorithm>
+#include<iostream>
+using namespace std;
+int n;
+int A[4001], B[4001], C[4001], D[4001], CD[4001 * 4001];
+#define FOR(i,n) for(int i=0;i<n;i++)
+int main()
+{
+	//input
+	scanf_s("%d", &n);
+	FOR(i, n)  scanf_s("%d%d%d%d", A + i,B+i,C+i,D+i); 
+	FOR(i, n)FOR(j, n) CD[i*n + j] = C[i] + D[j];
+	sort(CD, CD + n*n);
+	//枚举答案
+	long long ans = 0;
+	FOR(i, n)FOR(j, n){
+		int cd = -A[i] - B[j];
+		ans += upper_bound(CD, CD + n*n, cd) - lower_bound(CD, CD + n*n, cd);
+	}
+	printf_s("%lld\n", ans);
+	return 0;
+}

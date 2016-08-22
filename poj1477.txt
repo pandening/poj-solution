@@ -1,0 +1,32 @@
+/*
+   This is a problem about :min  move times
+   ...
+*/
+#include<iostream>
+using namespace std;
+int h[100];
+int main()
+{
+	int n,cas=0;
+	while (scanf_s("%d", &n), n)
+	{
+		int sum = 0;
+		for (int i = 0; i < n; i++)
+		{
+			scanf_s("%d", &h[i]);
+			sum += h[i];
+		}
+		double ave = sum / n;
+		int ans = 0;
+		for (int i = 0; i < n; i++)
+		{
+			if (h[i]>ave)
+			{
+				ans += h[i] - ave;
+			}
+		}
+		printf_s("Set #%d\n",++cas);
+		printf_s("The minimum number of moves is %d.\n\n", ans);
+	}
+	return 0;
+}

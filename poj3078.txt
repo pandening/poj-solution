@@ -1,0 +1,59 @@
+/*
+  题意：给出一个字符串序列，然后给出n个操作
+  每个操作位a to b，也就是将a位置上的字符串
+  移动到位置b上
+  思路：用一个数组求原来下标的新的下表
+*/
+#include<iostream>
+#include<cstdio>
+#include<string>
+#include<cstring>
+using namespace std;
+string str[25];
+bool used[25];
+int pos[25];
+int main()
+{
+	int t;
+	scanf_s("%d", &t);
+	while (t--)
+	{
+		memset(pos, 0, sizeof(pos));
+		memset(used, 0, sizeof(used));
+		int m, n;
+		scanf_s("%d%d", &n, &m);
+		for (int i = 1; i <= n; i++)
+		{
+			cin >> str[i];
+		}
+		int a, b;
+		for (int i = 0; i<m; i++)
+		{
+			scanf_s("%d%d", &a, &b);
+			//位置a要移动到位置b
+			used[a] = 1;
+			pos[b] = a;
+		}
+		//重新计算字符串在数组中的下标
+		int id = 1;
+		for (int i = 1; i <= n; i++)
+		{
+			//如果没有一个字符串移动到位置i，那么就要重新
+			//找到这个位置上的字符串的新的位置
+			//pos[i]代表i位置上的字符串还没有确定新位置
+			if (pos[i] == 0)
+			{
+				while (used[id]!= 0) id++;
+				pos[i] =id;
+				id++;
+			}
+		}
+		for (int i = 1; i <n; i++)
+		{
+			cout << str[pos[i]]<<" ";
+		}
+		cout <<str[pos[n]]<<endl;
+	}
+	return 0;
+}
+

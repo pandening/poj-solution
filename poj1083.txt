@@ -1,0 +1,48 @@
+/*
+   奇数号码的房间和偶数号码的房间对着，那么他们之间的
+   走廊是共用的，现在就是搬家，需要把房间i的东西搬到房间
+   j，但是走廊同一时间只能过一次，所以需要等，我们
+   要求的是，经过若干次搬家后，哪段走廊用得最多
+   共用了多长时间
+   思路：比如输入f和t，意思就是要从f搬到t，那么
+   从（f+1）/2...(t+1)/2之间的走廊需要用
+*/
+#include<cstdio>
+#include<algorithm>
+#include<string.h>
+using namespace std;
+struct info
+{
+	int f, t;
+};
+int r[201];
+int main()
+{
+	int cas;
+	scanf_s("%d", &cas);
+	while (cas--)
+	{
+		int n;
+		scanf_s("%d", &n);
+		memset(r, 0, sizeof(r));
+		for (int i = 0; i < n; i++)
+		{
+			info in;
+			scanf_s("%d%d", &in.f, &in.t);
+			if (in.f>in.t) swap(in.f, in.t);
+			in.f = (in.f + 1) / 2;
+			in.t = (in.t + 1) / 2;
+			for (int k = in.f; k <= in.t; k++)
+			{
+				r[k]++;
+			}
+		}
+		int ans = -0x7fffffff;
+		for (int k = 0; k <= 200; k++)
+		{
+			ans = max(ans, r[k]);
+		}
+		printf_s("%d\n", 10 * ans);
+	}
+	return 0;
+}

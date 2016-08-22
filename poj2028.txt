@@ -1,0 +1,38 @@
+/*
+ @poj 2028
+ 题目的意思是说，有n个委员会，Q个人，每个人有一些日子是空闲的
+ 那么现在需要求得是一个对尽可能多的人都空闲的时间，要求是这个
+ 所求得到的日子的有空闲的人必须要大于等于q，不然就要输出0
+ 很简单的计数排序
+*/
+#include<iostream>
+#include<cstdio>
+#include<string.h>
+using namespace std;
+int n, m, q;
+int countt[101];
+int main()
+{
+	while (scanf_s("%d%d", &n, &q) != EOF)
+	{
+		if (!(n + q)) break;
+		memset(countt, 0, sizeof(countt));
+		for (int i = 0; i < n; i++){
+			scanf_s("%d", &m);
+			int in;
+			for (int k = 0; k < m; k++){
+				scanf_s("%d", &in);
+				countt[in]++;
+			}
+		}
+		//input done
+		int ans =0;
+		for (int i = 0; i <=100; i++){
+			if (countt[i]>=q&&countt[i]>countt[ans]){
+				ans = i;
+			}
+		}
+		printf_s("%d\n", ans);
+	}
+	return 0;
+}

@@ -1,0 +1,31 @@
+/*
+  题意：给出面值为=>0.25 0.1 0.05 0.01的数量
+  用最少的数量去兑换成给定的面值
+  思路；贪心啊啊啊
+*/
+#include <iostream>
+#include <algorithm>
+#include <stdio.h>
+using namespace std;
+int main()
+{
+	int n, m, i;
+	int f[4] = { 25, 10, 5, 1 };
+	while (scanf_s("%d", &n) != EOF)
+	{
+		for (i = 1; i <= n; i++)
+		{
+			int k[4] = { 0 };
+			scanf("%d", &m);
+			for (int l = 0; l < 4; l++)
+			{
+				while (m >= f[l]){
+					m -= f[l];
+					k[l]++;
+				}
+			}
+			printf("%d %d QUARTER(S), %d DIME(S), %d NICKEL(S), %d PENNY(S)\n", i, k[0], k[1], k[2], k[3]);
+		}
+	}
+	return 0;
+}

@@ -1,0 +1,59 @@
+//这题与1338的题型是一样的，其做法一样，但是这里的输出需要注意：凡是后两位是11或者是12又或者是13结尾的数字的格式的输出！ 
+//在做题的时候不要害怕麻烦，将所有情况都想到，然后去解决，最终要的要记住方法和思想，而不是题目本身，没有意义。
+//只能被2，3，5，7整除，就说明是从2，3，5，7中生成的，所以就是一个生成数列的问题了，这是一个模版，需要记住
+#include <iostream>
+#include <algorithm>
+using namespace std;
+long humble[5843];
+int main()
+{
+	int i, n2, n3, n5, n7;
+	humble[1] = 1;
+	n2 = 1;
+	n3 = 1;
+	n5 = 1;
+	n7 = 1;
+	for (i = 2; i <=5842; i++)
+	{
+		humble[i] = min(min(humble[n2] * 2, humble[n3] * 3), min(humble[n5] * 5, humble[n7] * 7));
+		if (humble[i] == humble[n2] * 2)
+			n2++;
+		if (humble[i] == humble[n3] * 3)
+			n3++;
+		if (humble[i] == humble[n5] * 5)
+			n5++;
+		if (humble[i] == humble[n7] * 7)
+			n7++;
+	}
+	int num;
+	while (cin >> num && num)
+	{
+		int tmp1, tmp2;
+		tmp1 = num % 10;
+		tmp2 = num % 100;
+		if (tmp1 == 1)
+		{
+			if (tmp2 == 11)
+				cout << "The " << num << "th humble number is " << humble[num] << "." << endl;
+			else
+				cout << "The " << num << "st humble number is " << humble[num] << "." << endl;
+		}
+		else if (tmp1 == 2)
+		{
+			if (tmp2 == 12)
+				cout << "The " << num << "th humble number is " << humble[num] << "." << endl;
+			else
+				cout << "The " << num << "nd humble number is " << humble[num] << "." << endl;
+		}
+		else if (tmp1 == 3)
+		{
+			if (tmp2 == 13)
+				cout << "The " << num << "th humble number is " << humble[num] << "." << endl;
+			else
+				cout << "The " << num << "rd humble number is " << humble[num] << "." << endl;
+		}
+		else
+			cout << "The " << num << "th humble number is " << humble[num] << "." << endl;
+	}
+	return 0;
+}

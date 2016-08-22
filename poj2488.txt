@@ -1,0 +1,127 @@
+///*
+// poj 2488
+// 就是骑士巡游问题，一个人按照‘L’型去在一个棋盘上面走，要找到一条字典序最小
+// 的而且要将所有点都要遍历一遍的一条路径，其实就是简单的dfs，注意的是字典序，
+// 为了得到的路径是字典序最小的路径，需要需要按照从左到右，从上到下的遍历顺序
+//*/
+//#include<iostream>
+//#include<string>
+//#include<string.h>
+//using namespace std;
+//int cas, n, m;
+//struct pos{ int x, y; };
+//bool visited[26][26];
+////用下面的数组来保存一条路径
+//pos path[26];
+//bool flag;
+//int cnt = 0;
+//int dx[8]= {-2,-1,-2,1,-1,-2,-1,2};
+//int dy[8] ={1,-2,1,2,2,-1,2,1};
+//void dfs(int i, int j, int num)
+//{
+//	//(i,j)是现在要访问的点的位置，num是已经访问过的点的个数
+//	if (num == n*m){
+//		//说明已经将所有点都访问了，那么就输出路径
+//		for (int i = 0; i < num; i++){
+//			cout << (char)(path[i].x + 'A')<< path[i].y + 1;
+//		}
+//		cout << endl;
+//		flag = 1;
+//	}
+//	else{
+//		//说明还没有找到一条可以遍历整个棋盘的路径，那么就继续
+//		for (int i = 0; i < 8; i++){
+//			//按照字典序往八个方向遍历
+//			int nx = i + dx[i];
+//			int ny = j + dy[i];
+//			if (nx >= 0 && nx <m&&ny >= 0 && ny <n&&!visited[nx][ny]&&!flag)
+//			{
+//				visited[nx][ny] = 1;
+//				path[num].x =nx;
+//				path[num].y = ny;
+//				dfs(nx, ny, num + 1);
+//				//尝试过后要还原，为后面的那次搜索提供条件
+//				visited[nx][ny] = 0;
+//			}
+//		}
+//	}
+//}
+//int main()
+//{
+//	cin >> cas;
+//	for (int c = 0; c < cas;c++)
+//	{
+//		//对于每一个输入案列，解决问题
+//		flag = 0;
+//		cin >> n >> m;
+//		for (int i = 0; i < n;i++)
+//		for (int j = 0; j < m; j++)
+//			visited[i][j] = 0;
+//		visited[0][0] = 1;
+//		path[0].x = 0;
+//		path[0].y = 0;
+//		cout << "Scenario #" << c + 1 << endl;
+//		dfs(0, 0, 1);
+//		if (!flag){
+//			//无解
+//			cout << "impossible" << endl;
+//		}
+//		else{
+//			cout << endl;
+//		}
+//	}
+//	return 0;
+//}
+//
+#include<stdio.h>
+int dir[8][2] = { -2, -1, -2, 1, -1, -2, -1, 2,
+                  1, -2, 1, 2, 2, -1, 2, 1
+              };   //记录方向
+int g, a, b;//g用来记录是否找到解，找到后不再搜索
+int vist[26][26], path[26][2];
+void find(int i, int j, int k)//i,j是要走的格子，k记录已经走过的步数
+{
+	if (k == a*b)//走完了
+	{
+		for (int i = 0; i<k; i++)
+			printf("%c%d", path[i][0] + 'A', path[i][1] + 1);
+		printf("\n");
+		g = 1;
+	}
+	else
+	for (int x = 0; x<8; x++)//8个方向依次搜索
+	{
+		int n = i + dir[x][0];
+		int m = j + dir[x][1];
+		if (n >= 0 && n<b&&m >= 0 && m<a&&!vist[n][m] && !g)
+		{
+			vist[n][m] = 1;//标记已走
+			path[k][0] = n, path[k][1] = m;
+			find(n, m, k + 1);
+			vist[n][m] = 0;//清除标记
+		}
+	}
+}
+int main()
+{
+	int n;
+	scanf("%d", &n);
+	for (int m = 0; m<n; m++)
+	{
+		g = 0;
+		scanf("%d %d", &a, &b);
+		for (int i = 0; i<a; i++)
+		for (int j = 0; j<b; j++)
+			vist[i][j] = 0;
+		vist[0][0] = 1;
+		path[0][0] = 0, path[0][1] = 0;
+		printf("Scenario #%d:\n", m + 1);
+		find(0, 0, 1);
+		if (!g) printf("impossible\n");
+		printf("\n");
+	}
+	return 0;
+}
+
+
+

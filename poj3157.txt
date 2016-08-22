@@ -1,0 +1,61 @@
+/*
+  题意：给出一些变量，有可能是c风格的，也有可能是java
+  风格的，如果是c风格的，输出java风格的，如果是java风
+  格的，那么输出c风格的，如果输入的变量不是c风格也
+  不是java风格，那么输出“ERROR!”
+
+  java风格特点：
+    1、首字母小写，变量中没有下划线
+	2、如果有多个词组成，那么从第二个词开始，首字母大写
+  C风格特点： 
+    1、首字母小写，可以有下划线
+	2、没有大写字母
+*/
+#include <iostream>
+#include <string>
+using namespace std;
+string s;
+void javaToC() {
+	for (int i = 0; i<s.length(); i++)
+	//if (s[i]<97) 
+	if(s[i]>='A'&&s[i]<='Z')
+	{
+		cout << "_" << (char)(s[i] + 32);
+	}
+	else cout<< s[i];
+	cout << endl;
+}
+void CTojava() {
+	bool flag = false;
+	for (int i = 0; i<s.length(); i++) {
+		if (s[i] == '_') flag = true;
+		else if (flag) {
+			cout << (char)(s[i] - 32);
+			flag = false;
+		}
+		else cout << s[i];
+	}
+	cout << endl;
+}
+int main() {
+	bool f1 = true, f2 = true;
+	cin >> s;
+	if (s[0]<97 || s[0]>122) {
+		f1 = false;
+		f2 = false;
+	}
+	for (int i = 0; i<s.length(); i++) {
+		if (s[i] == '_') {
+			f1 = false;
+			if (i == s.length() - 1 || s[i + 1]<97 || s[i + 1]>122)
+				f2 = false;
+		}
+		if (s[i] >= 65 && s[i] <= 90) f2 = false;
+	}
+	if (f1 == false && f2 == false) 
+		cout<< "Error!" << endl;
+	else if (f1 == true && f2 == false) javaToC();
+	else CTojava();
+	return 0;
+}
+

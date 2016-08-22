@@ -1,0 +1,40 @@
+/*
+ @poj 2586
+ 算法：枚举。既然盈亏是定数，可以想到可能出现的情况就那么几种，进而想到枚举。
+ 在保证连续5个月都亏损的前提下，使得每5个月中亏损的月数最少。
+ x=1:  ssssd,ssssd,ss    d>4s     赢利10个月  10s-2d
+ x=2:  sssdd,sssdd,ss    2d>3s    赢利8个月     8s-4d
+ x=3:  ssddd,ssddd,ss    3d>2s    赢利6个月     6s-6d
+ x=4:  sdddd,sdddd,sd    4d>s     赢利3个月     3s-9d
+ x=5:  ddddd,ddddd,dd    4d<s     无赢利
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int s, d, ans=-1;
+	while (cin >> s >> d){
+		if (d > s * 4){
+			ans = 10 * s - 2 * d;
+		}
+		else if (2 * d > 3 * s){
+			ans = 8 * s - 4 * d;
+		}
+		else if (3 * d > 2 * s){
+			ans = 6 * s - 6 * d;
+		}
+		else if (4 * d > s){
+			ans = 3 * s - 9 * d;
+		}
+		else {
+			ans = -1;
+		}
+		if (ans > 0){
+			cout << ans << endl;
+		}
+		else {
+			cout << "Deficit" << endl;
+		}
+	}
+	return 0;
+}

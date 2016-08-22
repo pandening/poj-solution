@@ -1,0 +1,46 @@
+/*
+  题意：给出两条直线，判断这两条直线的关系
+  这两条直线可能共线，平行，和相交，如果相交的话
+  求出交点，这就是一道数学题啊
+*/
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+#define inf 1e-8
+struct line
+{
+	double a, b, c, d;
+}a, b;
+double x, y;
+void intersection()
+{
+	double a1 = a.b - a.d, b1 = a.c - a.a, c1 = a.a*a.d - a.c*a.b;
+	double a2 = b.b - b.d, b2 = b.c - b.a, c2 = b.a*b.d - b.c*b.b;
+	x = (c1*b2 - c2*b1) / (a2*b1 - a1*b2);
+	y = (a2*c1 - a1*c2) / (a1*b2 - a2*b1);
+}
+int main()
+{
+	int t;
+	puts("INTERSECTING LINES OUTPUT");
+	scanf("%d", &t);
+	for (; t--;)
+	{
+		scanf("%lf%lf%lf%lf%lf%lf%lf%lf", &a.a, &a.b, &a.c, &a.d, &b.a, &b.b, &b.c, &b.d);
+		if (abs((a.a - a.c)*(b.b - b.d) - (a.b - a.d)*(b.a - b.c))<inf)//判断是否平行
+		{
+			if (abs((a.c - a.a)*(b.b - a.b) - (a.d - a.b)*(b.a - a.a))<inf)//判断是否共线
+				puts("LINE");
+			else
+				puts("NONE");
+		}
+		else
+		{
+			intersection();
+			printf("POINT %.2f %.2f\n", x, y);
+		}
+	}
+	puts("END OF OUTPUT");
+	return 0;
+}

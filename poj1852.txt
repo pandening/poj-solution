@@ -1,0 +1,23 @@
+/*
+@poj 1852 ants
+就是贪心的选择离自己最远的或者是最近的走就可以了
+*/
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int main()
+{
+	int l, n, c, p,ma,mi;
+	cin >> c;
+	while (c--){
+		ma = 0, mi = 0;
+		cin >> l >> n;
+		for (int i = 0; i < n; i++){
+			cin >> p;
+			ma = max(ma, max(p, l - p));
+			mi = max(mi, min(p, l - p));
+		}
+		cout << mi << " " << ma << endl;
+	}
+	return 0;
+}

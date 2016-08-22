@@ -1,0 +1,24 @@
+/*
+  题意：有n根烟，知道k个烟蒂可以换一根烟，现在一根一根的
+  抽，那么问题就是这个人最多可以抽到多少根烟呢？
+  思路：用一个变量记录现在的烟的数量和烟蒂的数量
+  当烟蒂的数量达到k后，剩下的烟的数量加1，烟蒂=0
+  当剩下的烟为0并且烟蒂的数量<k时结束
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int n, k;
+	while (cin >> n >> k)
+	{
+		int ans = n;
+		while (n/k)
+		{
+			ans+= (n / k);
+			n = n%k + n / k;
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

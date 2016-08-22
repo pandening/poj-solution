@@ -1,0 +1,68 @@
+/*
+ 两个数字倒过来相加，结果倒过来输出
+*/
+#include<iostream>
+#include<string>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+int toint(string x)
+{
+	int ans = 0;
+	int k = 0;
+	for (int i = x.length() - 1; i >= 0; i--)
+	{
+		ans += (int)(x[i] - '0')*pow(10.0, k++);
+	}
+	return ans;
+}
+string add(string a, string b)
+{
+	string ans = "";
+	int pk = abs((int)(a.length() - b.length()));
+	string z(pk, '0');
+	if (a.length() < b.length()) a = z + a;
+	else{
+		b = z + b;
+	}
+	int sum = 0, carry = 0;
+	for (int i = a.length() - 1; i >= 0; i--)
+	{
+		sum = (int)(a[i] - '0' + b[i] - '0') + carry;
+		ans = (char)(sum % 10 + '0') + ans;
+		carry = sum / 10;
+	}
+	if (carry)
+	{
+		ans = (char)(carry + '0') + ans;
+	}
+	return ans;
+}
+string tostring(int x)
+{
+	string ans = "";
+	while (x)
+	{
+		int s = x % 10;
+		ans += (char)(s + '0');
+		x /= 10;
+	}
+	return ans;
+}
+int main()
+{
+	int n;
+	string a, b;
+	cin >> n;
+	while (n--)
+	{
+		cin >> a >> b;
+		reverse(a.begin(),a.end());
+		reverse(b.begin(), b.end());
+		int res=toint(a) + toint(b);
+		string ans=tostring(res);
+		//reverse(ans.begin(), ans.end());
+		cout << toint(ans) << endl;
+	}
+	return 0;
+}

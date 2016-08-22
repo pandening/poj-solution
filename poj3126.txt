@@ -1,0 +1,107 @@
+/*
+  题意：将一个四位数的素数变为例外一个四位数的素数
+  每次从一个素数变为另一个素数只能改变一位，而且不
+  能有重复的，问需要变化几次能到达目标素数呢
+  思路：BFS枚举个位，十位，百位，千位
+  注意：个位只可能是奇数，因为偶数不可能是素数
+        千位必须大于0，所以从1开始枚举
+*/
+#include<iostream>
+#include<queue>
+#include<cstring>
+using namespace std;
+bool vis[10000];
+typedef pair<int, int>PrimMove;
+bool IsPrim(int x)
+{
+	//判断x是不是素数
+	if (x == 2) return true;
+	for (int i = 2; i*i <= x; i++)
+	{
+		if (x%i == 0)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+queue<PrimMove> que;
+//将素数a变为素数b
+int a, b;
+bool bfs()
+{
+	while (!que.empty()) que.pop();
+	que.push(PrimMove(a,0));
+	vis[a] = true;
+	while (!que.empty())
+	{
+		PrimMove t = que.front();
+		que.pop();
+		if (t.first== b)
+		{
+			//已经找到啦
+			cout << t.second<< endl;
+			return true;
+		}
+		//将这个素数分解
+		int g = t.first % 10;
+		int s = (t.first / 10) % 10;
+		//枚举个位数
+		for (int i = 1; i <= 9; i += 2)
+		{
+			int num = (t.first / 10) * 10 + i;
+			if (IsPrim(num) && num != t.first&&!vis[num])
+			{
+				vis[num] = true;
+				que.push(PrimMove(num, t.second + 1));
+			}
+		}
+		//枚举十位数字
+		for (int i = 0; i <=9; i++)
+		{
+			int num = (t.first/ 100) * 100 + 10 * i + g;
+			if (IsPrim(num) && num != t.first&&!vis[num])
+			{
+				vis[num] = true;
+				que.push(PrimMove(num, t.second + 1));
+			}
+		}
+		//枚举百位数字
+		for (int i = 0; i <=9; i++)
+		{
+			int num = (t.first / 1000) * 1000 + 100 * i + 10 * s + g;
+			if (IsPrim(num) && num != t.first&&!vis[num])
+			{
+				vis[num] = true;
+				que.push(PrimMove(num, t.second + 1));
+			}
+		}
+		//枚举千位数字，不能为0啊
+		for (int i = 1; i <= 9; i++)
+		{
+			int num = i * 1000 + (t.first% 1000);
+			if (IsPrim(num) && num != t.first&&!vis[num])
+			{
+				vis[num] = true;
+				que.push(PrimMove(num, t.second + 1));
+			}
+		}
+	}
+	//失败
+	return false;
+}
+int main()
+{
+	int cas; cin >> cas;
+	while (cas--)
+	{
+		cin >> a >> b;
+		memset(vis, 0, sizeof(vis));
+		if (!bfs())
+		{
+			cout << "Impossible" << endl;
+		}
+	}
+	return 0;
+}
+

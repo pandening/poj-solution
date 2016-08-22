@@ -1,0 +1,39 @@
+/*
+ @poj 1664
+  题意：有m个苹果n个盘子，共有几种放法
+  DP=>设 dp[i][j]：i个苹果j个盘子的放法，则：
+   1).if(j>i) 那么无论任何都至少会有 n-m个盘子会为空
+        这样的话dp[i][j]=dp[i][i]
+   2).if(j<=i) 
+    @1.有盘子空着不放，则dp[i][j]=dp[i][j-1]
+	@2.所有盘子里面都放了，则dp[i][j]=dp[i-j][i](相当于都减少一个)
+   
+   *=>dp[i][j]=dp[i][j-1]+dp[i-j][j]
+
+   *=>if(n==1) 那么就只有一种放法
+   *=>if(m==0) 就算一种放法
+*/
+#include<iostream>
+using namespace std;
+int opt(int i, int j)
+{
+	//i个苹果，j个盘子
+	if (i == 0 || j == 1) return 1;
+	if (i < j){
+		return opt(i, i);
+	}
+	else if (i >= j){
+		return opt(i, j - 1) + opt(i - j, j);
+	}
+}
+int main()
+{
+	int cas,m,n;
+	cin >> cas;
+	while (cas--)
+	{
+		cin >> m >> n;
+		cout << opt(m, n) << endl;
+	}
+	return 0;
+}

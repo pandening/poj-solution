@@ -1,0 +1,45 @@
+/*
+ 求两个圆相交的面积，模版啊
+ 思路：用两个扇形的面积减去三角形的面积就好了
+*/
+#include<stdio.h>
+#include<math.h>
+#include<iostream>
+#include<algorithm>
+using namespace std;
+#define PI 3.1415926535897932384626433832795
+struct point
+{
+	double x, y, r;
+}a, b;
+double dis(point a, point b)
+{
+	return sqrt((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y));
+}
+double interarea(point a, point b)
+{
+	double d = dis(a, b);
+	//两个圆根本不相交啊
+	if (d >= a.r + b.r)return 0;
+	//一个圆在例外一个圆里面，那么输出小的那个的面积就是
+	double r = a.r>b.r ? b.r : a.r;
+	if (d <= fabs(a.r - b.r))return PI*r*r;
+	//下面就是两个圆相交的求法了
+	//余弦定理：c^2=a^2+b^2-2ab*cos(C)
+	double angle1 = acos((a.r*a.r + d*d - b.r*b.r) / 2.0 / a.r / d);
+	double angle2 = acos((b.r*b.r + d*d - a.r*a.r) / 2.0 / b.r / d);
+	double ans = 0;
+	//因为上下是对称的，所以一次性减去两个三角形
+	ans -= d*a.r*sin(angle1);
+	ans += angle1*a.r*a.r + angle2*b.r*b.r;
+	return ans;
+}
+int main()
+{
+	while (scanf("%lf%lf%lf%lf%lf%lf", &a.x, &a.y, &a.r, &b.x, &b.y, &b.r) != EOF)
+	{
+		double area = interarea(a, b);
+		printf("%.3lf\n", area);
+	}
+	return 0;
+}

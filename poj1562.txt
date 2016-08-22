@@ -1,0 +1,51 @@
+/*
+ ‘@’代表油田，只要在一个‘@’周围8个方向上有‘@’
+ 都代表一个油田，问共多少油田，DFS
+*/
+#include<iostream>
+using namespace std;
+int N, M;
+char maze[101][101];
+void dfs(int x, int y)
+{
+	//将现在所在的位置替换为‘.’
+	maze[x][y] = '.';
+	//循环遍历可以移动的八个方向
+	int dx, dy;
+	for (dx = -1; dx <= 1; dx++){
+		for (dy = -1; dy <= 1; dy++){
+			//向x方向移动dx，向y方向移动dy，新的位置为（nx，ny）
+			int nx = x + dx, ny = y + dy;
+			//判断（nx，ny）是否在院子里，是否有积水
+			if (nx >= 0 && nx < N&&ny >= 0 && ny < M&&maze[nx][ny] == '@'){
+				dfs(nx, ny);
+			}
+		}
+	}
+}
+int main()
+{
+	int i, j;
+	while (cin >> N >> M){
+		if (N + M == 0) break;
+		for (i = 0; i < N; i++){
+			for (j = 0; j < M; j++){
+				cin >> maze[i][j];
+			}
+		}
+		//开始处理
+		int ans = 0;
+		for (i = 0; i < N; i++){
+			for (j = 0; j < M; j++){
+				if (maze[i][j] == '@'){
+					//从有水的地方开始遍历
+					dfs(i, j);
+					//每次遍历，都将那些可以相互连通的水洼联通了
+					ans++;
+				}
+			}
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

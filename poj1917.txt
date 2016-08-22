@@ -1,0 +1,79 @@
+/*
+ ...=>
+
+ s1<s2>s3<s4>s5
+ ->s1 s4s3 s2s5
+*/
+#include<iostream>
+#include<string>
+#include<string.h>
+using namespace std;
+int main()
+{
+	char s1[108],s2[108];
+	int n;
+	cin >> n;
+	gets_s(s1);
+	while (n--)
+	{
+		gets_s(s1);
+		//<p2>p3<p4>p5
+		//->p4p3 p2p5
+		string p2 = "";
+		string p3 = "";
+		string p4 = "";
+		string p5 = "";
+		int t = 0;
+		for (int i = 0; i < strlen(s1); i++)
+		{
+			if (s1[i] == '<')
+			{
+				int k = i + 1;
+				for (k; s1[k] != '>'; k++)
+				{
+					p2 += s1[k];
+				}
+				t = k;
+				break;
+			}
+		}
+		for (int i = t + 1; s1[i] != '<'; i++)
+		{
+			p3 += s1[i];
+			t++;
+		}
+		for (int i = t +2; s1[i] != '>'; i++)
+		{
+			p4 += s1[i];
+			t++;
+		}
+		for (int i = t + 3; s1[i] != '\0'; i++)
+		{
+			p5 += s1[i];
+		}
+		for (int i = 0; i <strlen(s1); i++)
+		{
+			if (s1[i] != '<'&&s1[i] != '>')
+			{
+				cout << s1[i];
+			}
+		}
+		cout << endl;
+		gets_s(s2);
+
+		//debug
+		//cout << "p2=" << p2 << endl;
+		//cout << "p3=" << p3 << endl;
+		//cout << "p4=" << p4 << endl;
+		//cout << "p5=" << p5 << endl;
+		//cout << "p4p3p2p5=>" << p4 << p3 << p2 << p5 << endl;
+
+		int i;
+		for (i = 0;i<strlen(s2)-3;i++)
+		{
+			cout << s2[i];
+		}
+		cout << p4 << p3<< p2 << p5 << endl;
+	}
+	return 0;
+}

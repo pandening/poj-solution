@@ -1,0 +1,125 @@
+/*
+ @poj 3279
+  有一个NxM的格子，每个格子有正面和负面，可以反转，但是当反转一个
+  格子时，上下左右的格子都会同时被反转，现在要将这个格子全部转为
+  正面，（全0，定义正面为0，负面为1），问最好需要的步数
+   分析：只需要枚举第一行格子的反转情况，然后根据上一行的情况
+   去得出下一行的反转情况，最后判断最后一行是不是全白的，如果不是
+   的话，就说明了不符合要求，否则就符合要求
+*/
+#include<cstdio>
+#include<string.h>
+#include<iostream>
+#include<cmath>
+using namespace std;
+int dx[5]= {-1,0,0,1,0};
+int dy[5] ={0,-1,1,0,0};
+int N, M;
+bool maze[16][16];
+bool ans[16][16];//这是要保存结果的数组
+bool tempans[16][16];//这是中间结果的数组
+//一个可以得到（x，y）是不是需要反转的函数
+//只要它被动需要反转，就认为是需要反转的
+int getcolor(int x, int y)
+{
+	int nc = maze[x][y];//自身的颜色
+	for (int i = 0; i <5; i++){
+		int nx = x + dx[i];
+		int ny = y + dy[i];
+		if (nx >= 0 && nx < M&&ny >= 0 && ny <N){
+			//一定要注意这里加的不是maze[nx][ny]而是tempans[nx][ny]
+			//我在这里停留了很久，曹~~~~
+			nc +=tempans[nx][ny];
+		}
+	}
+	return nc % 2;
+}
+
+//一个复制函数的实现
+void mycopy(bool dest[16][16], bool souc[16][16])
+{
+	for (int i = 0; i < 16; i++){
+		for (int j = 0; j < 16; j++){
+			dest[i][j] = souc[i][j];
+		}
+	}
+	return;
+}
+
+void init(bool d[16][16], int v)
+{
+	for (int i = 0; i < 16; i++){
+		for (int j = 0; j < 16; j++){
+			d[i][j] = v;
+		}
+	}
+}
+
+//假设第一行的反转方案已经确定，那么根据第一行的反转方案求出最少
+//需要的反转次数,如果无解的话，那么就返回-1
+int solve()
+{
+	//从第二行开始计算就好了
+	for (int i = 1; i < M; i++){
+		for (int j = 0; j < N; j++){
+			if (getcolor(i - 1, j) != 0){
+				//(i-1,j)是黑色的，那么就需要反转这个格子将它反转为白色
+				tempans[i][j] = 1;
+			}
+		}
+	}//endfor
+	//现在判断最后一行是不是全部都是白色的，如果不是的话就说明无解了
+	for (int i = 0; i <N; i++){
+		if (getcolor(M - 1, i) != 0){
+			return -1;
+		}
+	}
+	int res = 0;
+	//现在开始统计需要反转的总次数
+	for (int i = 0; i < M; i++){
+		for (int j = 0; j < N; j++){
+			res += tempans[i][j];
+		}
+	}
+	return res;
+}
+int main()
+{
+	cin >> M >> N;
+	for (int i = 0; i < M; i++){
+		for (int j = 0; j < N; j++)
+		{
+			cin >> maze[i][j];
+		}
+	}
+
+	int res = -1;
+	//按照字典序开始枚举第一行的所有反转方案
+	for (int i = 0; i < 1 << N; i++){
+		//memset(tempans, 0, sizeof(tempans));
+		init(tempans, 0);
+		for (int j = 0; j < N; j++){
+			tempans[0][N - 1 - j] = i >> j & 1;
+		}
+		int num = solve();
+		if (num >= 0 && (res<0 || res>num)){
+			//有解并且比前面的结果优
+			res = num;
+			mycopy(ans, tempans);
+		}
+
+	}//endfor
+	//现在已经尝试完所有的方案了，输出结果
+	if (res < 0){
+		cout << "IMPOSSIBLE" << endl;
+	}
+	else{
+		for (int i = 0; i < M; i++){
+			for (int j = 0; j < N; j++){
+				cout <<ans[i][j] << " ";
+			}
+			cout << endl;
+		}
+	}
+	return 0;
+}

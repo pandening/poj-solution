@@ -1,0 +1,24 @@
+/*
+ @poj 2521
+ n m p c
+ n=>原价
+ m=>售价
+ p=>假币
+ c=>找零
+ TrueMoney=m+c-p
+ TheAnsMoney=n+c-(m+c-p)=n-m+p
+ */
+#include<iostream>
+using namespace std;
+int main()
+{
+	int n, m, p, c;
+	while (cin >> n>>m>>p>>c)
+	{
+		if (n + m + p + c == 0) break;
+		else{
+			cout <<n-m+p<< endl;
+		}
+	}
+	return 0;
+}

@@ -1,0 +1,26 @@
+/*
+ @poj 2707
+ 有一张AxBmm大小的纸，然后有一张CxDmm大小的照片
+ 问是不是可以将照片放在纸里面，输出最大的可以放进去的
+ 比例
+*/
+#include<iostream>
+#include<algorithm>
+#include<cstdio>
+using namespace std;
+int main()
+{
+	double a, b, c, d;
+	while (cin>>a>>b>>c>>d){
+		if (!a&&!b&&!c&&!d) return 0;
+		if (a>b) swap(a, b);
+		if (c>d) swap(c, d);
+		if (a <= c&&b <= d){
+			cout << "100%" << endl;
+			continue;
+		}
+		int ans = min(d / b, c / a);
+		cout << 100 * ans << "%" << endl;
+	}
+	return 0;
+}

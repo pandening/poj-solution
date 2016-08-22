@@ -1,0 +1,25 @@
+/*
+ @poj 2636
+ 将所有的插口sum，然后减去n-1，因为假设
+ 留下一个作为总线插口，然后其他都是从这里分出去的就好了
+ 属于简单题
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int cas;
+	cin >> cas;
+	while (cas--)
+	{
+		int n, sum = 0,in;
+		cin >> n;
+		sum -= (n - 1);
+		for (int i = 0; i < n; i++){
+			cin >> in;
+			sum += in;
+		}
+		cout << sum << endl;
+	}
+	return 0;
+}

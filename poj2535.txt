@@ -1,0 +1,48 @@
+///*
+// @poj 2535
+// 有N个评委给P个问题打分，打分越高则题目越难，一个问题最终
+// 被定义为“simplest”的条件是：超过一半的评委认为“simplest”
+// 并且没有一个评委认为是“hardest”的，求“simplest”的题目
+//
+// 设计：（1）、设计一个map用来保存一个题目是不是被标注为最难
+//       （2）、用一个数组记录一道题被标记为最简单的次数
+//	   （3）、对每一个题目判断是不是符合要求，输出
+//*/
+#include<cstdio>
+#include<iostream>
+using namespace std;
+int input[101],countt[101];
+bool hard[101];
+int main()
+{
+	int n, p;
+	bool flag = false;
+	int ma, mi;
+	cin >> n >> p;
+	for (int i = 0; i<n; ++i)
+	{
+		for (int j= 0; j<p; ++j) 
+			scanf_s("%d", &input[j]);
+		ma=-1, mi = 0x7fffffff;
+		//找到最难和最简单的分数
+		for (int j = 0; j<p; ++j)
+		{
+			if (ma<input[j]) ma = input[j];
+			if (mi>input[j]) mi = input[j];
+		}
+		//判断最难的题和最简单
+		for (int j = 0; j<p; ++j)
+		{
+			if (input[j] == ma) hard[j] =true;
+			if (input[j] == mi) countt[j]++;
+		}
+	}
+	//输出
+	for (int i = 0; i<p; ++i)
+	{
+		if (!hard[i]&& countt[i]>n / 2) printf_s("%d ", i + 1), flag =true;
+	}
+	if (!flag) printf_s("0");
+	printf_s("\n");
+	return 0;
+}

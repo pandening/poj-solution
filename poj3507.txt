@@ -1,0 +1,28 @@
+/*
+@poj3507
+题目要求去掉一个最大值去掉一个最小值，然后求平均值
+*/
+#include<algorithm>
+#include<iostream>
+#include<cstdio>
+using namespace std;
+int main()
+{
+	float x[6];
+	while (true)
+	{
+		float sum = 0.0;
+		for (int i = 0; i < 6; i++){
+			cin >> x[i];
+			sum += x[i];
+		}
+		float mi = 9999999, ma = -1;
+		for (int i = 0; i < 6; i++){
+			if (mi>x[i]) mi = x[i];
+			if (ma < x[i]) ma = x[i];
+		}
+		if (sum == 0) break;
+		printf_s("%g\n", (sum - mi - ma) / 4.0);
+	}
+	return 0;
+}

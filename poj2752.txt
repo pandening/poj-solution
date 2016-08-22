@@ -1,0 +1,42 @@
+/*
+  题意：就是给出一个字符串，求既是前缀又是后缀
+  的串的长度，从小到大输出来
+  思路：next数组的使用
+*/
+#include<iostream>
+#include<string>
+using namespace std;
+int Next[400001], res[400001];
+string str;
+void getnext(int len)
+{
+	Next[0] = -1;
+	int i = 0, j = -1;
+	while (i < len)
+	{
+		if (j == -1 || str[i] == str[j])
+		{
+			++i, ++j;
+			Next[i] = j;
+		}
+		else{
+			j = Next[j];
+		}
+	}
+}
+void T(int x)
+{
+	if (Next[x] == -1) return;
+	T(Next[x]);
+	cout << x << " ";
+}
+int main()
+{
+	while (cin >> str)
+	{
+		getnext(str.length());
+		T(str.length());
+		cout << endl;
+	}
+	return 0;
+}

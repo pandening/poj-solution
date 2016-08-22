@@ -1,0 +1,40 @@
+/*
+ @poj 2386 用dfs就可以解决啦
+*/
+#include<iostream>
+using namespace std;
+#define FOR(i,j,n,m) for(int i=0;i<n;i++)for(int j=0;j<m;j++)
+int n, m;
+char maze[101][101];
+void dfs(int x, int y){
+	//从（x，y）出发，将所有联通的点都遍历
+	maze[x][y] = '.';
+	int dx, dy;
+	for (dx = -1; dx <= 1; dx++){
+		for (dy = -1; dy <=1; dy++){
+			int nx = x + dx;
+			int ny = y + dy;
+			if (nx >= 0 && nx < n&&ny >= 0 && ny < m&&maze[nx][ny] == 'W'){
+				dfs(nx, ny);
+			}
+		}
+	}
+	return;
+}
+int main()
+{
+	int i, j;
+	cin >> n >> m;
+	FOR(i, j, n, m){
+		cin >> maze[i][j];
+	}
+	int ans = 0;
+	FOR(i, j, n, m){
+		if (maze[i][j] == 'W'){
+			dfs(i, j);
+			ans++;
+		}
+	}
+	cout << ans << endl;
+	return 0;
+}

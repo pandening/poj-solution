@@ -1,0 +1,61 @@
+/*
+* @poj 1517
+* 根据公式求e
+* e=Σ0<=i<=n1/i!
+*/
+#include<iostream>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	struct p{ int x; double v; };
+	p table[10] = {
+		{ 0, 1 },
+		{ 1, 2 },
+		{ 2, 2.5 },
+		{ 3, 2.666666667 },
+		{ 4, 2.708333333 },
+		{ 5, 2.716666667 },
+		{ 6, 2.718055556 },
+		{ 7, 2.718253968 },
+		{ 8, 2.718278770 },
+		{ 9, 2.718281526 },
+	};
+	cout << fixed << setprecision(9);
+	cout << "n e" << endl;
+	cout << "- -----------" << endl;
+	cout << "0 1" << endl;
+	cout << "1 2" << endl;
+	cout << "2 2.5" << endl;
+	for (int i = 3; i < 10; i++){
+		cout << table[i].x << " " << table[i].v << endl;
+	}
+	return 0;
+}
+
+
+
+//int fact(int n)
+//{
+//	//求n!
+//	if (n == 1 || n == 0){
+//		//0!=1
+//		return 1;
+//	}
+//	else{
+//		return n*fact(n - 1);
+//	}
+//}
+//int main()
+//{
+//	double e=0;
+//	ofstream w;
+//	w << fixed << setprecision(9);
+//	w.open("e.txt");
+//	for (int j = 0; j <= 9; j++){
+//		e += 1.0 / fact(j);
+//		w << j << " " << e << endl;
+//	}
+//	w.close();
+//	return 0;
+//}

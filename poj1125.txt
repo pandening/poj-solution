@@ -1,0 +1,121 @@
+/*
+  题意：给出一些人之间的传递距离，求需要的最短时间
+  思路：floyd算法
+*/
+#include<iostream>
+using namespace std;
+int map[101][101];
+int main()
+{
+	int n, m;
+	while (cin >> n)
+	{
+		if (n == 0) break;
+		//init
+		for (int i = 1; i <= n; i++)
+		{
+			for (int j = 1; j <= n; j++)
+			{
+				map[i][j] =0x7ffff;
+			}
+		}
+		for (int i = 1; i <= n; i++)
+		{
+			scanf_s("%d", &m);
+			for (int j = 0; j < m; j++)
+			{
+				int k,cost;
+				cin >> k >> cost;
+				map[i][k] = cost;
+			}
+		}
+		//input done
+		//floyd
+		for (int k = 1; k <= n; k++){
+			for (int i = 1; i <= n; i++){
+				for (int j = 1; j <= n; j++){
+					if (map[i][j] > map[i][k] + map[k][j])
+					{
+						map[i][j] = map[i][k] + map[k][j];
+					}
+				}
+			}
+		}
+		int startpeople, anstime=0x7ffff,allcost=0;
+		for (int i = 1; i <= n; i++)
+		{
+			allcost = 0;
+			for (int j = 1; j <= n; j++)
+			{
+				if (i != j&&map[i][j] > allcost)
+				{
+					allcost = map[i][j];
+				}
+				if (allcost < anstime)
+				{
+					startpeople = i;
+					anstime = allcost;
+				}
+			}
+		}
+		cout << startpeople << " " << allcost << endl;
+	}
+	return 0;
+}
+
+
+/*
+
+
+#include<iostream>
+using namespace std;
+const int Max = 105;
+
+
+
+int main()
+{
+int n, m, i, j, k, minute;
+int map[Max][Max];
+
+while(cin >> n && n != 0)
+{
+for(i = 1; i <= n; i ++)
+for(j = 1; j <= n; j ++)
+map[i][j] = 999;
+for(i = 1; i <= n; i ++)
+{
+cin >> m;
+while(m --)
+{
+cin >> j >> minute;
+map[i][j] = minute;
+}
+}
+
+
+
+for(k = 1; k <= n; k ++)   //  floyd。
+for(i = 1; i <= n; i ++)
+for(j = 1; j <= n; j ++)
+if(map[i][k] + map[k][j] < map[i][j])
+map[i][j] = map[i][k] + map[k][j];
+int sum, stockbroker, time = 9999;
+for(i = 1; i <= n; i ++)
+{
+sum = 0;
+for(j = 1; j <= n; j ++)    //  求出以第i个stockbroker为起点的所用最少时间。
+if(i != j && map[i][j] > sum)
+sum = map[i][j];
+if(sum < time)
+{
+stockbroker = i;
+time = sum;
+}
+}
+cout << stockbroker << ' ' << time << endl;
+}
+return 0;
+}
+ 
+*/

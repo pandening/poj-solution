@@ -1,0 +1,183 @@
+/*
+  题意：拓扑排序问题
+  要点：
+     1、每输入一次，就要判断一次，知道输入结束或者确定
+	 2、如果发现圈，那么就不再判断
+	 3、如果发现可以得到一个唯一的拓扑排序，也不再判断
+	 4、如果某次判断时，入度为0的点大于1个，则无法判断
+	 5、所以，对于每输入一项，是不是入度为0的点多余1个，
+	 如果不是，最后进行拓扑排序，看是不是可以成功或者
+	 形成圈
+*/
+#include<iostream>
+#include<stack>
+#include<vector>
+#include<map>
+#include<string>
+#include<string.h>
+#define max_n 27
+using namespace std;
+bool Grap[max_n][max_n];
+int n;    //顶点数量
+int m;    //边的数量
+//顶点入度与顶点间的映射关系
+int V_Num[26];
+//用于存放入度为0的顶点的栈
+stack<int> Zero_in_v;
+//用于存放删除结点的栈
+stack<int> Removed_V;
+//判断是不是所有点都包含了的数组
+map<char,bool> C_B;
+//拓扑排序的结果
+string Sorted;
+int getnum()
+{
+	cout << "......................." << endl;
+	int ans = 0;
+	for (map<char, bool>::iterator mit = C_B.begin();
+		mit != C_B.end(); mit++)
+	{
+		if (mit->second == true)
+		{
+			ans++;
+			cout << mit->first << "->" << mit->second << endl;
+		}
+	}
+	cout << "........................" << endl;
+	return ans;
+}
+int tuopulogicsort()
+{
+	   Sorted = "";
+	   getnum();
+	//返回1代表可以成功判断n个点之间的关系
+	//返回2代表存在圈
+	//返回3代表不能覆盖n个点
+	//返回4代表存在多个入度为0的点
+	for (int i = 0; i <26; i++){
+		if (V_Num[i] == 0&&C_B[(char)('A'+i)]==true){
+			Zero_in_v.push(i);
+		}
+	}
+	if (Zero_in_v.size() == 0)
+	{
+		//不能判断
+		return 3;
+	}
+	if (Zero_in_v.size() > 1)
+	{
+		//多于1个入读为0的点
+		return 3;
+	}
+	else if(getnum()==n){
+		//判断是不是已经包含了n个点
+		//下面就是真正判断是不是可以形成拓扑排序了
+		//从这些入度为0的顶点开始更新整个图
+		while (!Zero_in_v.empty()){
+			int v = Zero_in_v.top();
+			Zero_in_v.pop();
+			Removed_V.push(v);
+			//在这里删除了一个
+			for (int i = 0; i < 26; i++){
+				if (Grap[v][i] == 1){
+					V_Num[i]--;
+					if (V_Num[i] == 0){
+						//删除这条边
+						Grap[v][i] = 0;
+						Zero_in_v.push(i);
+					}
+				}
+			}
+		}
+		//无圈存在
+		if (Removed_V.size() == n){
+			//拓扑排序成功啦
+			//将拓扑排序的结果复制到结果中
+			while (!Removed_V.empty())
+			{
+				Sorted = ((char)(Removed_V.top() + 'A')) + Sorted;
+				Removed_V.pop();
+			}
+			return 1;
+		}
+		else{
+			return 2;
+		}
+	}
+	else{
+		return 3;
+	}
+}
+int main()
+{
+	while (cin >> n >> m){
+		if (n + m == 0) break;
+		Sorted = "";
+		C_B.clear();
+		memset(V_Num,0, sizeof(V_Num));
+		while (!Zero_in_v.empty()){
+			Zero_in_v.pop();
+		}
+		while (!Removed_V.empty()){
+			Removed_V.pop();
+		}
+		for (int i = 0; i < 26; i++)
+		{
+			for (int j = 0; j < 26; j++)
+			{
+				Grap[i][j] = 0;
+			}
+		}
+		bool res=false;
+		bool done = 0, loop = 0, not = 0;
+		//判断的次数
+		int num = 0;
+		//input
+		for (int i = 0; i < m; i++){
+			char vf,ju,vt;
+			cin >> vf >>ju>>vt;
+			if (res == false){
+				Grap[(size_t)(vf - 'A')][(size_t)(vt - 'A')] = 1;
+				//初始化顶点vt的入度
+				V_Num[(size_t)(vt - 'A')]++;
+				C_B.insert(make_pair(vt, true));
+				C_B.insert(make_pair(vf, true));
+				//输入一项完成，那么现在就要开始进行判断一次
+				int ans = tuopulogicsort();
+				//返回1代表可以成功判断n个点之间的关系
+				//返回2代表存在圈
+				//返回3代表不能覆盖n个点
+				//返回4代表存在多个入度为0的点
+				if (ans == 1)
+				{
+					num=i+1;
+					res = true;
+					done = true;
+				}
+				else if (ans == 2)
+				{
+					num=i+1;
+					res = true;
+					loop = true;
+				}
+				else if (ans== 3)
+				{
+					not = true;
+				}
+			}
+		}
+		//the output
+		if (done)
+		{
+			cout << "Sorted sequence determined after " << num << " relations:"<<Sorted<<endl;
+		}
+		else if(loop){
+			cout << "Inconsistency found after " << num << " relations." << endl;
+		}
+		else
+		{
+			cout << "Sorted sequence cannot be determined." << endl;
+		}
+	}
+	return 0;
+}

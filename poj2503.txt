@@ -1,0 +1,50 @@
+/*
+ 给一个字典，一个外语对应一个英语
+ 给出外语，输出英语，就是map应用
+*/
+#include<iostream>
+#include<cstdio>
+#include<string>
+#include<string.h>
+#include<map>
+using namespace std;
+int main()
+{
+	map<string, string> dic;
+	string in,e,f,s;
+	dic.clear();
+	while (getline(cin,in))
+	{ 
+		if (in == "") break;
+		e = "", f = "";
+		int i;
+		for (i = 0; i < in.length(); i++)
+		{
+			if (in[i] != ' ')
+			{
+				e += in[i];
+			}
+			else{
+				break;
+			}
+		}
+		i++;
+		for (; i < in.length(); i++)
+		{
+			f += in[i];
+		}
+		
+		dic[f] =e;
+	}
+	while (cin>>s)
+	{
+		if (!dic[s].empty())
+		{
+			cout << dic[s] << endl;
+		}
+		else{
+			cout << "eh" << endl;
+		}
+	}
+	return 0;
+}

@@ -1,0 +1,50 @@
+/*
+  @poj 3684
+  弹性碰撞，根据能量守恒定理，当两个小球相遇时，考虑为不发生
+  碰撞，所以当两个小球相遇时，不发生方向的改变，这样就只需要
+  不断判断就可以拉
+*/
+#include<cstdio>
+#include<iostream>
+#include<cmath>
+#include<algorithm>
+#include<iomanip>
+using namespace std;
+double g = 10.0;
+int n, h, r, TT;
+//所有球的最终位置
+double y[101];
+
+double solve(int T)
+{
+	//T时刻球的位置
+	if (T < 0) return h;
+	double t = sqrt(2 * h / g);
+	int k = (int)(T / t);
+	if (k % 2 == 0){
+		double ti = T - k*t;
+		return h - 0.5*g*ti*ti;
+	}
+	else{
+		double ti = k*t + t - T;
+		return h - 0.5*g*ti*ti;
+	}
+}
+int main()
+{
+	int cas;
+	scanf_s("%d", &cas);
+	while (cas--)
+	{
+		scanf_s("%d%d%d%d", &n, &h, &r, &TT);
+		for (int i = 0; i < n; i++){
+			y[i] = solve(TT - i);
+		}
+		sort(y, y + n);
+		//output
+		for (int i = 0; i < n; i++){
+			printf_s("%.2f%c", y[i] + 2 * r*i / 100.0, i + 1 == n ? '\n' : ' ');
+		}
+	}
+	return 0;
+}

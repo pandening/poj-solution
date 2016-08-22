@@ -1,0 +1,22 @@
+/*
+ @poj 2388
+ 排序，然后找到中位数，保证输入的是奇数个
+*/
+#include<cstdio>
+#include<iostream>
+#include<algorithm>
+using namespace std;
+typedef long long ll;
+int main()
+{
+	ll *x;
+	int N;
+	cin >> N;
+	x = new ll[N];
+	for (int i = 0; i < N; i++){
+		scanf_s("%ld", &x[i]);
+	}
+	sort(x, x + N);
+	printf_s("%ld\n", x[N / 2]);
+	return 0;
+}

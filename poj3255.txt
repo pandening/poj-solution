@@ -1,0 +1,77 @@
+/*
+@poj 3255 次短路径问题
+  由最短路径算法出发，求解最短路径问题
+  因为到v的次短路径要么是到u的最短路径+dis（u，v）
+  要么是到u的次短路径+dis（u，v）
+  所以在求最短路径的时候，求次短路径就可以啦
+*/
+#include<iostream>
+#include<functional>
+#include<algorithm>
+#include<vector>
+#include<queue>
+#include<cstdio>
+#define INF 0x7fffffff
+using namespace std;
+typedef pair<int, int> P;
+int N, R;//N为路口数量，R为道路数量
+void Fill(int a[], int n, int v){
+	for (int i = 0; i < n; i++){
+		a[i] = v;
+	}
+}
+struct edge{
+	int to, cost;
+	edge(int t, int c){
+		to = t, cost = c;
+	}
+};
+vector<edge> G[5002];
+int md[5002], sd[5002];
+void Dijkstra()
+{
+	//用dijkstra算法
+	priority_queue<P, vector<P>, greater<P> > que;
+	Fill(md, N, INF);
+	Fill(sd, N, INF);
+	md[0] = 0;
+	que.push(P(0,0));
+	//P first 是代表距离的，second是代表号码的
+	while (!que.empty())
+	{
+		P p = que.top();
+		que.pop();
+		int v = p.second;
+		int d = p.first;
+		//说明还没有被更新过，则继续找到那个用过的结点
+		if (sd[v] < d) continue;
+		for (int i = 0; i < G[v].size(); i++){
+			edge e = G[v][i];
+			int d2 = d + e.cost;
+			if (d2 < md[e.to]){
+				swap(md[e.to], d2);
+				que.push(P(md[e.to],e.to));
+			}
+			if (sd[e.to]>d2&&d2>md[e.to]){
+				sd[e.to] = d2;
+				que.push(P(sd[e.to],e.to));
+			}
+		}
+	}
+	cout << sd[N - 1] << endl;
+}
+int main()
+{
+	while (scanf_s("%d%d", &N, &R) != EOF){
+		for (int i = 0; i < N; i++) G[i].clear();
+		int vf, vt, vc;
+		for (int i = 0; i < R; i++){
+			scanf_s("%d%d%d", &vf, &vt, &vc);
+			G[vf - 1].push_back(edge(vt - 1,vc));
+			G[vt - 1].push_back(edge(vf - 1, vc));
+		}
+		Dijkstra();
+	}
+	return 0;
+}
+

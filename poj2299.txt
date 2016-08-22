@@ -1,0 +1,158 @@
+/*
+ @poj 2299
+ 求冒泡排序的交换次数，其实就是求数组的逆序数
+*/
+#include<cstdio>
+#include<iostream>
+#include<map>
+#include<algorithm>
+typedef long long ll;
+using namespace std;
+int in[500001];
+int temp[500001];
+int n;
+ll ans;
+//用归并排序的算法求逆序数
+//下面是将两个已经有序的数列组合在一起，成为一个数列
+void Merge(int l, int m, int h)
+{
+	//l..m and m+1...h
+	//现在是0...l已经有序，只需要l...h有序，整个序列就有序了
+	int i = l;
+	int j = m + 1;
+	int t = 0;
+	while (i <= m&&j <= h)
+	{
+		if (in[i] <= in[j]){
+			temp[t++] = in[i];
+			i++;
+		}
+		else{
+			temp[t++] = in[j];
+			j++;
+			ans+= m -i+1;
+		}
+	}
+	while (i <= m){
+		temp[t++] = in[i];
+		i++;
+	}
+	while (j <=h){
+		temp[t++] = in[j];
+		j++;
+	}
+	//copy
+	for (int x = 0; x <t; x++){
+		in[l + x] = temp[x];
+	}
+}
+//mergesort
+void Mergesort(int l, int h)
+{
+	int m;
+	if (l < h)
+	{
+		m = (l + h) / 2;
+		Mergesort(l, m);
+		Mergesort(m + 1, h);
+		Merge(l,m,h);
+	}
+}
+//debug
+void out(int x[], int n)
+{
+	for (int i = 0; i < n; i++){
+		cout << x[i] << " ";
+	}
+	cout << endl;
+}
+
+
+int main()
+{
+	while (true){
+		scanf_s("%d", &n);
+		if (n == 0) break;
+		ans = 0;
+		for (int i = 0; i < n; i++){
+			scanf_s("%d",in+i);
+		}
+		Mergesort(0, n - 1);
+		printf_s("%lld\n", ans);
+		//out(in,n);
+	}
+	return 0;
+}
+
+
+
+
+/*#include <iostream>
+const int MAX = 500000;
+int a[MAX];
+int swap[MAX];		//临时数组
+int n;				//数组a的长度
+__int64 result;			//数组a中的逆序数
+
+//归并两个已经有序的段：a[low]—a[mid]和a[mid+1]—a[high]，使得a[low]—a[high]有序。
+void merge(int low, int mid, int high)
+{
+	int i = low;
+	int j = mid + 1;
+	int m = 0;
+	while (i <= mid && j <= high)
+	{
+		if (a[i] <= a[j])
+		{
+			swap[m++] = a[i];
+			i++;
+		}
+		else
+		{
+			swap[m++] = a[j];
+			j++;
+			result += mid - i + 1;
+		}
+	}
+	while (i <= mid)
+	{
+		swap[m++] = a[i];
+		i++;
+	}
+	while (j <= mid)
+	{
+		swap[m++] = a[j];
+		j++;
+	}
+	for (i = 0; i < m; i++)
+		a[low + i] = swap[i];
+}
+
+//归并排序：对a[low]—a[high]进行归并排序。
+void mergeSort(int low, int high)
+{
+	int mid;
+	if (low < high)
+	{
+		mid = (low + high) / 2;
+		mergeSort(low, mid);
+		mergeSort(mid + 1, high);
+		merge(low, mid, high);
+	}
+}
+
+int main()
+{
+	int i;
+	while (true)
+	{
+		scanf_s("%d", &n);
+		if (n == 0) break;
+		result = 0;
+		for (i = 0; i < n; i++)
+			scanf_s("%d", a + i);
+		mergeSort(0, n - 1);
+		printf_s("%I64d\n", result);
+	}
+	return 0;
+}*/

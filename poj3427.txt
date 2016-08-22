@@ -1,0 +1,32 @@
+/*
+ @poj 3427
+ 就是说有n棵树，卡车长为l，只有长度为l的木头才能装在
+ 卡车上面，也就是说，要将一颗树卡成l长度的若干段，不符合
+ l长度的那些将丢掉，但是丢掉就要交更多地税，一种方法是可以等
+ 树长高了再砍，树每年长高1，求交税最少的等待年数
+  模拟树，树的段，这个系统的情况
+*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int t[30001];
+	int n,l;
+	cin >> n >> l;
+	for (int i = 0; i < n; i++) cin >> t[i];
+	int ans;
+	int mmm = 0x7fffffff;
+	for (int i = 0; i <= l; i++)
+	{
+		int sum = 0;
+		for (int j = 0; j < n; j++){
+			sum += (t[j] + i) %l;
+		}
+		if (sum <mmm){
+			mmm = sum;
+			ans = i;
+		}
+	}
+	cout << ans << endl;
+	return 0;
+}

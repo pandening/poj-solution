@@ -1,0 +1,29 @@
+#include<cstdio>
+#include<cstring>
+int main(){
+	int n;
+	char ans[10];
+	int low = 0, high = 11;
+	int dish = 1;
+	while (scanf_s("%d", &n) && n){
+		scanf_s("%*s %s", ans);
+		if (ans[0] == 'o'){
+			if (n>low&&n<high&&dish)puts("Stan may be honest");
+			else puts("Stan is dishonest");
+			low = 0;
+			high = 11;
+			dish = 1;
+			continue;
+		}
+		if (ans[0] == 'h'){
+			if (n <= low){ dish = 0; }
+			else if (n<high)high = n;
+			continue;
+		}
+		if (ans[0] == 'l'){
+			if (n >= high){ dish = 0; }
+			else if (low<n)low = n;
+			continue;
+		}
+	}
+}

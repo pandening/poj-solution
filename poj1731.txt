@@ -1,0 +1,21 @@
+/*
+ @poj 1731
+ 就是求一个字符串的不重复的全排列
+ STL=>next_permutation
+*/
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+char s[201];
+int main()
+{
+	cin >> s;
+	sort(s,s+strlen(s));
+	cout << s << endl;
+	while (next_permutation(s, s + strlen(s)))
+	{
+		cout << s << endl;
+	}
+	return 0;
+}

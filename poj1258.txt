@@ -1,0 +1,50 @@
+/*
+  思路：最小生成树prim算法
+*/
+#include<iostream>
+#include<cstring>
+#include<cstdio>
+using namespace std;
+int main()
+{
+	int map[101][101];
+	bool vis[101];
+	int n;
+	while (scanf_s("%d", &n) != EOF)
+	{
+		if (n == 0) break;
+		memset(vis, 0, sizeof(vis));
+		for (int i = 0; i < n;i++)
+		for (int j = 0; j < n; j++)
+			scanf_s("%d", &map[i][j]);
+		
+		vis[0] = 1;
+		int num = 1;
+		int ans = 0;
+		while (num != n)
+		{
+			int m = 0x7ffffff;
+			int id = 0;
+			for (int i = 0; i < n; i++)
+			{
+				for (int j = 0; j < n; j++)
+				{
+					if (vis[i] &&!vis[j])
+					{
+						if (map[i][j] < m)
+						{
+							m = map[i][j];
+							id = j;
+						}
+
+					}
+				}
+			}
+			vis[id] = true;
+			ans += m;
+			num++;
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

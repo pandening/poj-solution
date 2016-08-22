@@ -1,0 +1,46 @@
+/*
+   问题：给出一个数字n，现在要求一个数字，这个数字只能
+   由1或者0组成，而且，这个数字可以被n整除，求这个数。
+   思路：既然只能由1或者0组成，那么就从1开始，一直搜索
+   下去，直到搜索。（因为题目一定会有答案）
+   ps:this problem is TEL
+*/
+#include<iostream>
+#include<queue>
+#include<cstdio>
+using namespace std;
+typedef long long ll;
+int input;
+void bfs()
+{
+	queue<ll> ans;
+	ans.push(1);/* start */
+	while (!ans.empty())
+	{
+		ll inter = ans.front();
+		ans.pop();
+		//if inter%n==0 ok end
+		if (inter*10%input== 0)
+		{
+			printf_s("%lld\n", inter*10);
+			return;
+		}
+		if ((inter * 10 + 1) % input==0)
+		{
+			printf_s("%lld\n", inter * 10 + 1);
+			return;
+		}
+		//else bfs
+		ans.push(inter * 10);
+		ans.push(inter * 10 + 1);
+	}
+}
+int msain()
+{
+	while (scanf_s("%d",&input))
+	{
+		if (input == 0) break;
+		bfs();
+	}
+	return 0;
+}

@@ -1,0 +1,42 @@
+/*
+   dp+dfs..
+*/
+#include <cstdio>
+#include <cstring>
+using namespace std;
+int dp[30][30][30];
+int dfs(int a, int b, int c)
+{
+	if (a <= 0 || b <= 0 || c <= 0) return 1;
+	if (a>20 || b>20 || c>20)	return dfs(20, 20, 20);
+	//this is key of this problem
+	//it means that the recursion is end
+	//because the start value is 0
+	//if dp[a][b][c]!=0  exit this recurdion
+	if (dp[a][b][c]!=0)  return dp[a][b][c];
+	if (a<b && b<c)
+		dp[a][b][c] = dfs(a, b, c - 1) + dfs(a, b - 1, c - 1) - dfs(a, b - 1, c);
+	else
+		dp[a][b][c] = dfs(a - 1, b, c) + dfs(a - 1, b - 1, c) + dfs(a - 1, b, c - 1) - dfs(a - 1, b - 1, c - 1);
+	return dp[a][b][c];
+}
+int main()
+{
+	int a, b, c;
+	memset(dp, 0, sizeof(dp));
+	while (~scanf_s("%d%d%d", &a, &b, &c))
+	{
+		if (a == -1 && b == -1 && c == -1)
+			break;
+		printf_s("w(%d, %d, %d) = %d\n", a, b, c, dfs(a, b, c));
+	}
+	return 0;
+}
+/*
+   1 1 1
+2 2 2
+10 4 6
+50 50 50
+-1 7 18
+-1 -1 -1
+*/

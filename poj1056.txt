@@ -1,0 +1,57 @@
+/*
+  题意：给出一些字符串，问是不是存在一个字符串
+  是其他某个字符串的前缀，如果是的话就不行
+  思路：1、可以用字典树
+        2、可以直接判断，枚举
+*/
+#include<iostream>
+#include<string>
+#include<vector>
+#include<algorithm>
+using namespace std;
+bool cmp(string a, string b)
+{
+	return a.length() < b.length();
+}
+int main()
+{
+	vector<string> code;
+	int cas = 1;
+	while (true)
+	{
+		bool ok = false;
+		string str;
+		code.clear();
+		while (true)
+		{
+			if (!(cin >>str)) return 0;
+			if (str == "9") break;
+			code.push_back(str);
+		}
+		//输入结束，下面就是枚举啦
+		sort(code.begin(), code.end(), cmp);
+		for (int i = 0; i < code.size()-1; i++)
+		{
+			for (int j = i + 1; j < code.size(); j++)
+			{
+					string s = code[j].substr(0, code[i].length());
+					if (s == code[i])
+					{
+						ok = true;
+						goto out;
+					}
+			}
+		}
+	out:
+		if (ok)
+		{
+			cout << "Set " << cas++ << " is not immediately decodable" << endl;
+		}
+		else{
+			cout << "Set " << cas++ << " is immediately decodable" << endl;
+		}
+	}
+	return 0;
+}
+
+

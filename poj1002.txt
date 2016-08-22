@@ -1,0 +1,51 @@
+/*
+ @poj 1002
+  转化，然后判断是不是有一样的，如果一样加1，最后输出
+*/
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <map>
+using namespace std;
+int num[26] =
+{
+	2, 2, 2,
+	3, 3, 3,
+	4, 4, 4,
+	5, 5, 5,
+	6, 6, 6,
+	7, 0, 7, 7,
+	8, 8, 8,
+	9, 9, 9, 0
+};
+map<int, int> s;
+char buf[128];
+int main()
+{
+	int t;
+	scanf("%d", &t);
+	bool flag = false;
+	for (int i = 0; i < t; i++)
+	{
+		scanf("%s",buf);
+		int c = 0;
+		for (int j = 0; buf[j]; j++)
+		{
+			if (isdigit(buf[j]))
+				c = c * 10 + buf[j] - '0';
+			else if (isalpha(buf[j]))
+				c = c * 10 + num[buf[j] - 'A'];
+		}
+		s[c]++;
+	}
+	map<int, int>::iterator it;
+	for (it = s.begin(); it != s.end(); it++)
+	if (it->second >= 2)
+	{
+		flag = true;
+		printf("%03d-%04d %d\n", it->first / 10000, it->first % 10000, it->second);
+	}
+	if (!flag)
+		puts("No duplicates.");
+	return 0;
+}

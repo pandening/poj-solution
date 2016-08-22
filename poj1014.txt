@@ -1,0 +1,65 @@
+/*
+  题意：给出价值为1，2，3，4，5，6的六种东西的
+  数量，那么现在要求将这些物品平均的分为两份，
+  但是一个东西不能分为两个，所以，问能不能这样
+  思路：搜索吧（dfs）
+*/
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+using namespace std;
+int num[6],s,half,ok;
+void dfs(int v, int i)
+{
+	//每次递归调用，只要符合条件了，就出去
+	if (ok) return;
+	//下面是真正的出口判断
+	if (v == half)
+	{
+		ok = true;
+		return;
+	}
+	//从后往前加，加到一半就可以啦
+	for (int k = i; k >=1; k--)
+	{
+		if ((v+k<=half)&&(num[k] != 0))
+		{
+			num[k]--;
+			//递归再搜索
+			dfs(v + k, k);
+		}
+	}
+}
+int main()
+{
+	int cas = 1;
+	while (true)
+	{
+		int s = 0;
+		for (int i = 1;i <=6; i++)
+		{
+			scanf_s("%d",&num[i]);
+			s += num[i]*i;
+		}
+		if (s == 0) break;
+		if (s % 2 != 0)
+		{
+			ok = false;
+			goto out;
+		}
+		half = s / 2;
+		ok = false;
+		dfs(0, 6);
+  out:
+		cout << "Collection #" << cas++<<":"<<endl;
+		if (ok)
+		{
+			cout << "Can be divided." << endl;
+		}
+		else{
+			cout << "Can't be divided." << endl;
+		}
+		cout << endl;
+	}
+	return 0;
+}

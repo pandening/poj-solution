@@ -1,0 +1,88 @@
+/*
+    this is a problem about dfs
+	and the substring
+	you need to substr the string and 
+	patten the str from this dic
+	then,use the dfs to solve this problem
+*/
+#include<iostream>
+#include<algorithm>
+#include<string>
+using namespace std;
+int n;
+struct words{ string str,code; }allwords[1000];
+char g[300];
+string input_str;
+void table_start()
+{
+	g['a'] = g['b'] = g['c'] = '2';
+	g['d'] = g['e'] = g['f'] = '3';
+	g['g'] = g['h'] = g['i'] = '4';
+	g['j'] = g['k'] = g['l'] = '5';
+	g['m'] = g['n'] = g['o'] = '6';
+	g['p'] = g['q'] = g['r'] = g['s'] = '7';
+	g['t'] = g['u'] = g['v'] = '8';
+	g['w'] = g['x'] = g['y'] = g['z'] = '9';
+}
+
+string temp_strs[1000];
+void dfs(int idex, int ncount)
+{
+	if (idex >= input_str.length())
+	{
+		//this way can tobe the words we need
+		//so,print this fucking words
+		cout << temp_strs[0];
+		for (int i = 1; i <=ncount-1; i++)
+		{
+			cout <<" "<<temp_strs[i];
+		}
+		cout << "." << endl;
+		return;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		string temp_str = allwords[i].code;
+		string your_str = input_str.substr(idex, temp_str.length());
+		if (your_str == temp_str)
+		{
+			temp_strs[ncount] =allwords[i].str;
+			dfs(idex + temp_str.length(), ncount+1);
+		}
+	}
+}
+
+bool cmp(words a, words b)
+{
+	return a.str < b.str;
+}
+
+int main()
+{
+	table_start();
+	while (cin >> n)
+	{
+		if (n == 0) break;
+		for (int i = 0; i < n; i++)
+		{
+			cin >> allwords[i].str;
+		}
+		//start the code server
+		for (int i = 0; i < n; i++)
+		{
+			string code = "";
+			for (int j = 0; j < allwords[i].str.length(); j++)
+			{
+				code +=g[allwords[i].str[j]];
+			}
+			allwords[i].code = code;
+		}
+		cin >> input_str;
+		//start to dfs
+		//first,sort these words
+		sort(allwords, allwords + n, cmp);
+		dfs(0, 0);
+		cout << "--" << endl;
+	}
+	return 0;
+}

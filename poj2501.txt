@@ -1,0 +1,38 @@
+/*
+ @poj 2501
+ 就是一些时间和一些速度，求当前查询时间所走掉的路程
+*/
+#include<iostream>
+#include<cstdio>
+#include<string.h>
+using namespace std;
+int tos(int h, int m, int s)
+{
+	return h * 3600 + m * 60 + s;
+}
+int main()
+{
+	int h, m, s;
+	double speed=0;
+	double dis = 0;
+	int la = 0;
+	while (scanf_s("%d:%d:%d", &h, &m, &s) != EOF)
+	{
+		char ch = getchar();
+		if (ch == ' ')
+		{
+			int cs;
+			scanf_s("%d", &cs);
+			//不是查询，是要改变速度了
+			int nt = tos(h, m, s);
+			dis += (nt - la)*speed;
+			la = nt;
+			speed = (double)cs / 3.6;
+		}
+		else{
+			//是查询不是改变速度
+			printf_s("%02d:%02d:%02d %.2f km\n",h,m,s,(dis + (tos(h, m, s) - la)*speed) / 1000);
+		}
+	}
+	return 0;
+}

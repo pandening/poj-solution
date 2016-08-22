@@ -1,0 +1,61 @@
+/*
+  @poj 2608
+  就是将字符串翻译成数字而已
+*/
+#include<iostream>
+#include<algorithm>
+#include<list>
+#include<map>
+#include<string>
+#define mp make_pair
+using namespace std;
+int main()
+{
+	/*map<string, char> st = {
+		mp("BFPV", '1'),
+		mp("CGJKQSXZ", '2'),
+		mp("DT", '3'),
+		mp("L", '4'),
+		mp("MN", '5'),
+		mp("R", '6'),
+		mp("AEIOUHWY",'_')
+	};*/
+	map<string, char> st;
+	st["BFPV"] = '1';
+	st["CGJKQSXZ"] = '2';
+	st["DT"] = '3';
+	st["L"] = '4';
+	st["MN"] = '5';
+	st["R"] = '6';
+	st["AEIOUHWY"] = '_';
+	list<char> str;
+	string s;
+	while (cin >> s)
+	{
+		str.clear();
+		for (int i = 0; i < s.length();i++){
+			str.push_back(s[i]);
+		}
+		str.unique();
+		//start to solve
+		list<char>ans;
+		for (list<char>::iterator it = str.begin(); it != str.end(); it++)
+		{
+				for (map<string,char>::iterator mit = st.begin(); mit != st.end(); mit++)
+				{
+					if (mit->first.find(*it) != string::npos)
+					{
+							ans.push_back(mit->second);
+					}
+				}
+		}
+		ans.unique();
+		for (list<char>::iterator lit = ans.begin();lit!= ans.end(); lit++)
+		{
+			if (*lit!='_')
+			cout << *lit;
+		}
+		cout << endl;
+	}
+	return 0;
+}

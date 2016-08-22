@@ -1,0 +1,115 @@
+/*
+ @poj 1182 食物链
+ 这是一个用并查集完成的题目
+ 设 x-A x-B x-C分别代表x属于物种A，B和C，那么，根据题目描述的关系
+ =〉   C->B->A
+       |_____| 
+	   （1）、如果x和y属于同一个物种的话，那么就说
+	           (x-A&&y-A)||(x-B&&y-B)||(x-C&&y-C)
+       （2）、如果x吃y，那么就是说
+	           (x-A&&y-B)||(x-B&&y-C)||(x-C&&y-A)
+ 在判断正确性时：
+        (1)、如果x和y属于同一个物种的话，那么
+		 x-A&&y-B时是错的
+		 x-A&&y-C时是错的
+	    (2)、如果x吃y的时候，那么
+		 x-A&&y-A时是错的
+		 x-A&&y-C时是错的
+
+		 注意：在大数据输入时用scanf，而不是cin
+*/
+#include<iostream>
+#include<cstdio>
+using namespace std;
+/*************************************
+ @并查集部分代码
+/*************************************/
+
+int par[50001*3],Rank[50001*3];
+//初始并查集
+void init(int n){
+	for (int i = 0; i < n; i++){
+		par[i] = i;
+		Rank[i] = 0;
+	}
+	return;
+}
+//查找结点x的根
+int root(int x){
+	if (par[x] == x) return x;
+	else{
+		return par[x] = root(par[x]);
+	}
+}
+//合并x和y所代表的两棵树
+void unite(int x, int y)
+{
+	x = root(x);
+	y = root(y);
+	if (x == y) return;
+	else if (Rank[x] < Rank[y]){
+		par[x] = y;
+	}
+	else {
+		par[y] = x;
+		if (Rank[x] == Rank[y]){
+			Rank[x]++;
+		}
+	}
+}
+//判断x和y是不是属于同一个集合
+bool same(int x, int y){
+	return root(x) == root(y);
+}
+/*************************************
+@开始写这道题目的代码
+**************************************/
+int n, k;//n代表的是动物的总数，k代表的是所要输入的信息
+struct info{ int t, x, y; };
+info all;
+int main()
+{
+	//cin >> n >> k;
+	scanf_s("%d%d", &n, &k);
+	init(3 * n);
+	int ans = 0;
+	for (int i = 0; i < k; i++){
+		//cin >> all.t >> all.x >> all.y;
+		scanf_s("%d%d%d", &all.t, &all.x, &all.y);
+		//处理每一条
+		int t = all.t;
+		int x = all.x-1;
+		int y = all.y-1;
+		//判断序号是不是正确
+		if (x < 0 || x >= n || y < 0 || y >= n){
+			ans++;
+			//这一条就不要管了
+			continue;
+		}
+		if (t == 1){
+			//说明想要输入的信息是x和y属于同类
+			if (same(x, y + n) ||same(x, y + 2 * n)){
+				ans++;
+			}
+			else{
+				//如果没有错的话，建立逻辑关系
+				unite(x, y);
+				unite(x + n, y + n);
+				unite(x + 2 * n, y + 2 * n);
+			}
+		}
+		else if (t == 2){
+			//想要输入的信息是x吃y
+			if (same(x, y) || same(x, y + 2 * n)){
+				ans++;
+			}
+			else{
+				unite(x, y + n);
+				unite(x + n, y + 2 * n);
+				unite(x + 2 * n, y);
+			}
+		}
+	}//EndFor
+	cout << ans << endl;
+	return 0;
+}

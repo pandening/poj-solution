@@ -1,0 +1,46 @@
+/*
+  就是用1234给ABCD编码，问一个密码串可以被破译为
+  多少种原码串，使用dp来解决
+*/
+#include<iostream>
+#include<string>
+typedef long long  ll;
+using namespace std;
+//dp1[i]表示[i-1]和[i]不可拼凑
+//dp2[i]表示[i-1]和[i]可以拼凑
+ll dp1[10001], dp2[10001];
+int main()
+{
+	string str;
+	while (cin >> str)
+	{
+		if (str == "0") break;
+		dp1[0] = 1;
+		dp2[0] = 0;
+		for (int i = 1; i <str.length(); i++)
+		{
+			if (str[i] == '0')
+			{
+				//那么i和i-1必须要合并啦
+				dp1[i] = 0;
+				dp2[i] = dp1[i - 1];
+			}
+			else{
+				//末尾不为0，那么可能可以合并，也可能不能合并
+				if (str[i - 1] == '1' || (str[i - 1] == '2'&&str[i] <= '6'))
+				{
+					//末尾i和i-1可以合并
+					dp1[i] = dp1[i - 1] + dp2[i - 1];//.....选择不合并
+					dp2[i] = dp1[i - 1];//......选择合并
+				}
+				else{
+					//合并不了
+					dp1[i] = dp1[i - 1] + dp2[i - 1];
+					dp2[i] = 0;
+				}
+			}
+		}
+		cout << dp1[str.length() - 1] + dp2[str.length() - 1] << endl;
+	}
+	return 0;
+}

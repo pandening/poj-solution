@@ -1,0 +1,34 @@
+/*
+ @poj 3650
+ 将句子中出现的左面的符号转化为右边的符号
+ 源                       转换
+ " " (space)              %20
+ "!" (exclamation point)  %21
+ "$" (dollar sign)        %24
+ "%" (percent sign)       %25
+ "(" (left parenthesis)   %28
+ ")" (right parenthesis)  %29
+ "*" (asterisk)           %2a
+*/
+//记住，cout是什么玩意？我操
+#include<stdio.h>
+int main()
+{
+	char c;
+	while ((c = getchar()) != '#')
+	{
+		switch (c)
+		{
+		case ' ': {printf("%s", "%20"); break; }
+		case '!': {printf("%s", "%21"); break; }
+		case '$': {printf("%s", "%24"); break; }
+		case '%': {printf("%s", "%25"); break; }
+		case '(': {printf("%s", "%28"); break; }
+		case ')': {printf("%s", "%29"); break; }
+		case '*': {printf("%s", "%2a"); break; }
+		default: {printf("%c", c); break; }
+		}
+
+	}
+	return 0;
+}

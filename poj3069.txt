@@ -1,0 +1,31 @@
+/*
+ @poj 3069 
+ 贪心选择而已！
+*/
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int r, n,x[1001];
+int main()
+{
+	while (cin >> r >> n){
+		if (r == -1 && n == -1) break;
+		for (int i = 0; i < n; i++){
+			cin >> x[i];
+		}
+		//对距离排序
+		sort(x, x + n);
+		int s = 0, ans = 0;
+		while (s < n){
+			//d为没有被覆盖的最左边的点
+			int d = x[s++];
+			while (s < n&&x[s] <= d + r) s++;
+			//m为加上了标记的点
+			int m = x[s - 1];
+			while (s < n&&x[s] <= m + r) s++;
+			ans++;
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

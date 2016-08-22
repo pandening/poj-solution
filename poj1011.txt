@@ -1,0 +1,61 @@
+/*
+  题意：给出一些木棍的长度，已经知道的是这些木棍
+  原来的长度是相同的，那么现在的问题就是将这些被
+  处理过的木棍合并成原来的木棍，求出原来的木棍的
+  最小可能长度是多少呢
+  思路：dfs+剪枝
+  1、如果总长度不能被所枚举出来的单根长度整除，过
+  2、先进行排序，然后再从大到小尝试
+*/
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include<cstdio>
+using namespace std;
+int st[100];
+int mark[100];
+int s, j, n;
+bool cmp(int a, int b){
+	return a > b;
+}
+bool dfs(int sum, int k, int cnt){  
+	if (cnt == s) return true;                
+	else if (sum == j) return dfs(0, 0, cnt + 1);   
+	else{
+		int pre, i;
+		for (pre = 0, i = k; i < n; i++)                         
+		if (!mark[i] &&st[i] != pre &&st[i] + sum <= j){      
+			pre = st[i];
+			mark[i] =true;
+			if (dfs(sum + st[i], i + 1, cnt)) break;                      
+			mark[i] =false;                                                         
+			if (k == 0) return false;                                            
+		}
+		if (i == n) 
+			return false; 
+		else 
+			return true;                     
+	}
+}
+int main()
+{
+	int i, sum;
+	while (scanf_s("%d", &n)){
+		if (n == 0) break;
+		sum = 0;
+		for (i=0; i < n; i++){
+			scanf_s("%d", &st[i]);
+			sum += st[i];
+		}
+		sort(st, st + n, cmp);
+		for (j = st[0]; j < sum; j++){
+			if (sum%j == 0){
+				s = sum / j;
+				memset(mark, false, sizeof(mark));
+				if (dfs(0, 0, 0)) break;
+			}
+		}
+		cout << j << endl;
+	}
+	return 0;
+}

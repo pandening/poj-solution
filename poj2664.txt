@@ -1,0 +1,48 @@
+/*
+  @poj 2664
+  就是问选的课是不是达标，对于每一个需要选的课，是不是已经选择了
+  最少的要求数，如果大于或者等于了那么就是合格，否则就是不合格
+*/
+#include<iostream>
+#include<cstdio>
+using namespace std;
+int k, m, c, r;
+int a[100];
+int b[100];
+int main()
+{
+	while (1)
+	{
+		int flag = 0;
+		cin >> k;//the number of choosed
+		if (k == 0) break;
+		cin >> m;//the number of categorites of crouse
+		for (int i = 0; i<k; i++)
+			scanf_s("%d",a+i);//chooseed
+		while (m--)//input the crouse
+		{
+			int count = 0;
+			cin >> c >> r;//c is the categorites of crouse ,r is the min requestion 
+			for (int i = 0; i<c; i++)
+				cin >> b[i];//input the crouse
+			//check 
+			for (int i = 0; i<k; i++)
+			{
+				for (int j = 0; j<c; j++)
+				{
+					if (a[i] == b[j])
+						count++;
+				}
+			}
+			if (count < r)
+			{
+				flag = 1;
+			}
+		}
+		if (flag)
+			cout << "no" << endl;
+		else
+			cout << "yes" << endl;
+	}
+	return 0;
+}

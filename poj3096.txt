@@ -1,0 +1,27 @@
+#include <iostream>
+#include <string>
+using namespace std;
+string data;
+bool solve(){
+	if (data.size()<3)
+		return true;
+	int i, j;
+	for (int cnt = 1; cnt<data.size(); cnt++){
+		for (i = 0; i + cnt<data.size(); i++){
+			for (j = i + 1; j + cnt<data.size(); j++){
+				if (data[i] == data[j] && data[i + cnt] == data[j + cnt])
+					return false;
+			}
+		}
+	}
+	return true;
+}
+int main(){
+	while (cin >> data, data != "*"){
+		if (solve())
+			cout << data << " is surprising." << endl;
+		else
+			cout << data << " is NOT surprising." << endl;
+	}
+	return 0;
+}

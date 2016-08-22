@@ -1,0 +1,37 @@
+/*
+* @poj 1552
+* 给一个序列，求2倍对数
+*/
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+	vector<float> l;
+	float x;
+	while (cin >> x)
+	{
+		if (x == -1) break;
+		l.clear();
+		l.push_back(x);
+		int ans = 0;
+		while (cin >> x)
+		{
+			if (x == 0){
+				cout << ans << endl;
+				break;
+			}
+			else{
+				for (vector<float>::iterator v = l.begin(); v != l.end(); v++)
+				{
+					if ((*v) / x == 2 ||x / (*v) ==2)
+					{
+						ans++;
+					}
+				}
+				l.push_back(x);
+			}
+		}
+	}
+	return 0;
+}
